@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/MonoGame.Randomchaos.Services.Interfaces/.vs/MonoGame.Randomchaos.Services.Interfaces/v16
+/MonoGame.Randomchaos.Services.Interfaces/bin
+/MonoGame.Randomchaos.Services.Interfaces/obj
+/MonoGame.Randomchaos.Services.Noise/.vs/MonoGame.Randomchaos.Services.Noise
+/MonoGame.Randomchaos.Services.Noise/bin
+/MonoGame.Randomchaos.Services.Noise/obj
