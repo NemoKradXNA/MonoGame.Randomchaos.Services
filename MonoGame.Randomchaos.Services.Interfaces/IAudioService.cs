@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
 {
-    public interface IAudioManager
+    public interface IAudioService
     {
         Song CurrentSong { get; set; }
         bool loopCurrenSong { get; set; }

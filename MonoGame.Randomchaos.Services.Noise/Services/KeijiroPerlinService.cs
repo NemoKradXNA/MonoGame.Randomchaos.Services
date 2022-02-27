@@ -12,7 +12,7 @@ namespace MonoGame.Randomchaos.Services.Noise
     // Based on the original implementation by Ken Perlin
     // http://mrl.nyu.edu/~perlin/noise/
     //
-    public class KeijiroPerlinService : GameComponent, INoiseService
+    public class KeijiroPerlinService : ServiceBase<KeijiroPerlinService>, INoiseService
     {
         public KeijiroPerlinService(Game game) : base(game)
         {

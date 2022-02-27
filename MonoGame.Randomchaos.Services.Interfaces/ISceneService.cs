@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
 {
-    public interface ISceneManager
+    public interface ISceneService
     {
         IScene CurrentScene { get; }
         Dictionary<string, IScene> Scenes { get; set; }

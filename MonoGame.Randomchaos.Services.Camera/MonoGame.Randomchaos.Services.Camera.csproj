@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-	  <AssemblyVersion>1.0.0.4</AssemblyVersion>
-	  <FileVersion>1.0.0.4</FileVersion>
-	  <Version>1.0.0.4</Version>
+	  <AssemblyVersion>1.0.0.1</AssemblyVersion>
+	  <FileVersion>1.0.0.1</FileVersion>
+	  <Version>1.0.0.1</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
-	  <Description>This package holds services that are used to generate noise.</Description>
+	  <Description>This package holds generic camera classes for use with MonoGame.</Description>
 	  <PackageIconUrl>https://54.93.41.208:2022/images/RCNuGet.png</PackageIconUrl>
   </PropertyGroup>
 

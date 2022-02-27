@@ -6,7 +6,7 @@ namespace MonoGame.Randomchaos.Services.Interfaces
 {
     public interface IScene : IGameComponent
     {
-        ISceneManager sceneManager { get; }
+        ISceneService sceneManager { get; }
         string Name { get; set; }
         IScene LastScene { get; set; }
 
