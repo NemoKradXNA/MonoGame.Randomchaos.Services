@@ -16,9 +16,6 @@ namespace MonoGame.Randomchaos.Services.Coroutine
         public CoroutineService(Game game) : base(game)
         {
             Coroutines = new List<ICoroutine>();
-
-            Game.Services.AddService(typeof(ICoroutineService), this);
-            Game.Components.Add(this);
         }
 
         /// <summary>

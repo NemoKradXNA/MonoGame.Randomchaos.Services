@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MonoGame.Randomchaos.Services.Camera.Services
+namespace MonoGame.Randomchaos.Services.Camera
 {
     public class CameraService : ServiceBase<CameraService>, ICameraService
     {
