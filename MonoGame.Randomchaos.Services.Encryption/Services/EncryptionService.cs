@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace MonoGame.Randomchaos.Services.Encryption
 {
-    public class EncryptionService : ServiceBase<EncryptionService>, IEncryptionService
+    public class EncryptionService : ServiceBase<IEncryptionService>, IEncryptionService
     {
         protected readonly byte[] _key;
         protected readonly byte[] _iv;

@@ -4,7 +4,7 @@ using MonoGame.Randomchaos.Services.Interfaces;
 
 namespace MonoGame.Randomchaos.Services.Input
 {
-    public class InputHandlerService : ServiceBase<InputHandlerService>, IInputStateService
+    public class InputHandlerService : ServiceBase<IInputStateService>, IInputStateService
     {
         public IKeyboardStateManager KeyboardManager { get; set; }
         /// <summary>

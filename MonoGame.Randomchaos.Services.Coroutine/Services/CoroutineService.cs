@@ -9,7 +9,7 @@ using System.Text;
 
 namespace MonoGame.Randomchaos.Services.Coroutine
 {
-    public class CoroutineService : ServiceBase<CoroutineService>, ICoroutineService
+    public class CoroutineService : ServiceBase<ICoroutineService>, ICoroutineService
     {
         public List<ICoroutine> Coroutines { get; }
 

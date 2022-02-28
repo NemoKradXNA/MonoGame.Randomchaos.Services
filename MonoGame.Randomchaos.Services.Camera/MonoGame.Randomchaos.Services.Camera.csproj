@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-	  <AssemblyVersion>1.0.0.2</AssemblyVersion>
-	  <FileVersion>1.0.0.2</FileVersion>
-	  <Version>1.0.0.2</Version>
+	  <AssemblyVersion>1.0.0.3</AssemblyVersion>
+	  <FileVersion>1.0.0.3</FileVersion>
+	  <Version>1.0.0.3</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds generic camera classes for use with MonoGame.</Description>

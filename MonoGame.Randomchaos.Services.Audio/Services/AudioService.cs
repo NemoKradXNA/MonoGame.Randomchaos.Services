@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MonoGame.Randomchaos.Services.Audio
 {
-    public class AudioService : ServiceBase<AudioService>, IAudioService
+    public class AudioService : ServiceBase<IAudioService>, IAudioService
     {
 
         /// <summary>

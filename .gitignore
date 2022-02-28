@@ -85,3 +85,5 @@ crashlytics-build.properties
 /MonoGame.Randomchaos.Services.Interfaces/bin
 /MonoGame.Randomchaos.Services.Encryption/obj
 /MonoGame.Randomchaos.Services.Encryption/bin
+/MonoGame.Randomchaos.Services.Scene/bin
+/MonoGame.Randomchaos.Services.Scene/obj

@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Services.Noise", "MonoGame.Randomchaos.Services.Noise\MonoGame.Randomchaos.Services.Noise.csproj", "{BE385DCC-C136-4C40-82B0-4EA1711B2535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Services.Encryption", "MonoGame.Randomchaos.Services.Encryption\MonoGame.Randomchaos.Services.Encryption.csproj", "{801CCE84-7E60-423B-8CC4-CF0B70535D52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Services.Encryption", "MonoGame.Randomchaos.Services.Encryption\MonoGame.Randomchaos.Services.Encryption.csproj", "{801CCE84-7E60-423B-8CC4-CF0B70535D52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Services.Scene", "MonoGame.Randomchaos.Services.Scene\MonoGame.Randomchaos.Services.Scene.csproj", "{BA11FF64-29EF-439D-AFC9-F17F535B8BA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{801CCE84-7E60-423B-8CC4-CF0B70535D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{801CCE84-7E60-423B-8CC4-CF0B70535D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{801CCE84-7E60-423B-8CC4-CF0B70535D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA11FF64-29EF-439D-AFC9-F17F535B8BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA11FF64-29EF-439D-AFC9-F17F535B8BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA11FF64-29EF-439D-AFC9-F17F535B8BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA11FF64-29EF-439D-AFC9-F17F535B8BA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

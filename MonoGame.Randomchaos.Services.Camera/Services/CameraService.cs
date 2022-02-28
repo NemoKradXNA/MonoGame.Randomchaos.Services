@@ -9,7 +9,7 @@ using System.Text;
 
 namespace MonoGame.Randomchaos.Services.Camera
 {
-    public class CameraService : ServiceBase<CameraService>, ICameraService
+    public class CameraService : ServiceBase<ICameraService>, ICameraService
     {
         public float AspectRatio
         {
