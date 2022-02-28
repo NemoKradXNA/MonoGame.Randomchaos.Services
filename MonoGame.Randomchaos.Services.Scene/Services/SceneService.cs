@@ -2,10 +2,8 @@
 using MonoGame.Randomchaos.Services.Coroutine.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MonoGame.Randomchaos.Services.Scene.Services
 {
@@ -28,15 +26,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Services
 
         public Dictionary<string, IScene> Scenes { get; set; }
 
-        protected Game Game { get; set; }
-
-        public SceneService(Game game) : base(game)
-        {
-            Game = game;
-            Scenes = new Dictionary<string, IScene>();
-
-            Game.Services.AddService(typeof(ISceneService), this);
-        }
+        public SceneService(Game game) : base(game) { }
 
         public void AddScene(IScene scene)
         {

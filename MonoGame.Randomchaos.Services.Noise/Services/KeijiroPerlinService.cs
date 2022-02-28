@@ -14,12 +14,7 @@ namespace MonoGame.Randomchaos.Services.Noise
     //
     public class KeijiroPerlinService : ServiceBase<KeijiroPerlinService>, INoiseService
     {
-        public KeijiroPerlinService(Game game) : base(game)
-        {
-            game.Services.AddService(typeof(INoiseService), this);
-            game.Components.Add(this);
-
-        }
+        public KeijiroPerlinService(Game game) : base(game) { }
         #region Noise functions
 
         public virtual float Noise(float x)
