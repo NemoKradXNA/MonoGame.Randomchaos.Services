@@ -39,7 +39,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             base.LoadContent();
         }
 
-        public void DrawFader(GameTime gameTime) 
+        public virtual void DrawFader(GameTime gameTime) 
         {
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
@@ -49,7 +49,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             _spriteBatch.End();
         }
 
-        protected IEnumerator FadeIn()
+        protected virtual IEnumerator FadeIn()
         {
             byte a = 255;
             byte fadeSpeed = 4;
@@ -67,7 +67,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             State = SceneStateEnum.Loaded;
         }
 
-        protected IEnumerator FadeOut()
+        protected virtual IEnumerator FadeOut()
         {
             byte a = 0;
             byte fadeSpeed = 4;
