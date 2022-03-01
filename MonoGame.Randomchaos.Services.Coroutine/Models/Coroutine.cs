@@ -12,7 +12,7 @@ namespace MonoGame.Randomchaos.Services.Coroutine.Models
             get
             {
                 if (Game != null)
-                    return Game.Services.GetService<CoroutineService>();
+                    return Game.Services.GetService<ICoroutineService>();
 
                 return null;
             }

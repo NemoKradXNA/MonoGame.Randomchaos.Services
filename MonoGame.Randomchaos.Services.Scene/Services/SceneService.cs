@@ -26,7 +26,10 @@ namespace MonoGame.Randomchaos.Services.Scene.Services
 
         public Dictionary<string, IScene> Scenes { get; set; }
 
-        public SceneService(Game game) : base(game) { }
+        public SceneService(Game game) : base(game)
+        {
+            Scenes = new Dictionary<string, IScene>();
+        }
 
         public void AddScene(IScene scene)
         {
