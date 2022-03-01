@@ -11,6 +11,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 {
     public abstract class SceneFadeBase : SceneBase
     {
+        protected SpriteBatch _spriteBatch;
         protected Texture2D fader;
         protected Color fadeColor = Color.Black;
 
@@ -26,6 +27,26 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             base.UnloadScene();
             coroutineService.StartCoroutine(FadeOut());
+        }
+
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            
+            fader = new Texture2D(Game.GraphicsDevice, 1, 1);
+            fader.SetData(new Color[] { Color.White });
+
+            base.LoadContent();
+        }
+
+        public void DrawFader(GameTime gameTime) 
+        {
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+
+            if (State != SceneStateEnum.Loaded)
+                _spriteBatch.Draw(fader, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), fadeColor);
+
+            _spriteBatch.End();
         }
 
         protected IEnumerator FadeIn()
