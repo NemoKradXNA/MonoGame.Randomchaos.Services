@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MonoGame.Randomchaos.Services.Interfaces
+namespace MonoGame.Randomchaos.Interfaces
 {
     public interface IUIBase
     {
