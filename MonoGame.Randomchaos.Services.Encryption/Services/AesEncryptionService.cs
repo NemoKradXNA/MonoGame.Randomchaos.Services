@@ -5,14 +5,14 @@ using System.Security.Cryptography;
 
 namespace MonoGame.Randomchaos.Services.Encryption
 {
-    public class EncryptionService : ServiceBase<IEncryptionService>, IEncryptionService
+    public class AesEncryptionService : ServiceBase<AesEncryptionService>, IEncryptionService
     {
         protected readonly byte[] _key;
         protected readonly byte[] _iv;
 
         protected Game Game { get; set; }
 
-        public EncryptionService(Game game, byte[] key, byte[] iv) : base(game)
+        public AesEncryptionService(Game game, byte[] key, byte[] iv) : base(game)
         {
             Game = game;
 

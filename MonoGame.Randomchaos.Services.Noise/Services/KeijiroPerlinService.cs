@@ -19,18 +19,18 @@ namespace MonoGame.Randomchaos.Services.Noise
 
         public virtual float Noise(float x)
         {
-            var X = (int)MathF.Floor(x) & 0xff;
-            x -= MathF.Floor(x);
+            var X = (int)Math.Floor(x) & 0xff;
+            x -= (float)Math.Floor(x);
             var u = Fade(x);
             return Lerp(u, Grad(perm[X], x), Grad(perm[X + 1], x - 1)) * 2;
         }
 
         public virtual float Noise(float x, float y)
         {
-            var X = (int)MathF.Floor(x) & 0xff;
-            var Y = (int)MathF.Floor(y) & 0xff;
-            x -= MathF.Floor(x);
-            y -= MathF.Floor(y);
+            var X = (int)Math.Floor(x) & 0xff;
+            var Y = (int)Math.Floor(y) & 0xff;
+            x -= (float)Math.Floor(x);
+            y -= (float)Math.Floor(y);
             var u = Fade(x);
             var v = Fade(y);
             var A = (perm[X] + Y) & 0xff;
@@ -46,12 +46,12 @@ namespace MonoGame.Randomchaos.Services.Noise
 
         public virtual float Noise(float x, float y, float z)
         {
-            var X = (int)MathF.Floor(x) & 0xff;
-            var Y = (int)MathF.Floor(y) & 0xff;
-            var Z = (int)MathF.Floor(z) & 0xff;
-            x -= MathF.Floor(x);
-            y -= MathF.Floor(y);
-            z -= MathF.Floor(z);
+            var X = (int)Math.Floor(x) & 0xff;
+            var Y = (int)Math.Floor(y) & 0xff;
+            var Z = (int)Math.Floor(z) & 0xff;
+            x -= (float)Math.Floor(x);
+            y -= (float)Math.Floor(y);
+            z -= (float)Math.Floor(z);
             var u = Fade(x);
             var v = Fade(y);
             var w = Fade(z);

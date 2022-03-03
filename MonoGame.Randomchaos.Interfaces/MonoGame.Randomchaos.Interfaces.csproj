@@ -1,18 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-	  <AssemblyVersion>1.0.0.2</AssemblyVersion>
-	  <FileVersion>1.0.0.2</FileVersion>
-	  <Version>1.0.0.2</Version>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <FileVersion>1.0.0.3</FileVersion>
+	  <Version>1.0.0.3</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds generic interface and base classes for use with MonoGame.Randomchaos packages.</Description>
 	  <PackageIconUrl>https://54.93.41.208:2022/images/RCNuGet.png</PackageIconUrl>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.Portable" Version="3.7.1.189" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
-
 </Project>
