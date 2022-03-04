@@ -1,5 +1,3 @@
-## Welcome to my MonoGame.Randomchaos.Services repository
-
 The source code here is for the Nuget packages that can be found [here](https://www.nuget.org/packages?q=Monogame.randomchaos)
 
 Original versions were created as .Net Core 3.1 assemblies, but MonoGame uses (at the time of writing 4th March 2022) .Net Standard class libraries in its templates. This means that they can't reference .NET core 3.1 assemblies. As of the 3rd of March 2022, I moved all the projects over to .Net Standard, when MonoGame is updated to use .Net 6, I dare say Ill update them all again to be .Net 6 assemblies.
