@@ -13,6 +13,8 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
         protected Texture2D noiseTexture;
         protected Texture2D noiseTextureWithRamp;
 
+        KeijiroPerlinService noiseService {get { return (KeijiroPerlinService)Services.GetService<KeijiroPerlinService>(); } }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,22 +44,20 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             Color[] ramp = new Color[] { Color.Blue, Color.Tan, Color.Green, Color.DarkGray, Color.White };
 
 
-            KeijiroPerlinService noiseService = Services.GetService<KeijiroPerlinService>();
-
             // fill a texture with noise.
             for (int x = 0; x < noiseTexture.Width; x++)
             {
                 for (int y = 0; y < noiseTexture.Height; y++)
                 {
                     Vector2 coord = new Vector2((float)x / noiseTexture.Width, (float)y / noiseTexture.Height);
-                    float n = noiseService.Noise(coord * 8);
+                    float n = GetNoise(coord * 2);
 
                     // Move  into the range of 0 to 1
                     n = (n + 1) * .5f;
 
                     color[x + y * noiseTexture.Width] = new Color(n, n, n, 1);
 
-                    int r = (int)MathHelper.Lerp(0, ramp.Length, n);
+                    int r = (int)MathHelper.Lerp(0, ramp.Length-1, n);
 
                     colorRamp[x + y * noiseTexture.Width] = ramp[r];
                 }
@@ -65,6 +65,14 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
 
             noiseTexture.SetData(color);
             noiseTextureWithRamp.SetData(colorRamp);
+        }
+
+        protected float GetNoise(Vector2 coord)
+        {
+           return noiseService.Noise(coord)
+                            + (.5f * noiseService.Noise(coord * 2))
+                            + (.25f * noiseService.Noise(coord * 4))
+                            + (.125f * noiseService.Noise(coord * 8));
         }
 
         protected override void Update(GameTime gameTime)
