@@ -13,7 +13,7 @@ namespace MonoGame.Randomchaos.UI
         public Texture2D BackgroundTexture { get; set; }
         public SpriteFont Font { get; set; }
         public string Text { get; set; }
-        public Vector2 TexturePositionOffset { get; set; }
+        public Vector2 TextPositionOffset { get; set; }
         public Color TextColor { get; set; }
         public Color HighlightColor { get; set; }
 
@@ -31,12 +31,12 @@ namespace MonoGame.Randomchaos.UI
                 if (!string.IsNullOrEmpty(Text))
                 {
                     Vector2 tp = Position.ToVector2();
-                    Vector2 m = Font.MeasureString(Text) * .5f;
+                    Vector2 m = Font.MeasureString(Text);
 
-                    tp.Y += (Size.Y / 2) - m.Y;
-                    tp.X += (Size.X / 2) - m.X;
+                    tp.Y += (Size.Y / 2) - (m.Y * .4f);
+                    tp.X += (Size.X / 2) - (m.X * .5f);
 
-                    return tp - TexturePositionOffset;
+                    return tp - TextPositionOffset;
                 }
                 return Vector2.Zero;
             }

@@ -41,7 +41,7 @@ namespace MonoGame.Randomchaos.UI
                     else
                         tp.X += Size.X - (m.X * 2) - 8;
 
-                    return tp - TexturePositionOffset;
+                    return tp - TextPositionOffset;
                 }
                 return Vector2.Zero;
             }
