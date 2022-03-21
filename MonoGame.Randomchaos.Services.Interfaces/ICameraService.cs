@@ -8,10 +8,10 @@ namespace MonoGame.Randomchaos.Services.Interfaces
     {
         ITransform Transform { get; set; }
 
-        float AspectRatio { get; }
-        BoundingFrustum Frustum { get; }
+        float AspectRatio { get; set; }
+        BoundingFrustum Frustum { get; set; }
 
-        Viewport Viewport { get; }
+        Viewport Viewport { get; set; }
 
         Matrix View { get; set; }
 

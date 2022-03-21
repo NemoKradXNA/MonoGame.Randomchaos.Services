@@ -11,11 +11,20 @@ namespace MonoGame.Randomchaos.Services.Camera
 {
     public class CameraService : ServiceBase<ICameraService>, ICameraService
     {
+        protected float aspectRatio = -1;
         public float AspectRatio
         {
             get
             {
-                return Game.GraphicsDevice.PresentationParameters.BackBufferWidth / (float)Game.GraphicsDevice.PresentationParameters.BackBufferHeight;
+                if(aspectRatio == -1)
+                    aspectRatio =  Game.GraphicsDevice.PresentationParameters.BackBufferWidth / (float)Game.GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+                return aspectRatio;
+            }
+
+            set
+            {
+                aspectRatio = value;
             }
         }
 
@@ -53,6 +62,10 @@ namespace MonoGame.Randomchaos.Services.Camera
             get
             {
                 return _Frustum;
+            }
+            set
+            {
+                _Frustum = value;
             }
         }
 
