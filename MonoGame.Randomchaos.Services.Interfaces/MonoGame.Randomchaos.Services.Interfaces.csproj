@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-	  <AssemblyVersion>1.0.0.7</AssemblyVersion>
-	  <FileVersion>1.0.0.7</FileVersion>
-	  <Version>1.0.0.7</Version>
+	  <AssemblyVersion>1.0.0.8</AssemblyVersion>
+	  <FileVersion>1.0.0.8</FileVersion>
+	  <Version>1.0.0.8</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds interfaces and abstract classes for MonoGame.Randomchaos.Services.</Description>
@@ -13,6 +13,6 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Randomchaos.Interfaces" Version="1.0.0.3" />
+    <PackageReference Include="MonoGame.Randomchaos.Interfaces" Version="1.0.0.5" />
   </ItemGroup>
 </Project>

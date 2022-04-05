@@ -249,5 +249,11 @@ namespace MonoGame.Randomchaos.Models
             axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(Rotation));
             Rotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * Rotation);
         }
+
+        public void LocalRotate(Vector3 axis, float angle)
+        {
+            axis = Vector3.Transform(axis, Matrix.CreateFromQuaternion(LocalRotation));
+            LocalRotation = Quaternion.Normalize(Quaternion.CreateFromAxisAngle(axis, angle) * LocalRotation);
+        }
     }
 }
