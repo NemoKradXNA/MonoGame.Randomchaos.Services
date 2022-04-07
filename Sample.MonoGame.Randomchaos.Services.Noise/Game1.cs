@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Services.Noise;
+using System.Globalization;
 
 namespace Sample.MonoGame.Randomchaos.Services.Noise
 {
@@ -20,6 +21,8 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en");
         }
 
         protected override void Initialize()

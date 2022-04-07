@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.UI", "MonoGame.Randomchaos.UI\MonoGame.Randomchaos.UI.csproj", "{2170F90E-F704-4B7C-9AD8-388A8E941CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Services.Scene", "MonoGame.Randomchaos.Services.Scene\MonoGame.Randomchaos.Services.Scene.csproj", "{A0952C20-CC9B-458B-8970-D95C68D2A4E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Services.Scene", "MonoGame.Randomchaos.Services.Scene\MonoGame.Randomchaos.Services.Scene.csproj", "{A0952C20-CC9B-458B-8970-D95C68D2A4E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.MonoGame.Randomchaos.Services.Noise", "Sample.MonoGame.Randomchaos.Services.Noise\Sample.MonoGame.Randomchaos.Services.Noise.csproj", "{27FA718B-9EE5-4772-A82A-EB0B5CE190D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MonoGame.Randomchaos.Services.Noise", "Sample.MonoGame.Randomchaos.Services.Noise\Sample.MonoGame.Randomchaos.Services.Noise.csproj", "{27FA718B-9EE5-4772-A82A-EB0B5CE190D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.MonoGame.Randomchaos.Services.Scene", "Sample.MonoGame.Randomchaos.Services.Scene\Sample.MonoGame.Randomchaos.Services.Scene.csproj", "{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{27FA718B-9EE5-4772-A82A-EB0B5CE190D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27FA718B-9EE5-4772-A82A-EB0B5CE190D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27FA718B-9EE5-4772-A82A-EB0B5CE190D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
