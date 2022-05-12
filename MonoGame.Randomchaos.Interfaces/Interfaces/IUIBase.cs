@@ -9,5 +9,6 @@ namespace MonoGame.Randomchaos.Interfaces
         Rectangle Rectangle { get; }
         Color Tint { get; set; }
 
+        bool IsMouseOver { get; set; }
     }
 }

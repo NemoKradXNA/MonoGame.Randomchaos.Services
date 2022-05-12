@@ -107,3 +107,4 @@ crashlytics-build.properties
 /MonoGame.Randomchaos.UIX
 /Sample.MonoGame.Randomchaos.Services.Noise/bin/Debug/netcoreapp3.1
 /Sample.MonoGame.Randomchaos.Services.Noise/obj
+/Sample.MonoGame.Randomchaos.Services.Scene/obj/Release/netcoreapp3.1

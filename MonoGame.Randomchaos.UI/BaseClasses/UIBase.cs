@@ -9,6 +9,8 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 {
     public abstract class UIBase : DrawableGameComponent, IUIBase
     {
+        public bool IsMouseOver { get; set; }
+
         protected IAudioService audioManager { get { return Game.Services.GetService<IAudioService>(); } }
         protected IInputStateService inputManager { get { return Game.Services.GetService<IInputStateService>(); } }
 
@@ -43,5 +45,11 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
             _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            IsMouseOver = inputManager.MouseManager.PositionRect.Intersects(Rectangle);
+        }
     }
 }

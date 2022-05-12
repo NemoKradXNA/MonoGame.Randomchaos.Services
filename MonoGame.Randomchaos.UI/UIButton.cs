@@ -7,9 +7,6 @@ namespace MonoGame.Randomchaos.UI
 {
     public class UIButton : UIBase
     {
-
-        public bool IsMouseOver { get; set; }
-
         public Texture2D BackgroundTexture { get; set; }
         public SpriteFont Font { get; set; }
         public string Text { get; set; }
@@ -53,8 +50,6 @@ namespace MonoGame.Randomchaos.UI
         {
             base.Update(gameTime);
 
-
-            IsMouseOver = inputManager.MouseManager.PositionRect.Intersects(Rectangle);
 
             if (IsMouseOver)
             {

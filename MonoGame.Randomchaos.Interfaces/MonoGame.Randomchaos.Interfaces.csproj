@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-	  <FileVersion>1.0.0.5</FileVersion>
-	  <Version>1.0.0.5</Version>
+	  <FileVersion>1.0.0.6</FileVersion>
+	  <Version>1.0.0.6</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds generic interface and base classes for use with MonoGame.Randomchaos packages.</Description>

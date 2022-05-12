@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "O0yLcIM7Tfd7RzOdJx35wZlOYffnyZRwMQZx9wF+6XGkR1G2f8LCmyFMPgHYDGquWc06nVu9/Zju5BXu3zGBZA==",
+  "dgSpecHash": "pEsvKXuabVOBFnykCs61Iv8YBzP7RmKdH7uWdJdiTuzGm1mCzyVfDrlxW8tBPF5V3+tPlrZI9eNRpwcSZ3twIg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Charles Humphrey\\source\\repos\\NemoKradXNA\\MonoGame.Randomchaos.Services\\Sample.MonoGame.Randomchaos.Services.Scene\\Sample.MonoGame.Randomchaos.Services.Scene.csproj",
   "expectedPackageFiles": [
@@ -130,8 +130,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xdocument\\4.0.11\\system.xml.xdocument.4.0.11.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xmldocument\\4.0.1\\system.xml.xmldocument.4.0.1.nupkg.sha512",
     "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.xml.xpath\\4.0.1\\system.xml.xpath.4.0.1.nupkg.sha512",
-    "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.xml.xpath.xdocument\\4.0.1\\system.xml.xpath.xdocument.4.0.1.nupkg.sha512",
-    "C:\\Users\\Charles Humphrey\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.22\\microsoft.netcore.app.host.win-x64.3.1.22.nupkg.sha512"
+    "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.xml.xpath.xdocument\\4.0.1\\system.xml.xpath.xdocument.4.0.1.nupkg.sha512"
   ],
   "logs": []
 }
