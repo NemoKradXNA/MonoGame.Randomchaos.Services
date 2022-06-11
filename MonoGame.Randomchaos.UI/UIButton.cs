@@ -88,7 +88,7 @@ namespace MonoGame.Randomchaos.UI
 
             if (!Enabled)
             {
-                colorBG = GreyScaleColor(bgColor);                
+                colorBG = GreyScaleColor(colorBG);                
                 colorTx = GreyScaleColor(colorTx);
             }
 

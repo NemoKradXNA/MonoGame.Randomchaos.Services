@@ -54,7 +54,7 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
         public virtual Color GreyScaleColor(Color color)
         {
-            int c = ((color.R + color.G + color.B) / 3);
+            int c = ((color.R + color.G + color.B) / 6);
             return new Color(c, c, c, color.A);
         }
     }
