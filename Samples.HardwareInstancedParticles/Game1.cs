@@ -79,9 +79,9 @@ namespace HardwareInstancedParticles
             Texture2D whitepixel = new Texture2D(GraphicsDevice, 1, 1);
             whitepixel.SetData(new Color[] { Color.White });
 
-            //Texture2D logo = Content.Load<Texture2D>("Textures/mglogo1");
+            Texture2D logo = Content.Load<Texture2D>("Textures/mglogo1");
             //Texture2D logo = Content.Load<Texture2D>("Textures/waves");
-            Texture2D logo = Content.Load<Texture2D>("Textures/chicken");
+            //Texture2D logo = Content.Load<Texture2D>("Textures/chicken");
 
             Color[] logoPixels = new Color[logo.Width * logo.Height];
             logo.GetData(logoPixels);
