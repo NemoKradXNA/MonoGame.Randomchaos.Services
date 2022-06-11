@@ -41,6 +41,18 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             Name = name;
             Components = new List<IGameComponent>();
+
+            game.Window.ClientSizeChanged += Window_ClientSizeChanged;
+        }
+
+        /// <summary>
+        /// OVerride this so when the window size changes you can set positions of elements that rely on screen space coordinates (UI)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            
         }
 
         public override void Initialize()
