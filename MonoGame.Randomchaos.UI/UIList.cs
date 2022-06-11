@@ -52,6 +52,7 @@ namespace MonoGame.Randomchaos.UI
         }
         public override void Update(GameTime gameTime)
         {
+            lblTitle.Enabled = Enabled;
             lblTitle.Position = Position - new Point((int)(TitleFont.MeasureString(Title).X / -2) - 8, (int)(TitleFont.LineSpacing * .5f));
             lblTitle.Update(gameTime);
         }
@@ -74,7 +75,15 @@ namespace MonoGame.Randomchaos.UI
             for (int e = Items.Count - 1; e >= 0; e--)
             {
                 IListItem thisItem = Items[e];
-                _spriteBatch.DrawString(ListFont, string.Format($"{thisItem.Format}", thisItem.DisplayText), rootPosition, thisItem.DisplayColor);
+
+                Color tint = thisItem.DisplayColor;
+
+                if (!Enabled || !thisItem.Enabled)
+                {
+                    tint = GreyScaleColor(tint);
+                }
+
+                _spriteBatch.DrawString(ListFont, string.Format($"{thisItem.Format}", thisItem.DisplayText), rootPosition, tint);
                 rootPosition.Y += ListFont.LineSpacing;
             }
 

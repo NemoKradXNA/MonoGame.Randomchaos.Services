@@ -13,5 +13,8 @@ namespace MonoGame.Randomchaos.Interfaces.Interfaces
         object DisplayValue { get; set; }
 
         Color DisplayColor { get; set; }
+
+        bool Enabled { get; set; }
+        bool Visible { get; set; }
     }
 }

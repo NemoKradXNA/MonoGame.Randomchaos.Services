@@ -86,17 +86,31 @@ namespace MonoGame.Randomchaos.UI
         {
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
+            Color tint = Tint;
+
+            if (!Enabled)
+            {
+                tint = GreyScaleColor(Tint);
+            }
+
             // Draw BG
             if (!string.IsNullOrEmpty(Text))
             {
                 if (ShadowOffset != Vector2.Zero)
                     _spriteBatch.DrawString(Font, Text, TextPosition + ShadowOffset, ShadowColor);
-                _spriteBatch.DrawString(Font, Text, TextPosition, Tint);
+                _spriteBatch.DrawString(Font, Text, TextPosition, tint);
             }
 
             if (Background != null)
             {
-                _spriteBatch.Draw(Background, new Rectangle(Position.X, Position.Y, Size.X, Size.Y), Color.White);
+                tint = Color.White;
+
+                if (!Enabled)
+                {
+                    tint = GreyScaleColor(Color.White);
+                }
+
+                _spriteBatch.Draw(Background, new Rectangle(Position.X, Position.Y, Size.X, Size.Y), tint);
             }
             _spriteBatch.End();
         }

@@ -91,6 +91,8 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Update(GameTime gameTime)
         {
+            lblLabel.Enabled = imgBar.Enabled = btnButton.Enabled = Enabled;
+
             base.Update(gameTime);
 
             lblLabel.Update(gameTime);

@@ -18,12 +18,19 @@ namespace MonoGame.Randomchaos.UI
         {
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
+            Color tint = Tint;
+
+            if (!Enabled)
+            {
+                tint = GreyScaleColor(Tint);
+            }
+
             // Draw BG
             if (Backgeound != null)
-                _spriteBatch.Draw(Backgeound, Rectangle, Tint);
+                _spriteBatch.Draw(Backgeound, Rectangle, tint);
 
             if (Texture != null)
-                _spriteBatch.Draw(Texture, Rectangle, Tint);
+                _spriteBatch.Draw(Texture, Rectangle, tint);
 
             _spriteBatch.End();
         }

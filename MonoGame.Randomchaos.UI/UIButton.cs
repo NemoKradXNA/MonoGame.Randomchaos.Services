@@ -15,7 +15,7 @@ namespace MonoGame.Randomchaos.UI
         public Color HighlightColor { get; set; }
 
         protected Color bgColor;
-        protected Color txtColor;
+        protected Color txtColor;        
 
         public event UIMouseEvent OnMouseOver;
         public event UIMouseEvent OnMouseClick;
@@ -83,10 +83,19 @@ namespace MonoGame.Randomchaos.UI
         {
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
+            Color colorBG = bgColor;
+            Color colorTx = txtColor;
+
+            if (!Enabled)
+            {
+                colorBG = GreyScaleColor(bgColor);                
+                colorTx = GreyScaleColor(colorTx);
+            }
+
             // Draw BG
-            _spriteBatch.Draw(BackgroundTexture, Rectangle, bgColor);
+            _spriteBatch.Draw(BackgroundTexture, Rectangle, colorBG);
             if (!string.IsNullOrEmpty(Text))
-                _spriteBatch.DrawString(Font, Text, TextPosition, txtColor);
+                _spriteBatch.DrawString(Font, Text, TextPosition, colorTx);
             _spriteBatch.End();
         }
     }

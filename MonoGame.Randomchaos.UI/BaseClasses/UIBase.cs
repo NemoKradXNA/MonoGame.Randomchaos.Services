@@ -51,5 +51,11 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
             IsMouseOver = inputManager.MouseManager.PositionRect.Intersects(Rectangle);
         }
+
+        public virtual Color GreyScaleColor(Color color)
+        {
+            int c = ((color.R + color.G + color.B) / 3);
+            return new Color(c, c, c, color.A);
+        }
     }
 }
