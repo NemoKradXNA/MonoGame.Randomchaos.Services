@@ -28,7 +28,7 @@ namespace HardwareInstancedParticles.Models
         private VertexDeclaration instanceVertexDeclaration;
         private DynamicVertexBuffer instanceBuffer;
         private DynamicIndexBuffer indexBuffer;
-        private VertexBuffer geometryBuffer;
+        private DynamicVertexBuffer geometryBuffer;
         //private IndexBuffer indexBuffer;
         private VertexBufferBinding[] bindings;
 
@@ -102,7 +102,7 @@ namespace HardwareInstancedParticles.Models
 
             if (geometryBuffer == null)
             {
-                geometryBuffer = new VertexBuffer(Game.GraphicsDevice, VertexPositionColorNormalTextureTangent.VertDec,
+                geometryBuffer = new DynamicVertexBuffer(Game.GraphicsDevice, VertexPositionColorNormalTextureTangent.VertDec,
                                                   4, BufferUsage.WriteOnly);
                 geometryBuffer.SetData(vb);
 
@@ -170,7 +170,7 @@ namespace HardwareInstancedParticles.Models
             Game.GraphicsDevice.Indices = indexBuffer;
             Game.GraphicsDevice.SetVertexBuffers(bindings);
 
-            if (ParticlesUpdated)
+            //if (ParticlesUpdated)
             {
                 instanceBuffer.SetData(instances.ToArray());
             }
