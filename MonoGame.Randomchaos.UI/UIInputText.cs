@@ -110,6 +110,11 @@ namespace MonoGame.Randomchaos.UI
                 IsSelected = true;
             }
 
+            if (!IsMouseOver && inputManager.MouseManager.LeftClicked)
+            {
+                IsSelected = false;
+            }
+
             if (IsSelected)
             {
                 if (CaptureUserInput)
@@ -125,7 +130,7 @@ namespace MonoGame.Randomchaos.UI
                             if (key == Keys.LeftShift || key == Keys.RightShift)
                                 ucase = true;
 
-                            if (key == Keys.Back || key == Keys.Delete && Text.Length > 0)
+                            if ((key == Keys.Back || key == Keys.Delete) && Text.Length > 0)
                             {
                                 Text = Text.Substring(0, Text.Length - 1);
                             }
@@ -160,13 +165,6 @@ namespace MonoGame.Randomchaos.UI
                 tint = GreyScaleColor(Tint);
             }
 
-            // Draw BG
-            tint = Color.White;
-
-            if (!Enabled)
-            {
-                tint = GreyScaleColor(Color.White);
-            }
 
             _spriteBatch.Draw(Background, new Rectangle(Position.X, Position.Y, Size.X, Size.Y), tint);
 
