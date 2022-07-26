@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {
+    "net6.0-windows7.0": {
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -311,14 +311,14 @@
           }
         }
       },
-      "MonoGame.Content.Builder.Task/3.8.0.1641": {
+      "MonoGame.Content.Builder.Task/3.8.1.303": {
         "type": "package",
         "build": {
           "build/MonoGame.Content.Builder.Task.props": {},
           "build/MonoGame.Content.Builder.Task.targets": {}
         }
       },
-      "MonoGame.Framework.WindowsDX/3.8.0.1641": {
+      "MonoGame.Framework.WindowsDX/3.8.1.303": {
         "type": "package",
         "dependencies": {
           "SharpDX": "4.0.1",
@@ -330,10 +330,10 @@
           "SharpDX.XInput": "4.0.1"
         },
         "compile": {
-          "lib/netcoreapp3.1/MonoGame.Framework.dll": {}
+          "lib/net6.0-windows7.0/MonoGame.Framework.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/MonoGame.Framework.dll": {}
+          "lib/net6.0-windows7.0/MonoGame.Framework.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
@@ -342,61 +342,61 @@
           "build/MonoGame.Framework.WindowsDX.targets": {}
         }
       },
-      "MonoGame.Randomchaos.Interfaces/1.0.0.5": {
+      "MonoGame.Randomchaos.Interfaces/2.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Interfaces.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Interfaces.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Interfaces.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Interfaces.dll": {}
         }
       },
-      "MonoGame.Randomchaos.Services.Camera/1.0.0.6": {
+      "MonoGame.Randomchaos.Services.Camera/2.0.0": {
         "type": "package",
         "dependencies": {
-          "MonoGame.Randomchaos.Services.Interfaces": "1.0.0.8"
+          "MonoGame.Randomchaos.Services.Interfaces": "2.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Camera.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Camera.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Camera.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Camera.dll": {}
         }
       },
-      "MonoGame.Randomchaos.Services.Coroutine/1.0.0.7": {
+      "MonoGame.Randomchaos.Services.Coroutine/2.0.0": {
         "type": "package",
         "dependencies": {
-          "MonoGame.Randomchaos.Services.Interfaces": "1.0.0.8"
+          "MonoGame.Randomchaos.Services.Interfaces": "2.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Coroutine.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Coroutine.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Coroutine.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Coroutine.dll": {}
         }
       },
-      "MonoGame.Randomchaos.Services.Input/1.0.0.3": {
+      "MonoGame.Randomchaos.Services.Input/2.0.0": {
         "type": "package",
         "dependencies": {
-          "MonoGame.Randomchaos.Services.Interfaces": "1.0.0.8"
+          "MonoGame.Randomchaos.Services.Interfaces": "2.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Input.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Input.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Input.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Input.dll": {}
         }
       },
-      "MonoGame.Randomchaos.Services.Interfaces/1.0.0.8": {
+      "MonoGame.Randomchaos.Services.Interfaces/2.0.0": {
         "type": "package",
         "dependencies": {
-          "MonoGame.Randomchaos.Interfaces": "1.0.0.5"
+          "MonoGame.Randomchaos.Interfaces": "2.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Interfaces.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Interfaces.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MonoGame.Randomchaos.Services.Interfaces.dll": {}
+          "lib/net6.0/MonoGame.Randomchaos.Services.Interfaces.dll": {}
         }
       },
       "NETStandard.Library/1.6.0": {
@@ -2582,6 +2582,7 @@
       "path": "microsoft.netcore.windows.apisets/1.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "microsoft.netcore.windows.apisets.1.0.1.nupkg.sha512",
@@ -2595,6 +2596,7 @@
       "path": "microsoft.visualbasic/10.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net45/_._",
@@ -2676,6 +2678,7 @@
       "path": "microsoft.win32.registry/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net46/Microsoft.Win32.Registry.dll",
@@ -2699,163 +2702,91 @@
         "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll"
       ]
     },
-    "MonoGame.Content.Builder.Task/3.8.0.1641": {
-      "sha512": "oHA60q9MhkqGnSiJlXosdynD400sQ/j1Ef+0XkJYIQT4Io9RQ6Zk8i0vjpnIbQ0PgsoaQN3IRYjNzkhqq3uUGA==",
+    "MonoGame.Content.Builder.Task/3.8.1.303": {
+      "sha512": "9Ilzzje62LhWElbPNEl7vh7XsRSbze+lvCJdZtTZUGu48FRgvYN6THURwIB9PN98EI33/Wnf6iuShNUtD7hL4Q==",
       "type": "package",
-      "path": "monogame.content.builder.task/3.8.0.1641",
-      "hasTools": true,
+      "path": "monogame.content.builder.task/3.8.1.303",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "build/MonoGame.Content.Builder.Task.props",
         "build/MonoGame.Content.Builder.Task.targets",
-        "monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
-        "monogame.content.builder.task.nuspec",
-        "tools/netcoreapp3.1/any/ATI.TextureConverter.dll",
-        "tools/netcoreapp3.1/any/ATI.TextureConverter.dll.config",
-        "tools/netcoreapp3.1/any/AssimpNet.dll",
-        "tools/netcoreapp3.1/any/CppNet.dll",
-        "tools/netcoreapp3.1/any/FreeImage.dll",
-        "tools/netcoreapp3.1/any/MonoGame.Framework.Content.Pipeline.dll",
-        "tools/netcoreapp3.1/any/MonoGame.Framework.Content.Pipeline.pdb",
-        "tools/netcoreapp3.1/any/MonoGame.Framework.dll",
-        "tools/netcoreapp3.1/any/MonoGame.Framework.pdb",
-        "tools/netcoreapp3.1/any/MonoGame.Framework.xml",
-        "tools/netcoreapp3.1/any/Nvidia.TextureTools.dll",
-        "tools/netcoreapp3.1/any/Nvidia.TextureTools.dll.config",
-        "tools/netcoreapp3.1/any/PVRTexLibNET.dll",
-        "tools/netcoreapp3.1/any/PVRTexLibNET.dll.config",
-        "tools/netcoreapp3.1/any/PVRTexLibWrapper.dll",
-        "tools/netcoreapp3.1/any/SharpDX.D3DCompiler.dll",
-        "tools/netcoreapp3.1/any/SharpDX.D3DCompiler.xml",
-        "tools/netcoreapp3.1/any/SharpDX.dll",
-        "tools/netcoreapp3.1/any/SharpDX.xml",
-        "tools/netcoreapp3.1/any/SharpFont.dll",
-        "tools/netcoreapp3.1/any/SharpFont.dll.config",
-        "tools/netcoreapp3.1/any/ffmpeg.exe",
-        "tools/netcoreapp3.1/any/ffprobe.exe",
-        "tools/netcoreapp3.1/any/freetype6.dll",
-        "tools/netcoreapp3.1/any/libFreeImage.dylib",
-        "tools/netcoreapp3.1/any/libFreeImage.so",
-        "tools/netcoreapp3.1/any/libPVRTexLibWrapper.dylib",
-        "tools/netcoreapp3.1/any/libPVRTexLibWrapper.so",
-        "tools/netcoreapp3.1/any/libSDL2-2.0.0.dylib",
-        "tools/netcoreapp3.1/any/libfreetype6.dylib",
-        "tools/netcoreapp3.1/any/libfreetype6.so",
-        "tools/netcoreapp3.1/any/libmojoshader_64.dll",
-        "tools/netcoreapp3.1/any/libnvcore.dylib",
-        "tools/netcoreapp3.1/any/libnvcore.so",
-        "tools/netcoreapp3.1/any/libnvimage.dylib",
-        "tools/netcoreapp3.1/any/libnvimage.so",
-        "tools/netcoreapp3.1/any/libnvmath.dylib",
-        "tools/netcoreapp3.1/any/libnvmath.so",
-        "tools/netcoreapp3.1/any/libnvtt.dylib",
-        "tools/netcoreapp3.1/any/libnvtt.so",
-        "tools/netcoreapp3.1/any/libopenal.1.dylib",
-        "tools/netcoreapp3.1/any/libpng16.16.dylib",
-        "tools/netcoreapp3.1/any/libpng16.so.16",
-        "tools/netcoreapp3.1/any/linux/ffmpeg",
-        "tools/netcoreapp3.1/any/linux/ffprobe",
-        "tools/netcoreapp3.1/any/mgcb.deps.json",
-        "tools/netcoreapp3.1/any/mgcb.dll",
-        "tools/netcoreapp3.1/any/mgcb.exe",
-        "tools/netcoreapp3.1/any/mgcb.pdb",
-        "tools/netcoreapp3.1/any/mgcb.runtimeconfig.json",
-        "tools/netcoreapp3.1/any/mgfxc.deps.json",
-        "tools/netcoreapp3.1/any/mgfxc.dll",
-        "tools/netcoreapp3.1/any/mgfxc.exe",
-        "tools/netcoreapp3.1/any/mgfxc.pdb",
-        "tools/netcoreapp3.1/any/mgfxc.runtimeconfig.json",
-        "tools/netcoreapp3.1/any/nvtt.dll",
-        "tools/netcoreapp3.1/any/osx/ffmpeg",
-        "tools/netcoreapp3.1/any/osx/ffprobe",
-        "tools/netcoreapp3.1/any/runtimes/linux-x64/native/libassimp.so",
-        "tools/netcoreapp3.1/any/runtimes/osx-x64/native/libassimp.dylib",
-        "tools/netcoreapp3.1/any/runtimes/win-x64/native/assimp.dll",
-        "tools/netcoreapp3.1/any/runtimes/win-x86/native/assimp.dll",
-        "tools/netcoreapp3.1/any/x64/SDL2.dll",
-        "tools/netcoreapp3.1/any/x64/libSDL2-2.0.so.0",
-        "tools/netcoreapp3.1/any/x64/libopenal.so.1",
-        "tools/netcoreapp3.1/any/x64/soft_oal.dll",
-        "tools/netcoreapp3.1/any/x86/SDL2.dll",
-        "tools/netcoreapp3.1/any/x86/soft_oal.dll"
+        "monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+        "monogame.content.builder.task.nuspec"
       ]
     },
-    "MonoGame.Framework.WindowsDX/3.8.0.1641": {
-      "sha512": "uWPGugWXe0eqrA5KgKc38z2K+RNgh8DmIDjIDdc7JX8m7azYDkNapHwIOANkEj5ZYAr7uqxjoqGcU4VS+ayl1g==",
+    "MonoGame.Framework.WindowsDX/3.8.1.303": {
+      "sha512": "RKAXyQRjkyw3hbaP5wmoqr7FH8SkaYfI8TUhX/S4PySHYjVhj4ufr0Rd2HDJTPkSq0KubsBoNUpbD9JM0DlwsQ==",
       "type": "package",
-      "path": "monogame.framework.windowsdx/3.8.0.1641",
+      "path": "monogame.framework.windowsdx/3.8.1.303",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "build/MonoGame.Framework.WindowsDX.targets",
-        "lib/net452/MonoGame.Framework.dll",
-        "lib/net452/MonoGame.Framework.xml",
-        "lib/netcoreapp3.1/MonoGame.Framework.dll",
-        "lib/netcoreapp3.1/MonoGame.Framework.xml",
-        "monogame.framework.windowsdx.3.8.0.1641.nupkg.sha512",
+        "lib/net6.0-windows7.0/MonoGame.Framework.dll",
+        "monogame.framework.windowsdx.3.8.1.303.nupkg.sha512",
         "monogame.framework.windowsdx.nuspec"
       ]
     },
-    "MonoGame.Randomchaos.Interfaces/1.0.0.5": {
-      "sha512": "aZUSPv6lYnafPP3VHC/MeyQIRNz0yhu1NWjpLVfe//0w/7zyax2GHxwi2XvN1bx9W+E1npNri7rDAi0b2X0jVA==",
+    "MonoGame.Randomchaos.Interfaces/2.0.0": {
+      "sha512": "Nzn2PxgI3K3AC27UuWYR5xP0iRaCc3EqfGru0HsQCIoSB5E7gYLPFPj/u63WsPwBm2TJGxhH4nbM8saYWbvxaw==",
       "type": "package",
-      "path": "monogame.randomchaos.interfaces/1.0.0.5",
+      "path": "monogame.randomchaos.interfaces/2.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netstandard2.0/MonoGame.Randomchaos.Interfaces.dll",
-        "monogame.randomchaos.interfaces.1.0.0.5.nupkg.sha512",
+        "lib/net6.0/MonoGame.Randomchaos.Interfaces.dll",
+        "monogame.randomchaos.interfaces.2.0.0.nupkg.sha512",
         "monogame.randomchaos.interfaces.nuspec"
       ]
     },
-    "MonoGame.Randomchaos.Services.Camera/1.0.0.6": {
-      "sha512": "grdbzwGE7n7r2j2C7ZmlrikjgN4GjfWu/h1OxwYdgmp35BS7ZtjF2SXgvvWsP2dWqd8tEWNGxkfqYMvX3+LlUQ==",
+    "MonoGame.Randomchaos.Services.Camera/2.0.0": {
+      "sha512": "D37ZAuUPXPjmny7p/O4L5LTQmi2lKuoJOMFZ6WBb+Pv2GGRM0BBiKnUYK9wSSeGGwG+m0t7e87vIGgtfmS1SXA==",
       "type": "package",
-      "path": "monogame.randomchaos.services.camera/1.0.0.6",
+      "path": "monogame.randomchaos.services.camera/2.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netstandard2.0/MonoGame.Randomchaos.Services.Camera.dll",
-        "monogame.randomchaos.services.camera.1.0.0.6.nupkg.sha512",
+        "lib/net6.0/MonoGame.Randomchaos.Services.Camera.dll",
+        "monogame.randomchaos.services.camera.2.0.0.nupkg.sha512",
         "monogame.randomchaos.services.camera.nuspec"
       ]
     },
-    "MonoGame.Randomchaos.Services.Coroutine/1.0.0.7": {
-      "sha512": "bdPt+B4r+7TvqkYP+fT7DShqLJMwLCYSZvgg0BPlXK+6PjoZeRzjcV0XQSwYL3tXg8Y7DVG9JwHs7hGdl0Suvg==",
+    "MonoGame.Randomchaos.Services.Coroutine/2.0.0": {
+      "sha512": "9h2TWSRLSAXOH1i9VIlB+ykodQzKMh9amQnmbZPWXwt5kx84ydOk0dx1T85Kp7FOJLMVb3MKKUWnWpY7npfuWA==",
       "type": "package",
-      "path": "monogame.randomchaos.services.coroutine/1.0.0.7",
+      "path": "monogame.randomchaos.services.coroutine/2.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netstandard2.0/MonoGame.Randomchaos.Services.Coroutine.dll",
-        "monogame.randomchaos.services.coroutine.1.0.0.7.nupkg.sha512",
+        "lib/net6.0/MonoGame.Randomchaos.Services.Coroutine.dll",
+        "monogame.randomchaos.services.coroutine.2.0.0.nupkg.sha512",
         "monogame.randomchaos.services.coroutine.nuspec"
       ]
     },
-    "MonoGame.Randomchaos.Services.Input/1.0.0.3": {
-      "sha512": "Mgn3JEaK0OnJPTmDrugOWS/zX2/hOjjp6cEha9+RU/t95WfysmTH17uGbETaT/zOjmiCNbS3QwJZou+18pWsnQ==",
+    "MonoGame.Randomchaos.Services.Input/2.0.0": {
+      "sha512": "mn9DLFc/IGIS2BDLbu7Im1eJvY6hqmNFLgCKLQKgUnqtUKidyYclSRoxN88QM4vaHUdyo0CHNa6HdYkKUNlOzQ==",
       "type": "package",
-      "path": "monogame.randomchaos.services.input/1.0.0.3",
+      "path": "monogame.randomchaos.services.input/2.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netstandard2.0/MonoGame.Randomchaos.Services.Input.dll",
-        "monogame.randomchaos.services.input.1.0.0.3.nupkg.sha512",
+        "lib/net6.0/MonoGame.Randomchaos.Services.Input.dll",
+        "monogame.randomchaos.services.input.2.0.0.nupkg.sha512",
         "monogame.randomchaos.services.input.nuspec"
       ]
     },
-    "MonoGame.Randomchaos.Services.Interfaces/1.0.0.8": {
-      "sha512": "uNmORMmn9PdltoPdyHuo0PN5ppuLcs3T0I5z/0D6C9BrRoo39KGt2PN/nSzYK0uZXpXUXbaMuQRJA/7m0NjsBw==",
+    "MonoGame.Randomchaos.Services.Interfaces/2.0.0": {
+      "sha512": "ds5yJbcDnsLKnNQlmXn70fMe5Q6VUHF8cn54aMcYlQtsZROJNQkymjmOvVkzrUJEBmlMNYfVIEbbi6rjbqxvpQ==",
       "type": "package",
-      "path": "monogame.randomchaos.services.interfaces/1.0.0.8",
+      "path": "monogame.randomchaos.services.interfaces/2.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netstandard2.0/MonoGame.Randomchaos.Services.Interfaces.dll",
-        "monogame.randomchaos.services.interfaces.1.0.0.8.nupkg.sha512",
+        "lib/net6.0/MonoGame.Randomchaos.Services.Interfaces.dll",
+        "monogame.randomchaos.services.interfaces.2.0.0.nupkg.sha512",
         "monogame.randomchaos.services.interfaces.nuspec"
       ]
     },
@@ -3339,6 +3270,7 @@
       "path": "system.collections.immutable/1.2.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Collections.Immutable.dll",
@@ -3355,6 +3287,7 @@
       "path": "system.componentmodel/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3413,6 +3346,7 @@
       "path": "system.componentmodel.annotations/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3656,6 +3590,7 @@
       "path": "system.diagnostics.process/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4456,6 +4391,7 @@
       "path": "system.io.unmanagedmemorystream/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4648,6 +4584,7 @@
       "path": "system.linq.parallel/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4843,6 +4780,7 @@
       "path": "system.net.nameresolution/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4962,6 +4900,7 @@
       "path": "system.net.requests/4.0.11",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5122,6 +5061,7 @@
       "path": "system.net.webheadercollection/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5160,6 +5100,7 @@
       "path": "system.numerics.vectors/4.1.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5343,6 +5284,7 @@
       "path": "system.reflection.dispatchproxy/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5531,6 +5473,7 @@
       "path": "system.reflection.metadata/1.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.1/System.Reflection.Metadata.dll",
@@ -6055,6 +5998,7 @@
       "path": "system.runtime.loader/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net462/_._",
@@ -6136,6 +6080,7 @@
       "path": "system.security.claims/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6409,6 +6354,7 @@
       "path": "system.security.principal/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6562,6 +6508,7 @@
       "path": "system.text.encoding.codepages/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6819,6 +6766,7 @@
       "path": "system.threading.overlapped/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net46/System.Threading.Overlapped.dll",
@@ -6915,6 +6863,7 @@
       "path": "system.threading.tasks.dataflow/4.6.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Threading.Tasks.Dataflow.XML",
@@ -6947,6 +6896,7 @@
       "path": "system.threading.tasks.parallel/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7003,6 +6953,7 @@
       "path": "system.threading.thread/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7042,6 +6993,7 @@
       "path": "system.threading.threadpool/4.0.10",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7383,12 +7335,12 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": [
-      "MonoGame.Content.Builder.Task >= 3.8.0.1641",
-      "MonoGame.Framework.WindowsDX >= 3.8.0.1641",
-      "MonoGame.Randomchaos.Services.Camera >= 1.0.0.6",
-      "MonoGame.Randomchaos.Services.Coroutine >= 1.0.0.7",
-      "MonoGame.Randomchaos.Services.Input >= 1.0.0.3"
+    "net6.0-windows7.0": [
+      "MonoGame.Content.Builder.Task >= 3.8.1.303",
+      "MonoGame.Framework.WindowsDX >= 3.8.1.303",
+      "MonoGame.Randomchaos.Services.Camera >= 2.0.0",
+      "MonoGame.Randomchaos.Services.Coroutine >= 2.0.0",
+      "MonoGame.Randomchaos.Services.Input >= 2.0.0"
     ]
   },
   "packageFolders": {
@@ -7418,7 +7370,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "netcoreapp3.1"
+        "net6.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -7426,8 +7378,8 @@
         "https://pkgs.dev.azure.com/BlackSunSolutionsLtd/38a94b5a-e3ae-48d2-809b-c362b2b7ab0b/_packaging/BlackSun/nuget/v3/index.json": {}
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "projectReferences": {}
         }
       },
@@ -7438,28 +7390,28 @@
       }
     },
     "frameworks": {
-      "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
         "dependencies": {
           "MonoGame.Content.Builder.Task": {
             "target": "Package",
-            "version": "[3.8.0.1641, )"
+            "version": "[3.8.1.303, )"
           },
           "MonoGame.Framework.WindowsDX": {
             "target": "Package",
-            "version": "[3.8.0.1641, )"
+            "version": "[3.8.1.303, )"
           },
           "MonoGame.Randomchaos.Services.Camera": {
             "target": "Package",
-            "version": "[1.0.0.6, )"
+            "version": "[2.0.0, )"
           },
           "MonoGame.Randomchaos.Services.Coroutine": {
             "target": "Package",
-            "version": "[1.0.0.7, )"
+            "version": "[2.0.0, )"
           },
           "MonoGame.Randomchaos.Services.Input": {
             "target": "Package",
-            "version": "[1.0.0.3, )"
+            "version": "[2.0.0, )"
           }
         },
         "imports": [
@@ -7480,7 +7432,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.106\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

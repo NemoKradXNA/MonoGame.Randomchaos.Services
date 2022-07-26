@@ -15,6 +15,8 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         protected Texture2D fader;
         protected Color fadeColor = Color.Black;
 
+        protected byte fadeSpeed = 4;
+
         public SceneFadeBase(Game game, string name) : base(game, name) { }
 
         public override void LoadScene()
@@ -52,7 +54,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         protected virtual IEnumerator FadeIn()
         {
             byte a = 255;
-            byte fadeSpeed = 4;
+            
             fadeColor = new Color(fadeColor.R, fadeColor.G, fadeColor.B, a);
 
             while (a > 0)
@@ -70,7 +72,6 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         protected virtual IEnumerator FadeOut()
         {
             byte a = 0;
-            byte fadeSpeed = 4;
             fadeColor = new Color(fadeColor.R, fadeColor.G, fadeColor.B, a);
 
             while (a < 255)

@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
     <UseWindowsForms>true</UseWindowsForms>
@@ -14,9 +14,9 @@
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="1.0.0.8" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

@@ -25,7 +25,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0-windows7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -33,8 +33,8 @@
           "https://pkgs.dev.azure.com/BlackSunSolutionsLtd/38a94b5a-e3ae-48d2-809b-c362b2b7ab0b/_packaging/BlackSun/nuget/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
             "projectReferences": {}
           }
         },
@@ -45,32 +45,32 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "dependencies": {
             "MonoGame.Content.Builder.Task": {
               "target": "Package",
-              "version": "[3.8.0.1641, )"
+              "version": "[3.8.1.303, )"
             },
             "MonoGame.Framework.WindowsDX": {
               "target": "Package",
-              "version": "[3.8.0.1641, )"
+              "version": "[3.8.1.303, )"
             },
             "MonoGame.Randomchaos.Services.Audio": {
               "target": "Package",
-              "version": "[1.0.0.4, )"
+              "version": "[2.0.0, )"
             },
             "MonoGame.Randomchaos.Services.Coroutine": {
               "target": "Package",
-              "version": "[1.0.0.7, )"
+              "version": "[2.0.0, )"
             },
             "MonoGame.Randomchaos.Services.Input": {
               "target": "Package",
-              "version": "[1.0.0.3, )"
+              "version": "[2.0.0, )"
             },
             "MonoGame.Randomchaos.Services.Scene": {
               "target": "Package",
-              "version": "[1.0.0.7, )"
+              "version": "[2.0.0, )"
             }
           },
           "imports": [
@@ -91,7 +91,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.106\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
