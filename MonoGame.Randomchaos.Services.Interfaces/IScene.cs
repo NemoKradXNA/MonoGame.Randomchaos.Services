@@ -15,6 +15,7 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         List<IGameComponent> Components { get; set; }
 
         void LoadScene();
+        void LoadScene(params object[] paramters);
         void UnloadScene();
     }
 }

@@ -42,6 +42,10 @@ namespace MonoGame.Randomchaos.Services.Scene.Services
                 CoroutineService.StartCoroutine(LoadScene(Scenes[name]));
         }
 
+        public void LoadScene(string name, params object[] parameters)
+        {
+
+        }
 
         protected IEnumerator LoadScene(IScene scene)
         {

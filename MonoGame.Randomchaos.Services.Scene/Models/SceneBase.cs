@@ -17,6 +17,8 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         protected IAudioService audioManager { get { return Game.Services.GetService<IAudioService>(); } }
 
+        protected object[] Parameters { get; set; }
+
         public string Name { get; set; }
         public IScene LastScene { get; set; }
 
@@ -98,8 +100,15 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         public virtual void LoadScene()
         {
-            // Load our shit up!
+            // Load our things up!
             Game.Components.Add(this);
+        }
+
+        public virtual void LoadScene(params object[] parameters)
+        {
+            Parameters = parameters;
+
+            LoadScene();
         }
 
         public virtual void UnloadScene()

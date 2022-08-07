@@ -10,6 +10,8 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         void AddScene(IScene scene);
         void LoadScene(string name);
 
+        void LoadScene(string name, params object[] parameters);
+
         SceneStateEnum CurrentSceneState { get; }
     }
 }
