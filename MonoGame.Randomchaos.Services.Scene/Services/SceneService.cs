@@ -44,10 +44,11 @@ namespace MonoGame.Randomchaos.Services.Scene.Services
 
         public void LoadScene(string name, params object[] parameters)
         {
-
+            if (Scenes.ContainsKey(name))
+                CoroutineService.StartCoroutine(LoadScene(Scenes[name], parameters));
         }
 
-        protected IEnumerator LoadScene(IScene scene)
+        protected IEnumerator LoadScene(IScene scene, params object[] paramters)
         {
             if (CurrentScene != null)
             {
@@ -60,7 +61,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Services
 
             CurrentScene = scene;
             CurrentScene.State = SceneStateEnum.Loading;
-            scene.LoadScene();
+            scene.LoadScene(paramters);
         }
     }
 }
