@@ -1,0 +1,20 @@
+﻿
+-- To create your database from the Pacakage Manager Console (Tools->NuGet Package Manager->Package Manager Console)
+-- Ensure you have Microsoft.EntityFrameworkCore.Tools Nuget active in your project and that the project is set to the startup project.
+
+-- Run the following:-
+
+add-migration InitialMigration -context SampleDbContext -args '"Data Source=DataBase/Test.db;"'
+
+-- You will now have a migration file, this tels EF how to construct and update your database.
+-- You can call 'InitialMigration' what ever you like, as long as you dont already have a migration class by that name.
+-- Now run the following:-
+
+update-database -context SampleDbContext -args '"Data Source=DataBase/Test.db;"'
+
+-- This will now create and/or update your database with the latest model changes.
+
+-- NOTE: Replace 'DataBase/Test.db' with the location and name of your database. 
+-- There are a lot of ways you can build your connection string, see https://www.connectionstrings.com/sqlite/
+
+-- Finaly once your DB is build, remember to copy it to your bin folder.

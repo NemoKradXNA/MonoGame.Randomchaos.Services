@@ -1,0 +1,14 @@
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\bin\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.deps.json
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\bin\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.runtimeconfig.json
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\bin\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.dll
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\bin\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.pdb
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.csproj.AssemblyReference.cache
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.AssemblyInfoInputs.cache
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.AssemblyInfo.cs
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.csproj.CoreCompileInputs.cache
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.dll
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\refint\MonoGame.Randomchaos.Services.EFCore.dll
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.pdb
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\MonoGame.Randomchaos.Services.EFCore.genruntimeconfig.cache
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\MonoGame.Randomchaos.Services.EFCore\obj\Debug\net6.0\ref\MonoGame.Randomchaos.Services.EFCore.dll
