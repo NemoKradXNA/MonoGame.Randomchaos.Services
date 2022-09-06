@@ -1,8 +1,8 @@
 The source code here is for the Nuget packages that can be found [here](https://www.nuget.org/packages?q=Monogame.randomchaos)
 
-Original versions were created as .Net Core 3.1 assemblies, but MonoGame uses (at the time of writing 4th March 2022) .Net Standard class libraries in its templates. This means that they can't reference .NET core 3.1 assemblies. As of the 3rd of March 2022, I moved all the projects over to .Net Standard, when MonoGame is updated to use .Net 6, I dare say Ill update them all again to be .Net 6 assemblies.
+Original versions were created as .Net Core 3.1 assemblies, but MonoGame uses (at the time of writing 4th March 2022) .Net Standard class libraries in its templates. This means that they can't reference .NET core 3.1 assemblies. As of the 3rd of March 2022, I moved all the projects over to .Net Standard, when MonoGame is updated to use .Net 6, I dare say I'll update them all again to be .Net 6 assemblies.
 
-So, with all that, what packages are actually here, what do they do, and how cn they be used?
+So, with all that, what packages are actually here, what do they do, and how can they be used?
 
 ## MonoGame.RandomchaosPpacakges
 ### [MonoGame.Randomchaos.Interfaces](https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services/tree/main/MonoGame.Randomchaos.Interfaces)
@@ -11,17 +11,17 @@ This project holds base line interfaces and abstract classes to be used in conju
 There is no sample for this as it has little to no functionality in it and is a supporting package.
 
 ### [MonoGame.Randomchaos.Services.Audio](https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services/tree/main/MonoGame.Randomchaos.Services.Audio)
-This project gives you are service that can be used to play music and sound effects in your game, it has support for 3D sound and you have full volume control over the audio you play.
+This project gives you a service that can be used to play music and sound effects in your game, it has support for 3D sound and you have full volume control over the audio you play.
 
 #### [Sample - TODO]()
 
 ### [MonoGame.Randomchaos.Services.Camera](https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services/tree/main/MonoGame.Randomchaos.Services.Camera)
-This project will give you access to a 3D camera, using the Transform class in MonoGame.Randomchaos.Intrfaces to rotate and translate the camera in 3D world space. I plan to alter this camera later to support 2D.
+This project will give you access to a 3D camera, using the Transform class in MonoGame.Randomchaos.Interfaces to rotate and translate the camera in 3D world space. I plan to alter this camera later to support 2D.
 
 #### [Sample - TODO]()
 
 ### [MonoGame.Randomchaos.Services.Coroutine](https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services/tree/main/MonoGame.Randomchaos.Services.Coroutine)
-Another supporting package, but could be used independently of the others if required. It gives you a service that can manage and run coroutines in your games, similar to how Unity has co routines.
+Another supporting package, but could be used independently of the others if required. It gives you a service that can manage and run coroutines in your games, similar to how Unity has coroutines.
 
 #### [Sample - TODO]()
 
