@@ -25,6 +25,9 @@ namespace MonoGame.Randomchaos.UI
 
         public bool CaptureUserInput = true;
 
+        public float CursorCheck { get; set; }
+        public float CursorTiming { get; set; }
+
         Texture2D cursor;
 
         public Vector2 Measure
@@ -101,6 +104,9 @@ namespace MonoGame.Randomchaos.UI
             TextAlingment = textAlingnment;
             Background = background;
             Border = border;
+
+            CursorCheck = .5f;
+            CursorTiming = .125f;
         }
 
         public override void Update(GameTime gameTime)
@@ -186,7 +192,8 @@ namespace MonoGame.Randomchaos.UI
                 _spriteBatch.Draw(cursor, new Rectangle((int)TextPosition.X + p + 2, Position.Y + 4, 2, (int)(Size.Y * .75f)), tint);
             }
 
-            _cursorOn = !_cursorOn;
+
+            _cursorOn = ((gameTime.TotalGameTime.TotalSeconds) % CursorCheck) > CursorTiming;
 
             _spriteBatch.End();
 
