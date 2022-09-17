@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-	  <AssemblyVersion>2.0.0.2</AssemblyVersion>
-	  <FileVersion>2.0.0.2</FileVersion>
-	  <Version>2.0.0.2</Version>
+	  <AssemblyVersion>2.0.0.3</AssemblyVersion>
+	  <FileVersion>2.0.0.3</FileVersion>
+	  <Version>2.0.0.3</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds generic scene management classes for use with MonoGame.</Description>

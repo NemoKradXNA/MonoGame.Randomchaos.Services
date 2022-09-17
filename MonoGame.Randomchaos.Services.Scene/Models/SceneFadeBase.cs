@@ -4,8 +4,6 @@ using MonoGame.Randomchaos.Services.Coroutine.Models;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MonoGame.Randomchaos.Services.Scene.Models
 {
@@ -17,7 +15,32 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         protected byte fadeSpeed = 4;
 
-        public SceneFadeBase(Game game, string name) : base(game, name) { }
+        public bool FadeAudioIn { get; set; }
+        public bool FadeAudioOut { get; set; }
+
+        protected float _MusicMaxVolume;
+        public float MusicMaxVolume
+        {
+            get { return _MusicMaxVolume; }
+            set 
+            {
+                _MusicMaxVolume = Math.Min(1,Math.Max(0, value));
+            }
+        }
+
+        public SceneFadeBase(Game game, string name) : base(game, name) 
+        {
+            FadeAudioIn = true;
+            FadeAudioOut = true;
+            MusicMaxVolume = 1;
+        }
+
+        public SceneFadeBase(Game game, string name, string audioAsset) : base(game, name, audioAsset)
+        {
+            FadeAudioIn = true;
+            FadeAudioOut = true;
+            MusicMaxVolume = 1;
+        }
 
         public override void LoadScene()
         {
@@ -29,6 +52,19 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             base.UnloadScene();
             coroutineService.StartCoroutine(FadeOut());
+        }
+
+        public override void Initialize()
+        {
+            if (!string.IsNullOrEmpty(AudioMusicAsset)) 
+            {
+                if (!audioManager.IsMusicPlaying || audioManager.CurrentSongAsset != AudioMusicAsset)
+                {
+                    audioManager.PlaySong(AudioMusicAsset, .25f);
+                }
+            }
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -63,7 +99,10 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 a = (byte)Math.Max(0, a - fadeSpeed);
                 fadeColor = new Color(fadeColor.R, fadeColor.G, fadeColor.B, a);
 
-                audioManager.MusicVolume = 1f - (a / 255f);
+                if (FadeAudioIn)
+                {
+                    audioManager.MusicVolume = Math.Min(MusicMaxVolume, 1f - (a / 255f));
+                }
             }
 
             State = SceneStateEnum.Loaded;
@@ -80,7 +119,10 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 a = (byte)Math.Min(255, a + fadeSpeed);
                 fadeColor = new Color(fadeColor.R, fadeColor.G, fadeColor.B, a);
 
-                audioManager.MusicVolume = 1f - (a / 255f);
+                if (FadeAudioOut)
+                {
+                    audioManager.MusicVolume = Math.Min(MusicMaxVolume, 1f - (a / 255f));
+                }
             }
 
             State = SceneStateEnum.Unloaded;

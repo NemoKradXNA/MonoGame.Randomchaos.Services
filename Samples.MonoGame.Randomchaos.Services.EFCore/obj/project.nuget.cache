@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wmN0Wj4DpnOZXtZ3CDT/KW993moirSgwIOeKCnCziLtnxZ77E4itWFC5PpjY0F5Mlf+u1xPbxH7upva2xyHiOg==",
+  "dgSpecHash": "ReMf+EdBjnLHm5HRepNz/4r01TGPD/yN5tsb7PWBuOLFkreEXuUDh4x7Z7h5GCKTYTBEgO8PchS6uY7Nls9QLg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Charles Humphrey\\source\\repos\\NemoKradXNA\\MonoGame.Randomchaos.Services\\Samples.MonoGame.Randomchaos.Services.EFCore\\Samples.MonoGame.Randomchaos.EFCore.csproj",
   "expectedPackageFiles": [
@@ -35,7 +35,8 @@
     "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.text.encodings.web\\7.0.0-preview.7.22375.6\\system.text.encodings.web.7.0.0-preview.7.22375.6.nupkg.sha512",
-    "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.text.json\\7.0.0-preview.7.22375.6\\system.text.json.7.0.0-preview.7.22375.6.nupkg.sha512"
+    "C:\\Users\\Charles Humphrey\\.nuget\\packages\\system.text.json\\7.0.0-preview.7.22375.6\\system.text.json.7.0.0-preview.7.22375.6.nupkg.sha512",
+    "C:\\Users\\Charles Humphrey\\.nuget\\packages\\monogame.randomchaos.efcore\\1.0.0\\monogame.randomchaos.efcore.1.0.0.nupkg.sha512"
   ],
   "logs": []
 }

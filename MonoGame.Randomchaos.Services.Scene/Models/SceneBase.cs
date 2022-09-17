@@ -37,6 +37,8 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             }
         }
 
+        public string AudioMusicAsset { get; set; }
+
         public List<IGameComponent> Components { get; set; }
 
         public SceneBase(Game game, string name) : base(game)
@@ -45,6 +47,11 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             Components = new List<IGameComponent>();
 
             game.Window.ClientSizeChanged += Window_ClientSizeChanged;
+        }
+
+        public SceneBase(Game game, string name, string audioMusicAsset) : this(game,name)
+        {
+            AudioMusicAsset = audioMusicAsset;
         }
 
         /// <summary>

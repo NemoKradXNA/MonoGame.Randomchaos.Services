@@ -30,9 +30,6 @@
     <Folder Include="DataBase\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.EFCore\MonoGame.Randomchaos.EFCore.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="DataBase\Test.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
