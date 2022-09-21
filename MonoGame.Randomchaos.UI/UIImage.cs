@@ -8,7 +8,7 @@ namespace MonoGame.Randomchaos.UI
     public class UIImage : UIBase
     {
         public Texture2D Texture { get; set; }
-        public Texture2D Backgeound { get; set; }
+        public Texture2D Background { get; set; }
         public UIImage(Game game, Point position, Point size) : base(game, position, size)
         {
 
@@ -26,8 +26,8 @@ namespace MonoGame.Randomchaos.UI
             }
 
             // Draw BG
-            if (Backgeound != null)
-                _spriteBatch.Draw(Backgeound, Rectangle, tint);
+            if (Background != null)
+                _spriteBatch.Draw(Background, Rectangle, tint);
 
             if (Texture != null)
                 _spriteBatch.Draw(Texture, Rectangle, tint);

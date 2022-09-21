@@ -60,7 +60,7 @@ namespace MonoGame.Randomchaos.UI
             base.Update(gameTime);
 
 
-            if (IsMouseOver)
+            if (IsMouseOver && TopMostMouseOver == this)
             {
                 // Mouse over, highlight
                 bgColor = HighlightColor;

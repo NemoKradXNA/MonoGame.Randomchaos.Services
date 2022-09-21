@@ -9,6 +9,8 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 {
     public abstract class UIBase : DrawableGameComponent, IUIBase
     {
+        public static IUIBase TopMostMouseOver;
+
         public bool IsMouseOver { get; set; }
 
         protected IAudioService audioManager { get { return Game.Services.GetService<IAudioService>(); } }
@@ -50,6 +52,11 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
             base.Update(gameTime);
 
             IsMouseOver = inputManager.MouseManager.PositionRect.Intersects(Rectangle);
+
+            if (IsMouseOver)
+            {
+                TopMostMouseOver = this;
+            }
         }
 
         public virtual Color GreyScaleColor(Color color)
