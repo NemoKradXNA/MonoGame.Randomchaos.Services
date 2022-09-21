@@ -60,7 +60,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             {
                 if (!audioManager.IsMusicPlaying || audioManager.CurrentSongAsset != AudioMusicAsset)
                 {
-                    audioManager.PlaySong(AudioMusicAsset, .25f);
+                    audioManager.PlaySong(AudioMusicAsset, MusicMaxVolume);
                 }
             }
 

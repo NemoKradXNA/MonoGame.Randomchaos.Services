@@ -7,6 +7,8 @@ using System.Text;
 
 namespace MonoGame.Randomchaos.Services.Scene.Models
 {
+
+
     public abstract class SceneBase : DrawableGameComponent, IScene
     {
         public ISceneService sceneManager { get { return Game.Services.GetService<ISceneService>(); } }
@@ -17,13 +19,15 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         protected IAudioService audioManager { get { return Game.Services.GetService<IAudioService>(); } }
 
+        
+
         protected object[] Parameters { get; set; }
 
         public string Name { get; set; }
-        public IScene LastScene { get; set; }
+        public virtual IScene LastScene { get; set; }
 
         SceneStateEnum _state;
-        public SceneStateEnum State
+        public virtual SceneStateEnum State
         {
             get { return _state; }
             set
@@ -31,6 +35,11 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 _state = value;
                 if (_state == SceneStateEnum.Unloaded)
                 {
+                    foreach (IGameComponent compontent in Components)
+                    {
+                        Game.Components.Remove(compontent);
+                    }
+
                     Components.Clear();
                     Game.Components.Remove(this);
                 }
@@ -74,7 +83,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         protected override void UnloadContent()
         {
-            base.UnloadContent();
+            base.UnloadContent();            
         }
 
         public override void Update(GameTime gameTime)
