@@ -48,7 +48,7 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Update(GameTime gameTime)
         {
-            if (IsMouseOver && TopMostMouseOver == this)
+            if (IsMouseOver && IsTopMost)
             {
                 // Mouse over, highlight
                 bgColor = HighlightColor;

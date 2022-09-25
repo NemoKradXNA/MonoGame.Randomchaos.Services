@@ -4,12 +4,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.UI.BaseClasses
 {
     public abstract class UIBase : DrawableGameComponent, IUIBase
     {
-        public static IUIBase TopMostMouseOver;
+        protected static List<IUIBase> TopMostMouseOver = new List<IUIBase>();
 
         public bool IsMouseOver { get; set; }
 
@@ -26,13 +27,37 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
         {
             get
             {
-                if (_rectangle == null || (_rectangle.X != Position.X || _rectangle.Y != Position.Y || _rectangle.Width != Size.X || _rectangle.Height != Size.Y))
+                if ((_rectangle.X != Position.X || _rectangle.Y != Position.Y || _rectangle.Width != Size.X || _rectangle.Height != Size.Y))
                     _rectangle = new Rectangle(Position.X, Position.Y, Size.X, Size.Y);
 
                 return _rectangle;
             }
         }
         public Color Tint { get; set; }
+
+        protected bool IsTopMost
+        {
+            get
+            {
+                if (TopMostMouseOver.Contains(this))
+                {
+                    return TopMostMouseOver.IndexOf(this) == TopMostMouseOver.Count - 1;
+                }
+
+                return false;
+            }
+        }
+
+        protected void AddTopMost()
+        {
+            if (!TopMostMouseOver.Contains(this))
+                TopMostMouseOver.Add(this);
+
+            if (!Enabled || !Visible)
+                TopMostMouseOver.Remove(this);
+        }
+
+        
 
         public UIBase(Game game, Point position, Point size) : base(game)
         {
@@ -44,6 +69,7 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
         public override void Initialize()
         {
             base.Initialize();
+            TopMostMouseOver.Clear();
             _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         }
 
@@ -55,7 +81,11 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
             if (IsMouseOver)
             {
-                TopMostMouseOver = this;
+                AddTopMost();
+            }
+            else
+            {
+                TopMostMouseOver.Remove(this);
             }
         }
 

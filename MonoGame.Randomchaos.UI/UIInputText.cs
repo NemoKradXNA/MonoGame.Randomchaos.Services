@@ -111,7 +111,7 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Update(GameTime gameTime)
         {
-            if (TopMostMouseOver == this)
+            if (IsTopMost)
             {
                 if (IsMouseOver && inputManager.MouseManager.LeftClicked)
                 {

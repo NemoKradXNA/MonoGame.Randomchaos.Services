@@ -46,6 +46,7 @@ namespace MonoGame.Randomchaos.UI
         public event UIMouseEvent OnNegativeClicked;
         public event UIMouseEvent OnRetryClicked;
 
+
         public UIMessageBox(Game game, Point position, Point size) : base(game, position, size)
         {
             TitleShadowColor = Color.Black;
@@ -126,16 +127,12 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+
         public override void Update(GameTime gameTime)
         {
-            IUIBase topMost = TopMostMouseOver;
-
             base.Update(gameTime);
 
-            if (topMost != btnPositive && topMost != btnNegative && topMost != btnRetry)
-                TopMostMouseOver = this;
-            else
-                TopMostMouseOver = topMost;
+            AddTopMost();
 
             btnPXOffset = (Size.X / 4) - 8;
             btnHeight = Size.Y / 8;
@@ -199,9 +196,6 @@ namespace MonoGame.Randomchaos.UI
                 lblMessage.Text = Message = final;
             }
             lblMessage.Update(gameTime);
-
-            if (TopMostMouseOver != btnPositive && TopMostMouseOver != btnNegative && TopMostMouseOver != btnRetry)
-                TopMostMouseOver = this;
         }
 
         public override void Draw(GameTime gameTime)
