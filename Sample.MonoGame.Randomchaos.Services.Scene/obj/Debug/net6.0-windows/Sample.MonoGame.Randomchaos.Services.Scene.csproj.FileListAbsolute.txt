@@ -39,7 +39,7 @@ C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\Sample.MonoGame.Randomchaos.Services.Scene.csproj.CoreCompileInputs.cache
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\Sample.MonoGame.Randomchaos.Services.Scene.csproj.CopyComplete
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\Sample.MonoGame.Randomchaos.Services.Scene.dll
-C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\refint\Sample.MonoGame.Randomchaos.Services.Scene.dll
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\Sample.MonoGame.Randomchaos.Services.Scene.pdb
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\Sample.MonoGame.Randomchaos.Services.Scene.genruntimeconfig.cache
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\obj\Debug\net6.0-windows\ref\Sample.MonoGame.Randomchaos.Services.Scene.dll
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Sample.MonoGame.Randomchaos.Services.Scene\bin\Debug\net6.0-windows\ref\Sample.MonoGame.Randomchaos.Services.Scene.dll

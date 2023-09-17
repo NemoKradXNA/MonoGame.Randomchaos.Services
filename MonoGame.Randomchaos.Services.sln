@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32630.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Interfaces", "MonoGame.Randomchaos.Interfaces\MonoGame.Randomchaos.Interfaces.csproj", "{46471972-56D8-4BF1-B467-F9524169E144}"
 EndProject
@@ -32,6 +32,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.EFCore", "MonoGame.Randomchaos.EFCore\MonoGame.Randomchaos.EFCore.csproj", "{9F5DE262-E100-4F4F-A1BC-293183EF42A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.MonoGame.Randomchaos.EFCore", "Samples.MonoGame.Randomchaos.EFCore\Samples.MonoGame.Randomchaos.EFCore.csproj", "{9D54C293-4639-4706-AF75-9277DD542B7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Physics", "MonoGame.Randomchaos.Physics\MonoGame.Randomchaos.Physics.csproj", "{DEA62593-B7F2-44B7-808E-2F50DB1D26F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.MonoGame.Randomchaos.Physics", "Samples.MonoGame.Randomchaos.Physics\Samples.MonoGame.Randomchaos.Physics.csproj", "{408D6C57-6D1E-4D70-BB6D-05E77C1B5D1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +103,14 @@ Global
 		{9D54C293-4639-4706-AF75-9277DD542B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D54C293-4639-4706-AF75-9277DD542B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D54C293-4639-4706-AF75-9277DD542B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA62593-B7F2-44B7-808E-2F50DB1D26F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA62593-B7F2-44B7-808E-2F50DB1D26F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA62593-B7F2-44B7-808E-2F50DB1D26F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA62593-B7F2-44B7-808E-2F50DB1D26F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408D6C57-6D1E-4D70-BB6D-05E77C1B5D1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408D6C57-6D1E-4D70-BB6D-05E77C1B5D1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408D6C57-6D1E-4D70-BB6D-05E77C1B5D1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408D6C57-6D1E-4D70-BB6D-05E77C1B5D1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

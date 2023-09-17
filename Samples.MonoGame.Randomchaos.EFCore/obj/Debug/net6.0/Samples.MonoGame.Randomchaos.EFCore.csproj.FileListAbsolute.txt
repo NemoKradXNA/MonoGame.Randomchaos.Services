@@ -80,7 +80,6 @@ C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\Samples.MonoGame.Randomchaos.EFCore.deps.json
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\Samples.MonoGame.Randomchaos.EFCore.runtimeconfig.json
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\Samples.MonoGame.Randomchaos.EFCore.dll
-C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\ref\Samples.MonoGame.Randomchaos.EFCore.dll
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\Samples.MonoGame.Randomchaos.EFCore.pdb
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\Humanizer.dll
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\bin\Debug\net6.0\Microsoft.Data.Sqlite.dll
@@ -149,3 +148,4 @@ C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\obj\Debug\net6.0\ref\Samples.MonoGame.Randomchaos.EFCore.dll
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\obj\Debug\net6.0\Samples.MonoGame.Randomchaos.EFCore.pdb
 C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\obj\Debug\net6.0\Samples.MonoGame.Randomchaos.EFCore.genruntimeconfig.cache
+C:\Users\Charles Humphrey\source\repos\NemoKradXNA\MonoGame.Randomchaos.Services\Samples.MonoGame.Randomchaos.EFCore\obj\Debug\net6.0\refint\Samples.MonoGame.Randomchaos.EFCore.dll
