@@ -11,7 +11,7 @@ using System;
 
 namespace Samples.MonoGame.Randomchaos.Physics
 {
-    public class BasicBalisticsGame : Game
+    public class BasicBalistics2DGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -29,7 +29,7 @@ namespace Samples.MonoGame.Randomchaos.Physics
         DateTime? st;
         int stepSecond = 0;
 
-        public BasicBalisticsGame()
+        public BasicBalistics2DGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -80,32 +80,32 @@ namespace Samples.MonoGame.Randomchaos.Physics
             if (kbState.KeyDown(Keys.F1))
             {
                 ball.Mass = 2;
-                ball.Damping = 1;// .99f;
-                ball.Velocity = new Vector3(4f, 0, 0);
-                ball.Acceleration = new Vector3(0, .01f, 0);
+                ball.Damping = .99f;
+                ball.Velocity = new Vector3(350f, 0, 0);
+                ball.Acceleration = new Vector3(0, 10f, 0);
             }
 
             if (kbState.KeyDown(Keys.F2))
             {
                 ball.Mass = 200;
-                ball.Damping = 1;// .99f;
-                ball.Velocity = new Vector3(2f, -1.5f, 0);
-                ball.Acceleration = new Vector3(0, .01f, 0);
+                ball.Damping = .99f;
+                ball.Velocity = new Vector3(400f, -300f, 0);
+                ball.Acceleration = new Vector3(0, 200f, 0);
             }
 
             if (kbState.KeyDown(Keys.F3))
             {
                 ball.Mass = 1;
-                ball.Damping = 1;// .9f;
-                ball.Velocity = new Vector3(2f, 0, 0);
-                ball.Acceleration = new Vector3(0, -.01f, 0);
+                ball.Damping = .9f;
+                ball.Velocity = new Vector3(100f, 0, 0);
+                ball.Acceleration = new Vector3(0, -60f, 0);
             }
 
             if (kbState.KeyDown(Keys.F4))
             {
                 ball.Mass = .1f;
-                ball.Damping = 1;// .99f;
-                ball.Velocity = new Vector3(10f, 0, 0);
+                ball.Damping = .99f;
+                ball.Velocity = new Vector3(1000f, 0, 0);
                 ball.Acceleration = new Vector3(0, 0, 0);
             }
 

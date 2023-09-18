@@ -50,7 +50,7 @@ namespace MonoGame.Randomchaos.Physics.Basic
         public void Integrate(GameTime gameTime) 
         {
             // Time 
-            float t = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (t > 0)
             {
