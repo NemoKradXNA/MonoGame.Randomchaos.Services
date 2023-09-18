@@ -15,6 +15,10 @@ namespace MonoGame.Randomchaos.Physics.Interfaces
         float Mass { get; set; }
         float InverseMass { get; }
 
+        bool HasFiniteMass { get; }
+
         void Integrate(GameTime gameTime);
+
+        void AddForce(Vector3 force);
     }
 }

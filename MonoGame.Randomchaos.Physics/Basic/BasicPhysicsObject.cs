@@ -2,11 +2,6 @@
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Physics.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonoGame.Randomchaos.Physics.Basic
 {
@@ -17,6 +12,8 @@ namespace MonoGame.Randomchaos.Physics.Basic
         public Vector3 Velocity { get; set; }
         public Vector3 Acceleration { get; set; }
         public Vector3 ForceAccumilated { get; set; }
+
+        public bool HasFiniteMass { get { return InverseMass >= 0f; } }
 
         public float Damping { get; set; } = 1f;
 
@@ -47,7 +44,7 @@ namespace MonoGame.Randomchaos.Physics.Basic
 
         public BasicPhysicsObject(Game game) : base(game) { }
 
-        public void Integrate(GameTime gameTime) 
+        public virtual void Integrate(GameTime gameTime) 
         {
             // Time 
             float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -65,7 +62,15 @@ namespace MonoGame.Randomchaos.Physics.Basic
 
                 // Damping
                 Velocity *= (float)Math.Pow(Damping, t);
+
+                // Clear accumilated.
+                ForceAccumilated = Vector3.Zero;
             }
+        }
+
+        public virtual void AddForce(Vector3 force)
+        {
+            ForceAccumilated += force;
         }
     }
 }
