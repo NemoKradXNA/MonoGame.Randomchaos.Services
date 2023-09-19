@@ -1,14 +1,42 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Services.Interfaces;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Services.Input.Models
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   Manager for game pads. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class GamePadManager : GameComponent, IGamePadManager
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the state. </summary>
+        ///
+        /// <value> The state. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Dictionary<PlayerIndex, GamePadState> State { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the state of the last. </summary>
+        ///
+        /// <value> The last state. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Dictionary<PlayerIndex, GamePadState> LastState { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public GamePadManager(Game game) : base(game)
         {
@@ -26,6 +54,14 @@ namespace MonoGame.Randomchaos.Services.Input.Models
             LastState.Add(PlayerIndex.Four, new GamePadState());
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public override void Update(GameTime gameTime)
         {
             State[PlayerIndex.One] = GamePad.GetState(PlayerIndex.One);
@@ -36,11 +72,31 @@ namespace MonoGame.Randomchaos.Services.Input.Models
             base.Update(gameTime);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets state for player. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="index">    Zero-based index of the. </param>
+        ///
+        /// <returns>   The state for player. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public GamePadState GetStateForPlayer(PlayerIndex index)
         {
             return State[index];
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Button press. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="index">    Zero-based index of the. </param>
+        /// <param name="button">   The button. </param>
+        ///
+        /// <returns>   True if it succeeds, false if it fails. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public bool ButtonPress(PlayerIndex index, Buttons button)
         {
@@ -95,6 +151,14 @@ namespace MonoGame.Randomchaos.Services.Input.Models
             }
             return retVal;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Pre update. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void PreUpdate(GameTime gameTime)
         {

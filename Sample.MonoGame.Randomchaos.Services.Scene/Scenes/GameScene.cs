@@ -1,25 +1,56 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.Services.Scene.Models;
 
 namespace Sample.MonoGame.Randomchaos.Services.Scene.Scenes
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A game scene. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class GameScene : SceneFadeBase
     {
 
+        /// <summary>   The font. </summary>
         private SpriteFont font;
 
+        /// <summary>   The next scene. </summary>
         protected string NextScene;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        /// <param name="name"> The name. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public GameScene(Game game, string name) : base(game, name) { }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Initialize()
         {
             font = Game.Content.Load<SpriteFont>("Fonts/font");
             base.Initialize();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -31,6 +62,14 @@ namespace Sample.MonoGame.Randomchaos.Services.Scene.Scenes
 
             base.Update(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

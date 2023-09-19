@@ -1,12 +1,34 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Physics.Interfaces;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Physics.Basic
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A force registry. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class ForceRegistry : IForceRegistry
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the registry. </summary>
+        ///
+        /// <value> The registry. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         protected Dictionary<IForceGenerator, List<IPhysicsObject>> registry { get; set; } = new Dictionary<IForceGenerator, List<IPhysicsObject>>();
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Adds forceGenerator. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="forceGenerator">   The force generator. </param>
+        /// <param name="physicsObject">    The physics object. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void Add(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
         {
@@ -17,6 +39,15 @@ namespace MonoGame.Randomchaos.Physics.Basic
 
             registry[forceGenerator].Add(physicsObject);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Removes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="forceGenerator">   The force generator. </param>
+        /// <param name="physicsObject">    The physics object. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void Remove(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
         {
@@ -31,10 +62,24 @@ namespace MonoGame.Randomchaos.Physics.Basic
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Clears this object to its blank/initial state. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         public void Clear()
         {
             registry.Clear();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the forcees described by gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void UpdateForcees(GameTime gameTime)
         {

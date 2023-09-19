@@ -1,4 +1,5 @@
-﻿using HardwareInstancedParticles.Models;
+﻿
+using HardwareInstancedParticles.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,30 +17,62 @@ using System.Threading.Tasks;
 
 namespace HardwareInstancedParticles
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A game 1. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class Game1 : Game
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the coroutine service. </summary>
+        ///
+        /// <value> The coroutine service. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         ICoroutineService coroutineService { get { return Services.GetService<ICoroutineService>(); } }
 
+        /// <summary>   The graphics. </summary>
         private GraphicsDeviceManager _graphics;
+        /// <summary>   The sprite batch. </summary>
         private SpriteBatch _spriteBatch;
+        /// <summary>   The font. </summary>
         private SpriteFont _font;
 
+        /// <summary>   The input service. </summary>
         IInputStateService inputService;
+        /// <summary>   State of the kB. </summary>
         IKeyboardStateManager kbState;
+        /// <summary>   The state. </summary>
         IMouseStateManager mState;
 
+        /// <summary>   The camera. </summary>
         ICameraService camera;
 
+        /// <summary>   The emitter. </summary>
         InstancedParticleEmitter emitter;
 
+        /// <summary>   The particle velocities. </summary>
         Dictionary<ITransform,float> particleVelocities;
 
+        /// <summary>   The particle start transform. </summary>
         List<ITransform> particleStartTransform;
+        /// <summary>   The particle end transform. </summary>
         List<ITransform> particleEndTransform;
 
+        /// <summary>   True to play. </summary>
         bool play;
+        /// <summary>   The play speed. </summary>
         float playSpeed = 0;
+        /// <summary>   (Immutable) the speed. </summary>
         const float speed = .025f;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Default constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public Game1()
         {
@@ -71,6 +104,12 @@ namespace HardwareInstancedParticles
             emitter.Transform.Scale = Vector3.One * .01f;
             Components.Add(emitter);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Initialize()
         {
@@ -160,6 +199,12 @@ namespace HardwareInstancedParticles
             base.Initialize();
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Loads the content. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -174,6 +219,14 @@ namespace HardwareInstancedParticles
                 await Worker();
             });
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Update(GameTime gameTime)
         {
@@ -231,8 +284,18 @@ namespace HardwareInstancedParticles
                 emitter.Transform.Rotate(Vector3.Right, speedRot);
         }
 
+        /// <summary>   A Thread to process. </summary>
         Thread t;
+        /// <summary>   True to run thread. </summary>
         bool runThread;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the worker. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <returns>   A Task. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         protected async Task Worker()
         {
@@ -271,12 +334,29 @@ namespace HardwareInstancedParticles
             }
         }        
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Raises the exiting event. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="sender">   Source of the event. </param>
+        /// <param name="args">     Event information to send to registered event handlers. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void OnExiting(object sender, EventArgs args)
         {
             runThread = play = false;
             emitter.Visible = false;
             base.OnExiting(sender, args);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Draw(GameTime gameTime)
         {
@@ -298,6 +378,12 @@ namespace HardwareInstancedParticles
             _spriteBatch.DrawString(_font, $"Arrow Keys = Rotate Camera", new Vector2(8, 8 + _font.LineSpacing * 8), Color.Gold);
             _spriteBatch.End();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ends a draw. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void EndDraw()
         {

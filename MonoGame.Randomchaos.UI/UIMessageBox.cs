@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
@@ -10,42 +11,168 @@ using System;
 
 namespace MonoGame.Randomchaos.UI
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A message box. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class UIMessageBox : UIBase
     {
+        /// <summary>   The button positive. </summary>
         protected UIButton btnPositive;
+        /// <summary>   The button negative. </summary>
         protected UIButton btnNegative;
+        /// <summary>   The button retry. </summary>
         protected UIButton btnRetry;
 
+        /// <summary>   Message describing the label. </summary>
         protected UILabel lblMessage;
 
+        /// <summary>   The back splash. </summary>
         protected Texture2D backSplash;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the title background. </summary>
+        ///
+        /// <value> The title background. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D TitleBackground { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the background. </summary>
+        ///
+        /// <value> The background. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D Background { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the button background. </summary>
+        ///
+        /// <value> The button background. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D ButtonBackground { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the button font. </summary>
+        ///
+        /// <value> The button font. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public SpriteFont ButtonFont { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the title font. </summary>
+        ///
+        /// <value> The title font. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public SpriteFont TitleFont { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the title. </summary>
+        ///
+        /// <value> The title. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string Title { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the title shadow. </summary>
+        ///
+        /// <value> The color of the title shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color TitleShadowColor { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the message font. </summary>
+        ///
+        /// <value> The message font. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public SpriteFont MessageFont { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the message. </summary>
+        ///
+        /// <value> The message. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string Message { get; set; }
 
+        /// <summary>   The button px offset. </summary>
         private int btnPXOffset;
+        /// <summary>   Height of the button. </summary>
         private int btnHeight;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the retry button is shown. </summary>
+        ///
+        /// <value> True if show retry button, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public bool ShowRetryBtn { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the positive button is shown. </summary>
+        ///
+        /// <value> True if show positive button, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public bool ShowPositiveButton { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the negative button is shown. </summary>
+        ///
+        /// <value> True if show negative button, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public bool ShowNegativeButton { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the positive text. </summary>
+        ///
+        /// <value> The positive text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string PositiveText { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the negative text. </summary>
+        ///
+        /// <value> The negative text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string NegativeText { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the retry text. </summary>
+        ///
+        /// <value> The retry text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string RetryText { get; set; }
 
+        /// <summary>   Event queue for all listeners interested in OnPositiveClicked events. </summary>
         public event UIMouseEvent OnPositiveClicked;
+        /// <summary>   Event queue for all listeners interested in OnNegativeClicked events. </summary>
         public event UIMouseEvent OnNegativeClicked;
+        /// <summary>   Event queue for all listeners interested in OnRetryClicked events. </summary>
         public event UIMouseEvent OnRetryClicked;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game">     The game. </param>
+        /// <param name="position"> The position. </param>
+        /// <param name="size">     The size. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public UIMessageBox(Game game, Point position, Point size) : base(game, position, size)
         {
@@ -57,6 +184,12 @@ namespace MonoGame.Randomchaos.UI
             NegativeText = "No";
             RetryText = "Retry";
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Initialize()
         {
@@ -107,6 +240,15 @@ namespace MonoGame.Randomchaos.UI
             base.Initialize();
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Button mouse click. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="sender">       The sender. </param>
+        /// <param name="mouseState">   State of the mouse. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         private void button_OnMouseClick(IUIBase sender, IMouseStateManager mouseState)
         {
             audioManager.PlaySFX("Audio/SFX/Personal", .125f);
@@ -127,6 +269,13 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -197,6 +346,14 @@ namespace MonoGame.Randomchaos.UI
             }
             lblMessage.Update(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

@@ -1,4 +1,5 @@
-﻿using HardwareInstancedParticles.Models.VertexType;
+﻿
+using HardwareInstancedParticles.Models.VertexType;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
@@ -6,36 +7,98 @@ using MonoGame.Randomchaos.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace HardwareInstancedParticles.Models
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   An instanced particle emitter. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class InstancedParticleEmitter : DrawableGameComponent
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the camera. </summary>
+        ///
+        /// <value> The camera. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         protected ICameraService Camera { get { return Game.Services.GetService<ICameraService>(); } }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the transform. </summary>
+        ///
+        /// <value> The transform. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public ITransform Transform { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the view distance. </summary>
+        ///
+        /// <value> The view distance. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public float ViewDistance { get; set; }
 
+        /// <summary>   The effect. </summary>
         protected Effect Effect;
+        /// <summary>   The particles. </summary>
         public List<ITransform> Particles = new List<ITransform>();
+        /// <summary>   Array of vertices. </summary>
         public Dictionary<ITransform, VertexPositionColorNormalTextureTangent[]> vertexArray = new Dictionary<ITransform, VertexPositionColorNormalTextureTangent[]>();
+        /// <summary>   The particle textures. </summary>
         public Dictionary<ITransform, Texture2D> ParticleTextures = new Dictionary<ITransform, Texture2D>();
+        /// <summary>   The active. </summary>
         public Dictionary<ITransform, bool> Active = new Dictionary<ITransform, bool>();
 
+        /// <summary>   Zero-based index of the. </summary>
         int[] index = new int[] { 0, 1, 2, 2, 3, 0, };
 
+        /// <summary>   The instance vertex declaration. </summary>
         private VertexDeclaration instanceVertexDeclaration;
+        /// <summary>   Buffer for instance data. </summary>
         private DynamicVertexBuffer instanceBuffer;
+        /// <summary>   Buffer for index data. </summary>
         private DynamicIndexBuffer indexBuffer;
+        /// <summary>   Buffer for geometry data. </summary>
         private DynamicVertexBuffer geometryBuffer;
         //private IndexBuffer indexBuffer;
+        /// <summary>   The bindings. </summary>
         private VertexBufferBinding[] bindings;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   An instance structure. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public struct instanceStruct
         {
+            ///-------------------------------------------------------------------------------------------------
+            /// <summary>   Gets or sets the world. </summary>
+            ///
+            /// <value> The world. </value>
+            ///-------------------------------------------------------------------------------------------------
+
             public Matrix world { get; set; }
+
+            ///-------------------------------------------------------------------------------------------------
+            /// <summary>   Gets or sets the color. </summary>
+            ///
+            /// <value> The color. </value>
+            ///-------------------------------------------------------------------------------------------------
+
             public Color color { get; set; }
+
+            ///-------------------------------------------------------------------------------------------------
+            /// <summary>   Sets a world. </summary>
+            ///
+            /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+            ///
+            /// <param name="mat">  The matrix. </param>
+            ///-------------------------------------------------------------------------------------------------
 
             public void SetWorld(Matrix mat)
             {
@@ -43,9 +106,24 @@ namespace HardwareInstancedParticles.Models
             }
         }
 
+        /// <summary>   The instances. </summary>
         public List<instanceStruct> instances = new List<instanceStruct>();
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public InstancedParticleEmitter(Game game) : base(game) { Transform = new Transform(); ViewDistance = -1; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes the instance vertex buffer. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected void InitializeInstanceVertexBuffer()
         {
@@ -72,6 +150,12 @@ namespace HardwareInstancedParticles.Models
             bindings[1] = new VertexBufferBinding(instanceBuffer, 0, 1);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         public override void Initialize()
         {
             InitializeInstanceVertexBuffer();
@@ -82,6 +166,22 @@ namespace HardwareInstancedParticles.Models
 
             base.Initialize();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Adds a particle. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="position"> The position. </param>
+        /// <param name="scale">    The scale. </param>
+        /// <param name="rot">      The rot. </param>
+        /// <param name="texture">  The texture. </param>
+        /// <param name="color">    The color. </param>
+        /// <param name="active">   (Optional) True to active. </param>
+        /// <param name="bound">    (Optional) True to bound. </param>
+        ///
+        /// <returns>   An ITransform. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public ITransform AddParticle(Vector3 position, Vector3 scale, Quaternion rot, Texture2D texture, Color color, bool active = true, bool bound = true)
         {
@@ -127,7 +227,16 @@ namespace HardwareInstancedParticles.Models
             return transform;
         }
 
+        /// <summary>   True if particles updated. </summary>
         public bool ParticlesUpdated = false;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -144,6 +253,15 @@ namespace HardwareInstancedParticles.Models
             base.Update(gameTime);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sets a particle. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="p">            An int to process. </param>
+        /// <param name="transform">    The transform. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public void SetParticle(int p, ITransform transform)
         {
             instances[p] = new instanceStruct() { world = transform.World, color = instances[p].color };
@@ -151,8 +269,18 @@ namespace HardwareInstancedParticles.Models
             ParticlesUpdated = true;
         }
 
+        /// <summary>   Type of the particle. </summary>
         public int ParticleType = 0;
+        /// <summary>   True to wire. </summary>
         public bool Wire = false;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

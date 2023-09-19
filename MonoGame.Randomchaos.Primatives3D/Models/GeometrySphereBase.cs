@@ -1,13 +1,35 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A geometry sphere base. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///
+    /// <typeparam name="T">    Generic type parameter. </typeparam>
+    ///-------------------------------------------------------------------------------------------------
+
     public class GeometrySphereBase<T> : GeometryBase<T> where T : IVertexType
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public GeometrySphereBase(Game game) : base(game) { }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Loads the content. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void LoadContent()
         {

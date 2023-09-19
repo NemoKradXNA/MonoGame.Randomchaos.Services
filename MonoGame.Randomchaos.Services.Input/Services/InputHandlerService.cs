@@ -1,24 +1,70 @@
 ﻿
+
 using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Services.Interfaces;
 
 namespace MonoGame.Randomchaos.Services.Input
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A service for accessing input handlers information. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class InputHandlerService : ServiceBase<IInputStateService>, IInputStateService
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the manager for keyboard. </summary>
+        ///
+        /// <value> The keyboard manager. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public IKeyboardStateManager KeyboardManager { get; set; }
-        /// <summary>
-        /// Manager for game pad input, available on all platforms
-        /// </summary>
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Manager for game pad input, available on all platforms. </summary>
+        ///
+        /// <value> The game pad manager. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public IGamePadManager GamePadManager { get; set; }
-        /// <summary>
-        /// Manager used for mouse input, available in Windows only
-        /// </summary>
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Manager used for mouse input, available in Windows only. </summary>
+        ///
+        /// <value> The mouse manager. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public IMouseStateManager MouseManager { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the accelerometer handler. </summary>
+        ///
+        /// <value> The accelerometer handler. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public IAccelerometerHandler AccelerometerHandler { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the manager for touch collection. </summary>
+        ///
+        /// <value> The touch collection manager. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public ITouchCollectionManager TouchCollectionManager { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        /// <param name="kbm">  (Optional) The kbm. </param>
+        /// <param name="msm">  (Optional) The msm. </param>
+        /// <param name="gpm">  (Optional) The gpm. </param>
+        /// <param name="ach">  (Optional) The ach. </param>
+        /// <param name="tcm">  (Optional) The tcm. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public InputHandlerService(Game game, IKeyboardStateManager kbm = null, IMouseStateManager msm = null,
            IGamePadManager gpm = null, IAccelerometerHandler ach = null, ITouchCollectionManager tcm = null) : base(game)
@@ -29,6 +75,12 @@ namespace MonoGame.Randomchaos.Services.Input
             AccelerometerHandler = ach;
             TouchCollectionManager = tcm;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Initialize()
         {
@@ -49,6 +101,14 @@ namespace MonoGame.Randomchaos.Services.Input
             if (TouchCollectionManager != null)
                 TouchCollectionManager.Initialize();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -72,6 +132,14 @@ namespace MonoGame.Randomchaos.Services.Input
                 base.Update(gameTime);
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Pre update. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void PreUpdate(GameTime gameTime)
         {

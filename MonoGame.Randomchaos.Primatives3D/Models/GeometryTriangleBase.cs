@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,32 @@ using System.Threading.Tasks;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
-    /// <summary>
-    /// This class holds all the data needed to render a Triangle
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   This class holds all the data needed to render a Triangle. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///
+    /// <typeparam name="T">    . </typeparam>
+    ///-------------------------------------------------------------------------------------------------
+
     public abstract class GeometryTriangleBase<T> : GeometryBase<T> where T : IVertexType
     {
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="game"></param>
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   ctor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> . </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public GeometryTriangleBase(Game game) : base(game) { }
 
-        /// <summary>
-        /// LoadContent method
-        /// </summary>
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   LoadContent method. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void LoadContent()
         {
             // Our three points of the triangle.

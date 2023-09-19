@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
@@ -7,12 +8,27 @@ using System;
 
 namespace MonoGame.Randomchaos.UI
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A slider. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class UISlider : UIBase
     {
+        /// <summary>   The image bar. </summary>
         UIImage imgBar;
+        /// <summary>   The button button. </summary>
         UIButton btnButton;
 
+        /// <summary>   The label label. </summary>
         UILabel lblLabel;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the font. </summary>
+        ///
+        /// <value> The font. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public SpriteFont Font
         {
@@ -23,10 +39,27 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the label. </summary>
+        ///
+        /// <value> The label. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string Label { get { return lblLabel.Text; } set { lblLabel.Text = value; } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the bar texture. </summary>
+        ///
+        /// <value> The bar texture. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public Texture2D BarTexture { get { return imgBar.Texture; } set { imgBar.Texture = value; } }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the slider texture. </summary>
+        ///
+        /// <value> The slider texture. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public Texture2D SliderTexture
         {
@@ -36,6 +69,16 @@ namespace MonoGame.Randomchaos.UI
                 btnButton.BackgroundTexture = value;
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game">     The game. </param>
+        /// <param name="position"> The position. </param>
+        /// <param name="size">     The size. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public UISlider(Game game, Point position, Point size) : base(game, position, size)
         {
@@ -48,13 +91,32 @@ namespace MonoGame.Randomchaos.UI
             btnButton.OnMouseDown += btnOnMouseDown;
         }
 
+        /// <summary>   True to dragging. </summary>
         bool dragging;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Button mouse down. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="sender">       The sender. </param>
+        /// <param name="mouseState">   State of the mouse. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         private void btnOnMouseDown(IUIBase sender, IMouseStateManager mouseState)
         {
             dragging = true;
         }
 
+        /// <summary>   The value. </summary>
         protected float _Value;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the value. </summary>
+        ///
+        /// <value> The value. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public float Value
         {
             get { return _Value; }
@@ -69,8 +131,27 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the slider. </summary>
+        ///
+        /// <value> The color of the slider. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color SliderColor { get { return btnButton.Tint; } set { btnButton.Tint = value; } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the slider hover. </summary>
+        ///
+        /// <value> The color of the slider hover. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color SliderHoverColor { get { return btnButton.HighlightColor; } set { btnButton.HighlightColor = value; } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Initialize()
         {
@@ -88,6 +169,14 @@ namespace MonoGame.Randomchaos.UI
 
             btnButton.Position = new Point(imgBar.Position.X, imgBar.Position.Y - btnButton.Size.Y / 2);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -109,15 +198,47 @@ namespace MonoGame.Randomchaos.UI
                 dragging = false;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Lerps. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="s">    A float to process. </param>
+        /// <param name="e">    A float to process. </param>
+        /// <param name="v">    The value. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected float lerp(float s, float e, float v)
         {
             return s * (1 - v) + e * v;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Inverse linearly interpolate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="s">    A float to process. </param>
+        /// <param name="e">    A float to process. </param>
+        /// <param name="v">    The value. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected float invLerp(float s, float e, float v)
         {
             return (v - s) / (e - s);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

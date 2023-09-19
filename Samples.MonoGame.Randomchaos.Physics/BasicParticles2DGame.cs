@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Physics;
@@ -11,25 +12,51 @@ using System;
 
 namespace Samples.MonoGame.Randomchaos.Physics
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A basic particles 2D game. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class BasicParticles2DGame : Game
     {
+        /// <summary>   The graphics. </summary>
         private GraphicsDeviceManager _graphics;
+        /// <summary>   The sprite batch. </summary>
         private SpriteBatch _spriteBatch;
+        /// <summary>   The sprite font. </summary>
         private SpriteFont _spriteFont;
 
+        /// <summary>   The physics service. </summary>
         IPhysicsService PhysicsService;
+        /// <summary>   The input service. </summary>
         IInputStateService inputService;
+        /// <summary>   State of the kB. </summary>
         IKeyboardStateManager kbState;
+        /// <summary>   The state. </summary>
         IMouseStateManager mState;
 
+        /// <summary>   True to step physics. </summary>
         bool StepPhysics = false;
+        /// <summary>   The ts. </summary>
         TimeSpan ts = new TimeSpan(0, 0, 0, 1, 0);
+        /// <summary>   The st. </summary>
         DateTime? st;
+        /// <summary>   The step second. </summary>
         int stepSecond = 0;
 
+        /// <summary>   The smoke emitter. </summary>
         Basic2DParticleEmitter smokeEmitter;
+        /// <summary>   The pop emitter. </summary>
         Basic2DParticleEmitter popEmitter;
+        /// <summary>   The star emitter. </summary>
         Basic2DParticleEmitter starEmitter;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Default constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public BasicParticles2DGame()
         {
@@ -46,6 +73,12 @@ namespace Samples.MonoGame.Randomchaos.Physics
             mState = new MouseStateManager(this);
             inputService = new InputHandlerService(this, kbState, mState);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Initialize()
         {
@@ -130,6 +163,12 @@ namespace Samples.MonoGame.Randomchaos.Physics
             base.Initialize();
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Loads the content. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -137,6 +176,14 @@ namespace Samples.MonoGame.Randomchaos.Physics
             // TODO: use this.Content to load your game content here
             _spriteFont = Content.Load<SpriteFont>("Fonts/font");
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Update(GameTime gameTime)
         {
@@ -181,6 +228,14 @@ namespace Samples.MonoGame.Randomchaos.Physics
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkGray);
@@ -201,10 +256,21 @@ namespace Samples.MonoGame.Randomchaos.Physics
             _spriteBatch.End();
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draw string. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="text"> The text. </param>
+        /// <param name="line"> The line. </param>
+        ///
+        /// <returns>   An int. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         private int DrawString(string text,  int line)
         {
             _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) - new Vector2(1,-1), Color.Black);
-            _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) + new Vector2(1, -1), Color.Black);
+            //_spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) + new Vector2(1, -1), Color.Black);
             _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line), Color.Gold);
             return line + _spriteFont.LineSpacing;
         }

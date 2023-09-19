@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Models;
@@ -6,14 +7,31 @@ using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
-    /// <summary>
-    ///  Renders a Triangle using the build in BasicEffect
-    /// </summary>
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   Renders a Triangle using the build in BasicEffect. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class TriangleBasicEffect : GeometryTriangleBase<VertexPositionColorTexture>
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the transform. </summary>
+        ///
+        /// <value> The transform. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public ITransform Transform { get; set; }
 
+        /// <summary>   The texture. </summary>
         protected Texture2D _texture;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the texture. </summary>
+        ///
+        /// <value> The texture. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D Texture
         {
             get
@@ -33,7 +51,21 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public TriangleBasicEffect(Game game) : base(game) { Transform = new Transform(); }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   LoadContent method. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void LoadContent()
         {
@@ -48,6 +80,12 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             base.LoadContent();
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Builds the data. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         public override void BuildData()
         {
             base.BuildData();
@@ -58,6 +96,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             for (int v = 0; v < vCount; v++)
                 _vertexArray.Add(new VertexPositionColorTexture(Vertices[v], Colors[v], Texcoords[v]));
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sets an effect. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void SetEffect(GameTime gameTime)
         {
@@ -70,6 +116,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             ((BasicEffect)Effect).TextureEnabled = true;
             ((BasicEffect)Effect).Texture = Texture;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

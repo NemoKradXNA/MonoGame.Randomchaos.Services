@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Primitives3D.Models;
@@ -9,25 +10,50 @@ using MonoGame.Randomchaos.Services.Interfaces;
 
 namespace Samples.MonoGame.Randomchaos.Primitives3D
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A game 1. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class Game1 : Game
     {
+        /// <summary>   The graphics. </summary>
         private GraphicsDeviceManager _graphics;
+        /// <summary>   The sprite batch. </summary>
         private SpriteBatch _spriteBatch;
+        /// <summary>   The sprite font. </summary>
         private SpriteFont _spriteFont;
 
+        /// <summary>   The input service. </summary>
         IInputStateService inputService;
+        /// <summary>   State of the kB. </summary>
         IKeyboardStateManager kbState;
+        /// <summary>   The state. </summary>
         IMouseStateManager mState;
 
+        /// <summary>   The camera. </summary>
         ICameraService camera;
 
+        /// <summary>   The triangle. </summary>
         TriangleBasicEffect triangle;
+        /// <summary>   The quad. </summary>
         QuadBasicEffect quad;
+        /// <summary>   The cube. </summary>
         CubeBasicEffect cube;
+        /// <summary>   The sphere. </summary>
         SphereBasicEfect sphere;
 
+        /// <summary>   True to render wire frame. </summary>
         protected bool _renderWireFrame = false;
+        /// <summary>   True to disable, false to enable the culling. </summary>
         protected bool _cullingOff = false;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Default constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public Game1()
         {
@@ -60,12 +86,24 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             Components.Add(sphere);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
             base.Initialize();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Loads the content. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void LoadContent()
         {
@@ -74,6 +112,14 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             // TODO: use this.Content to load your game content here
             _spriteFont = Content.Load<SpriteFont>("Fonts/font");
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Update(GameTime gameTime)
         {
@@ -118,6 +164,14 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void Draw(GameTime gameTime)
         {
             RasterizerState rasterizerState = GraphicsDevice.RasterizerState;
@@ -145,13 +199,30 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             GraphicsDevice.DepthStencilState = depthStencilState;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draw string. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="text"> The text. </param>
+        /// <param name="line"> The line. </param>
+        ///
+        /// <returns>   An int. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         private int DrawString(string text, int line)
         {
             _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) - new Vector2(1, -1), Color.Black);
-            _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) + new Vector2(1, -1), Color.Black);
+            //_spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) + new Vector2(1, -1), Color.Black);
             _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line), Color.Gold);
             return line + _spriteFont.LineSpacing;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sets rasterizer state. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public void SetRasterizerState()
         {

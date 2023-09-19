@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Services.Coroutine.Models;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
@@ -7,23 +8,56 @@ using System.Collections;
 
 namespace Sample.MonoGame.Randomchaos.Services.Scene.Scenes
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A splash scene. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class SplashScene : SceneFadeBase
     {
 
+        /// <summary>   The font. </summary>
         private SpriteFont font;
+        /// <summary>   The wait in seconds. </summary>
         float waitSeconds = 3;
+        /// <summary>   True to waiting. </summary>
         bool waiting = false;
 
+        /// <summary>   The next scene. </summary>
         protected string NextScene;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game">         The game. </param>
+        /// <param name="name">         The name. </param>
+        /// <param name="nextScene">    The next scene. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public SplashScene(Game game, string name, string nextScene) : base(game, name) { NextScene = nextScene; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Initialize()
         {
             font = Game.Content.Load<SpriteFont>("Fonts/font");
             base.Initialize();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -39,6 +73,14 @@ namespace Sample.MonoGame.Randomchaos.Services.Scene.Scenes
 
             base.Update(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {
@@ -60,6 +102,16 @@ namespace Sample.MonoGame.Randomchaos.Services.Scene.Scenes
 
             DrawFader(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Wait seconds and exit. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="seconds">  The seconds. </param>
+        ///
+        /// <returns>   An IEnumerator. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         protected IEnumerator WaitSecondsAndExit(float seconds)
         {

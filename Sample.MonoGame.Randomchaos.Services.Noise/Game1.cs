@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Services.Noise;
@@ -6,15 +7,37 @@ using System.Globalization;
 
 namespace Sample.MonoGame.Randomchaos.Services.Noise
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A game 1. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class Game1 : Game
     {
+        /// <summary>   The graphics. </summary>
         private GraphicsDeviceManager _graphics;
+        /// <summary>   The sprite batch. </summary>
         private SpriteBatch _spriteBatch;
 
+        /// <summary>   The noise texture. </summary>
         protected Texture2D noiseTexture;
+        /// <summary>   The noise texture with ramp. </summary>
         protected Texture2D noiseTextureWithRamp;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the noise service. </summary>
+        ///
+        /// <value> The noise service. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         KeijiroPerlinService noiseService {get { return (KeijiroPerlinService)Services.GetService<KeijiroPerlinService>(); } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Default constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public Game1()
         {
@@ -25,6 +48,12 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en");
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -33,6 +62,12 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
 
             base.Initialize();
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Loads the content. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void LoadContent()
         {
@@ -70,6 +105,16 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             noiseTextureWithRamp.SetData(colorRamp);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets a noise. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="coord">    The coordinate. </param>
+        ///
+        /// <returns>   The noise. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected float GetNoise(Vector2 coord)
         {
            return noiseService.Noise(coord)
@@ -77,6 +122,14 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
                             + (.25f * noiseService.Noise(coord * 4))
                             + (.125f * noiseService.Noise(coord * 8));
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Update(GameTime gameTime)
         {
@@ -88,6 +141,14 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
 
             base.Update(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override void Draw(GameTime gameTime)
         {

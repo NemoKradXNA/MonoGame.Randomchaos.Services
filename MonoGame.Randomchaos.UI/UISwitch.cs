@@ -1,29 +1,108 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.UI.Delegates;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MonoGame.Randomchaos.UI
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A switch. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class UISwitch : UIButton
     {
+        /// <summary>   Event queue for all listeners interested in OnMouseClickOn events. </summary>
         public event UIMouseEvent OnMouseClickOn;
+        /// <summary>   Event queue for all listeners interested in OnMouseClickOff events. </summary>
         public event UIMouseEvent OnMouseClickOff;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the border. </summary>
+        ///
+        /// <value> The color of the border. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color BorderColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the button. </summary>
+        ///
+        /// <value> The color of the button. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color ButtonColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the on. </summary>
+        ///
+        /// <value> The color of the on. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color OnColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the off. </summary>
+        ///
+        /// <value> The color of the off. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color OffColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the off text. </summary>
+        ///
+        /// <value> The off text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string OffText { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the on text. </summary>
+        ///
+        /// <value> The on text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string OnText { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether this object is on. </summary>
+        ///
+        /// <value> True if this object is on, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public bool IsOn { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the switch border. </summary>
+        ///
+        /// <value> The switch border. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D SwitchBorder { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the switch on. </summary>
+        ///
+        /// <value> The switch on. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D SwitchOn { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the switch off. </summary>
+        ///
+        /// <value> The switch off. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Texture2D SwitchOff { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the text position. </summary>
+        ///
+        /// <value> The text position. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         protected override Vector2 TextPosition
         {
@@ -47,6 +126,16 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game">     The game. </param>
+        /// <param name="position"> The position. </param>
+        /// <param name="size">     The size. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public UISwitch(Game game, Point position, Point size) : base(game, position, size)
         {
             ButtonColor = Color.White;
@@ -54,6 +143,14 @@ namespace MonoGame.Randomchaos.UI
             OffColor = Color.Silver;
             
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -83,6 +180,14 @@ namespace MonoGame.Randomchaos.UI
                 txtColor = TextColor;
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

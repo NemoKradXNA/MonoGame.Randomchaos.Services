@@ -1,5 +1,6 @@
 ﻿
 
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.UI.BaseClasses;
@@ -7,18 +8,70 @@ using MonoGame.Randomchaos.UI.Enums;
 
 namespace MonoGame.Randomchaos.UI
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A label. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class UILabel : UIBase
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the font. </summary>
+        ///
+        /// <value> The font. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public SpriteFont Font { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text. </summary>
+        ///
+        /// <value> The text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string Text { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text position offset. </summary>
+        ///
+        /// <value> The text position offset. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Vector2 TextPositionOffset { get; set; }
 
+        /// <summary>   The background. </summary>
         public Texture2D Background;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text alingment. </summary>
+        ///
+        /// <value> The text alingment. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public TextAlingmentEnum TextAlingment { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the shadow offset. </summary>
+        ///
+        /// <value> The shadow offset. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Vector2 ShadowOffset { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the shadow. </summary>
+        ///
+        /// <value> The color of the shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color ShadowColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the measure. </summary>
+        ///
+        /// <value> The measure. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public Vector2 Measure
         {
@@ -29,6 +82,12 @@ namespace MonoGame.Randomchaos.UI
                 return Font.MeasureString(Text);
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the text position. </summary>
+        ///
+        /// <value> The text position. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         protected Vector2 TextPosition
         {
@@ -75,12 +134,36 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public UILabel(Game game) : base(game, Point.Zero, Point.Zero) { TextAlingment = TextAlingmentEnum.Middle; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {

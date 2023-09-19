@@ -1,24 +1,36 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
-    /// <summary>
-    /// This class holds all the data needed to render a Quad
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   This class holds all the data needed to render a Quad. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///
+    /// <typeparam name="T">    . </typeparam>
+    ///-------------------------------------------------------------------------------------------------
+
     public class GeometryQuadBase<T> : GeometryBase<T> where T : IVertexType
     {
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="game"></param>
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   ctor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> . </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public GeometryQuadBase(Game game) : base(game) { }
 
-        /// <summary>
-        /// LoadContent method
-        /// </summary>
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   LoadContent method. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         protected override void LoadContent()
         {
             Vertices = new List<Vector3>()

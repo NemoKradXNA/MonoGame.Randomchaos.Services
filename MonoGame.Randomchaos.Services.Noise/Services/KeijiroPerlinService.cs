@@ -1,21 +1,43 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Services.Interfaces;
 using System;
 
 namespace MonoGame.Randomchaos.Services.Noise
 {
-    //
-    // Perlin noise generator for Unity
-    // Keijiro Takahashi, 2013, 2015
-    // https://github.com/keijiro/PerlinNoise
-    //
-    // Based on the original implementation by Ken Perlin
-    // http://mrl.nyu.edu/~perlin/noise/
-    //
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Perlin noise generator for Unity Keijiro Takahashi, 2013, 2015
+    /// https://github.com/keijiro/PerlinNoise
+    /// 
+    /// Based on the original implementation by Ken Perlin http://mrl.nyu.edu/~perlin/noise/.
+    /// </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class KeijiroPerlinService : ServiceBase<KeijiroPerlinService>, INoiseService
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game"> The game. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public KeijiroPerlinService(Game game) : base(game) { }
         #region Noise functions
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Noises the given coordinate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="x">    The x coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public virtual float Noise(float x)
         {
@@ -24,6 +46,17 @@ namespace MonoGame.Randomchaos.Services.Noise
             var u = Fade(x);
             return Lerp(u, Grad(perm[X], x), Grad(perm[X + 1], x - 1)) * 2;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Noises the given coordinate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="x">    The x coordinate. </param>
+        /// <param name="y">    The y coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public virtual float Noise(float x, float y)
         {
@@ -39,10 +72,32 @@ namespace MonoGame.Randomchaos.Services.Noise
                            Lerp(u, Grad(perm[A + 1], x, y - 1), Grad(perm[B + 1], x - 1, y - 1)));
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Noises the given coordinate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="coord">    The coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual float Noise(Vector2 coord)
         {
             return Noise(coord.X, coord.Y);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Noises the given coordinate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="x">    The x coordinate. </param>
+        /// <param name="y">    The y coordinate. </param>
+        /// <param name="z">    The z coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public virtual float Noise(float x, float y, float z)
         {
@@ -67,6 +122,16 @@ namespace MonoGame.Randomchaos.Services.Noise
                                    Lerp(u, Grad(perm[AB + 1], x, y - 1, z - 1), Grad(perm[BB + 1], x - 1, y - 1, z - 1))));
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Noises the given coordinate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="coord">    The coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual float Noise(Vector3 coord)
         {
             return Noise(coord.X, coord.Y, coord.Z);
@@ -75,6 +140,17 @@ namespace MonoGame.Randomchaos.Services.Noise
         #endregion
 
         #region fBm functions
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Fbms. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="x">        The x coordinate. </param>
+        /// <param name="octave">   The octave. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public virtual float Fbm(float x, int octave)
         {
@@ -89,6 +165,17 @@ namespace MonoGame.Randomchaos.Services.Noise
             return f;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Fbms. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="coord">    The coordinate. </param>
+        /// <param name="octave">   The octave. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual float Fbm(Vector2 coord, int octave)
         {
             var f = 0.0f;
@@ -102,10 +189,33 @@ namespace MonoGame.Randomchaos.Services.Noise
             return f;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Fbms. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="x">        The x coordinate. </param>
+        /// <param name="y">        The y coordinate. </param>
+        /// <param name="octave">   The octave. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual float Fbm(float x, float y, int octave)
         {
             return Fbm(new Vector2(x, y), octave);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Fbms. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="coord">    The coordinate. </param>
+        /// <param name="octave">   The octave. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public virtual float Fbm(Vector3 coord, int octave)
         {
@@ -120,6 +230,19 @@ namespace MonoGame.Randomchaos.Services.Noise
             return f;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Fbms. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="x">        The x coordinate. </param>
+        /// <param name="y">        The y coordinate. </param>
+        /// <param name="z">        The z coordinate. </param>
+        /// <param name="octave">   The octave. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual float Fbm(float x, float y, float z, int octave)
         {
             return Fbm(new Vector3(x, y, z), octave);
@@ -129,25 +252,83 @@ namespace MonoGame.Randomchaos.Services.Noise
 
         #region Private functions
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Fades. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="t">    A float to process. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected float Fade(float t)
         {
             return t * t * t * (t * (t * 6 - 15) + 10);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Lerps. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="t">    A float to process. </param>
+        /// <param name="a">    A float to process. </param>
+        /// <param name="b">    A float to process. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         protected float Lerp(float t, float a, float b)
         {
             return a + t * (b - a);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Grads. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="hash"> The hash. </param>
+        /// <param name="x">    The x coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected float Grad(int hash, float x)
         {
             return (hash & 1) == 0 ? x : -x;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Grads. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="hash"> The hash. </param>
+        /// <param name="x">    The x coordinate. </param>
+        /// <param name="y">    The y coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected float Grad(int hash, float x, float y)
         {
             return ((hash & 1) == 0 ? x : -x) + ((hash & 2) == 0 ? y : -y);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Grads. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="hash"> The hash. </param>
+        /// <param name="x">    The x coordinate. </param>
+        /// <param name="y">    The y coordinate. </param>
+        /// <param name="z">    The z coordinate. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         protected float Grad(int hash, float x, float y, float z)
         {
@@ -157,6 +338,7 @@ namespace MonoGame.Randomchaos.Services.Noise
             return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
         }
 
+        /// <summary>   The permission. </summary>
         protected int[] perm = {
             151,160,137,91,90,15,
             131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.UI.BaseClasses;
@@ -8,27 +9,93 @@ using System.Linq;
 
 namespace MonoGame.Randomchaos.UI
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   An input text. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class UIInputText : UIBase
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the font. </summary>
+        ///
+        /// <value> The font. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public SpriteFont Font { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text. </summary>
+        ///
+        /// <value> The text. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string Text { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text position offset. </summary>
+        ///
+        /// <value> The text position offset. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Vector2 TextPositionOffset { get; set; }
 
+        /// <summary>   The background. </summary>
         public Texture2D Background;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text alingment. </summary>
+        ///
+        /// <value> The text alingment. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public TextAlingmentEnum TextAlingment { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the shadow offset. </summary>
+        ///
+        /// <value> The shadow offset. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Vector2 ShadowOffset { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the shadow. </summary>
+        ///
+        /// <value> The color of the shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Color ShadowColor { get; set; }
 
 
+        /// <summary>   True to capture user input. </summary>
         public bool CaptureUserInput = true;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the cursor check. </summary>
+        ///
+        /// <value> The cursor check. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public float CursorCheck { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the cursor timing. </summary>
+        ///
+        /// <value> The cursor timing. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public float CursorTiming { get; set; }
 
+        /// <summary>   The cursor. </summary>
         Texture2D cursor;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the measure. </summary>
+        ///
+        /// <value> The measure. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public Vector2 Measure
         {
@@ -39,6 +106,12 @@ namespace MonoGame.Randomchaos.UI
                 return Font.MeasureString(Text);
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the text position. </summary>
+        ///
+        /// <value> The text position. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         protected Vector2 TextPosition
         {
@@ -85,11 +158,20 @@ namespace MonoGame.Randomchaos.UI
             }
         }
 
+        /// <summary>   The border. </summary>
         protected Texture2D Border;
 
+        /// <summary>   True to enable, false to disable the cursor. </summary>
         private bool _cursorOn = true;
 
+        /// <summary>   True if is selected, false if not. </summary>
         public bool IsSelected;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Initializes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Initialize()
         {
@@ -98,6 +180,18 @@ namespace MonoGame.Randomchaos.UI
             cursor = new Texture2D(Game.GraphicsDevice, 1, 1);
             cursor.SetData(new Color[] { Color.White });
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="game">             The game. </param>
+        /// <param name="position">         The position. </param>
+        /// <param name="background">       The background. </param>
+        /// <param name="border">           The border. </param>
+        /// <param name="textAlingnment">   (Optional) The text alingnment. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public UIInputText(Game game, Point position, Texture2D background, Texture2D border, TextAlingmentEnum textAlingnment = TextAlingmentEnum.LeftMiddle) : base(game, position, new Point(border.Width, border.Height))
         {
@@ -108,6 +202,14 @@ namespace MonoGame.Randomchaos.UI
             CursorCheck = .5f;
             CursorTiming = .125f;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Updates the given gameTime. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Update(GameTime gameTime)
         {
@@ -162,6 +264,14 @@ namespace MonoGame.Randomchaos.UI
 
             base.Update(gameTime);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public override void Draw(GameTime gameTime)
         {
