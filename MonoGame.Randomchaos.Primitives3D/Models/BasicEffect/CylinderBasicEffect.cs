@@ -8,12 +8,12 @@ using System.Collections.Generic;
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Renders a Cube using the build in BasicEffect. </summary>
+    /// <summary>   A cylinder basic effect. </summary>
     ///
-    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class CubeBasicEffect : GeometryCubeBase<VertexPositionColorNormalTexture>
+    public class CylinderBasicEffect : GeometryCylinderBase<VertexPositionColorNormalTexture>
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the transform. </summary>
@@ -59,7 +59,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         /// <param name="game"> The game. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public CubeBasicEffect(Game game) : base(game) { Transform = new Transform(); }
+        public CylinderBasicEffect(Game game) : base(game) { Transform = new Transform(); }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   LoadContent method. </summary>
@@ -70,15 +70,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         protected override void LoadContent()
         {
             Effect = new BasicEffect(Game.GraphicsDevice);
-            Colors = new List<Color>()
-            {
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow
-            };
+
             base.LoadContent();
         }
 
@@ -206,3 +198,4 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         }
     }
 }
+

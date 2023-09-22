@@ -13,7 +13,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
     /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class QuadBasicEffect : GeometryQuadBase<VertexPositionColorTexture>
+    public class QuadBasicEffect : GeometryQuadBase<VertexPositionColorNormalTexture>
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the transform. </summary>
@@ -92,10 +92,10 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             base.BuildData();
 
             int vCount = Vertices.Count;
-            _vertexArray = new List<VertexPositionColorTexture>();
+            _vertexArray = new List<VertexPositionColorNormalTexture>();
 
             for (int v = 0; v < vCount; v++)
-                _vertexArray.Add(new VertexPositionColorTexture(Vertices[v], Colors[v], Texcoords[v]));
+                _vertexArray.Add(new VertexPositionColorNormalTexture(Vertices[v], Colors[v], Normals[v], Texcoords[v]));
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -114,6 +114,74 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             ((BasicEffect)Effect).VertexColorEnabled = true;
             ((BasicEffect)Effect).TextureEnabled = true;
             ((BasicEffect)Effect).Texture = Texture;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sets directional light. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
+        ///
+        /// <param name="direction">                The direction. </param>
+        /// <param name="ambientColor">             (Optional) The ambient color. </param>
+        /// <param name="diffuseColor">             (Optional) The diffuse color. </param>
+        /// <param name="specularColor">            (Optional) The specular color. </param>
+        /// <param name="specularPower">            (Optional) The specular power. </param>
+        /// <param name="light">                    (Optional) The light. </param>
+        /// <param name="enable">                   (Optional) True to enable, false to disable. </param>
+        /// <param name="preferPerPixelLighting">   (Optional) True to prefer per pixel lighting. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void SetDirectionalLight(Vector3 direction, Vector3? ambientColor = null, Vector3? diffuseColor = null, Vector3? specularColor = null, float specularPower = 0, int light = 0, bool enable = true, bool preferPerPixelLighting = true)
+        {
+            ((BasicEffect)Effect).LightingEnabled = true;
+
+            ((BasicEffect)Effect).PreferPerPixelLighting = preferPerPixelLighting;
+
+            if (ambientColor != null)
+            {
+                ((BasicEffect)Effect).AmbientLightColor = ambientColor.Value;
+            }
+
+            if (specularColor != null)
+            {
+                ((BasicEffect)Effect).SpecularColor = specularColor.Value;
+                ((BasicEffect)Effect).SpecularPower = specularPower;
+            }
+
+            switch (light)
+            {
+                case 0:
+                    if (diffuseColor != null)
+                    {
+                        ((BasicEffect)Effect).DirectionalLight0.DiffuseColor = diffuseColor.Value;
+                    }
+                    else
+                    {
+                        ((BasicEffect)Effect).DirectionalLight0.DiffuseColor = Vector3.One;
+                    }
+
+                    ((BasicEffect)Effect).DirectionalLight0.Direction = direction;
+                    ((BasicEffect)Effect).DirectionalLight0.Enabled = enable;
+                    break;
+                case 1:
+                    if (diffuseColor != null)
+                    {
+                        ((BasicEffect)Effect).DirectionalLight1.DiffuseColor = diffuseColor.Value;
+                    }
+
+                    ((BasicEffect)Effect).DirectionalLight1.Direction = direction;
+                    ((BasicEffect)Effect).DirectionalLight1.Enabled = enable;
+                    break;
+                case 2:
+                    if (diffuseColor != null)
+                    {
+                        ((BasicEffect)Effect).DirectionalLight2.DiffuseColor = diffuseColor.Value;
+                    }
+
+                    ((BasicEffect)Effect).DirectionalLight2.Direction = direction;
+                    ((BasicEffect)Effect).DirectionalLight2.Enabled = enable;
+                    break;
+            }
         }
 
         ///-------------------------------------------------------------------------------------------------

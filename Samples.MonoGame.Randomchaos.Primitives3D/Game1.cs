@@ -43,6 +43,12 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
         CubeBasicEffect cube;
         /// <summary>   The sphere. </summary>
         SphereBasicEfect sphere;
+        /// <summary>   The capsule. </summary>
+        CapsuleBasicEffect capsule;
+        /// <summary>   The cylinder. </summary>
+        CylinderBasicEffect cylinder;
+        /// <summary>   The plane. </summary>
+        PlaneBasicEffect plane;
 
         /// <summary>   True to render wire frame. </summary>
         protected bool _renderWireFrame = false;
@@ -67,7 +73,6 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
 
             camera = new CameraService(this, .1f, 20000);
             camera.Transform.Position = new Vector3(0, 0, 10);
-            camera.ClearColor = Color.Black;
 
             triangle = new TriangleBasicEffect(this);
             triangle.Transform.Position = new Vector3(-1f, 0, 0);
@@ -78,12 +83,24 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             Components.Add(quad);
 
             cube = new CubeBasicEffect(this);
-            cube.Transform.Position = new Vector3(-1f, 1.5f, 0);
+            cube.Transform.Position = new Vector3(3, 1, 3);
             Components.Add(cube);
 
             sphere = new SphereBasicEfect(this);
-            sphere.Transform.Position = new Vector3(1f, 1.5f, 0);
+            sphere.Transform.Position = new Vector3(3, 1f, -3);
             Components.Add(sphere);
+
+            capsule = new CapsuleBasicEffect(this);
+            capsule.Transform.Position = new Vector3(-3, 1, 3);
+            Components.Add(capsule);
+
+            cylinder = new CylinderBasicEffect(this);
+            cylinder.Transform.Position = new Vector3(-3, 1, -3);
+            Components.Add(cylinder);
+
+            plane = new PlaneBasicEffect(this);
+            plane.Transform.Position = new Vector3(0, -1, -.5f);
+            Components.Add(plane);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -111,6 +128,16 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
 
             // TODO: use this.Content to load your game content here
             _spriteFont = Content.Load<SpriteFont>("Fonts/font");
+
+            Vector3 ld = new Vector3(1, -1, -1);
+
+            sphere.SetDirectionalLight(ld);
+            cube.SetDirectionalLight(ld);
+            triangle.SetDirectionalLight(ld);
+            quad.SetDirectionalLight(ld);
+            capsule.SetDirectionalLight(ld);
+            cylinder.SetDirectionalLight(ld);
+            plane.SetDirectionalLight(ld);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -178,9 +205,10 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             BlendState blendState = GraphicsDevice.BlendState;
             DepthStencilState depthStencilState = GraphicsDevice.DepthStencilState;
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(camera.ClearColor);
 
             // TODO: Add your drawing code here
+            
 
             base.Draw(gameTime);
 

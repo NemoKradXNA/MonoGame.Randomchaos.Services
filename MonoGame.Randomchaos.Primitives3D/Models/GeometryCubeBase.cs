@@ -66,8 +66,11 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             if (Colors == null)
             {
                 Colors = new List<Color>();
+
                 for (int v = 0; v < Vertices.Count; v++)
+                {
                     Colors.Add(Color.White);
+                }
             }
 
             Indicies = new List<int>()
