@@ -13,7 +13,7 @@ namespace MonoGame.Randomchaos.Physics
     /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class PhysicsService : ServiceBase<PhysicsService>, IPhysicsService, IForceRegistry
+    public class PhysicsService : ServiceBase<PhysicsService>, IPhysicsService
     {
         /// <summary>   (Immutable) the force registry. </summary>
         protected readonly IForceRegistry _forceRegistry;
@@ -121,42 +121,42 @@ namespace MonoGame.Randomchaos.Physics
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Adds forceGenerator. </summary>
+        /// <summary>   Adds a force to 'physicsObject'. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
-        ///
-        /// <param name="forceGenerator">   The force generator. </param>
-        /// <param name="physicsObject">    The physics object. </param>
-        ///-------------------------------------------------------------------------------------------------
-
-        public void Add(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
-        {
-            _forceRegistry.Add(forceGenerator, physicsObject);
-        }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Removes this object. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
         ///
         /// <param name="forceGenerator">   The force generator. </param>
         /// <param name="physicsObject">    The physics object. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void Remove(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
+        public void AddForce(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
         {
-            _forceRegistry.Remove(forceGenerator, physicsObject);
+            _forceRegistry.AddForce(forceGenerator, physicsObject);
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Clears this object to its blank/initial state. </summary>
+        /// <summary>   Removes the force. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
+        ///
+        /// <param name="forceGenerator">   The force generator. </param>
+        /// <param name="physicsObject">    The physics object. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void Clear()
+        public void RemoveForce(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
         {
-            _forceRegistry.Clear();
+            _forceRegistry.RemoveForce(forceGenerator, physicsObject);
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Clears the forces. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void ClearForces()
+        {
+            _forceRegistry.ClearForces();
         }
 
         ///-------------------------------------------------------------------------------------------------

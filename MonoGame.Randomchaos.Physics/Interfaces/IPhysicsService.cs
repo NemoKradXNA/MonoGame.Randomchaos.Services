@@ -7,10 +7,10 @@ namespace MonoGame.Randomchaos.Physics.Interfaces
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Interface for physics service. </summary>
     ///
-    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+    /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface IPhysicsService
+    public interface IPhysicsService : IForceRegistry
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the earth gravity. </summary>

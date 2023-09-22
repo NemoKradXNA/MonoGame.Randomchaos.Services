@@ -22,15 +22,15 @@ namespace MonoGame.Randomchaos.Physics.Basic
         protected Dictionary<IForceGenerator, List<IPhysicsObject>> registry { get; set; } = new Dictionary<IForceGenerator, List<IPhysicsObject>>();
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Adds forceGenerator. </summary>
+        /// <summary>   Adds a force to 'physicsObject'. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
         ///
         /// <param name="forceGenerator">   The force generator. </param>
         /// <param name="physicsObject">    The physics object. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void Add(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
+        public void AddForce(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
         {
             if (!registry.ContainsKey(forceGenerator))
             {
@@ -41,15 +41,15 @@ namespace MonoGame.Randomchaos.Physics.Basic
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Removes this object. </summary>
+        /// <summary>   Removes the forces. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
         ///
         /// <param name="forceGenerator">   The force generator. </param>
         /// <param name="physicsObject">    The physics object. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void Remove(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
+        public void RemoveForce(IForceGenerator forceGenerator, IPhysicsObject physicsObject)
         {
             if (registry.ContainsKey(forceGenerator))
             {
@@ -63,12 +63,12 @@ namespace MonoGame.Randomchaos.Physics.Basic
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Clears this object to its blank/initial state. </summary>
+        /// <summary>   Clears the forces. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
         ///-------------------------------------------------------------------------------------------------
 
-        public void Clear()
+        public void ClearForces()
         {
             registry.Clear();
         }

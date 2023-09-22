@@ -18,7 +18,7 @@ namespace MonoGame.Randomchaos.Physics.ForceGenerators
         /// <value> The earth gravity. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public static Vector3 EarthGravity { get { return Vector3.Up * 9.8f; } }
+        public static Vector3 EarthGravity { get { return Vector3.Down * 9.8f; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the gravity. </summary>

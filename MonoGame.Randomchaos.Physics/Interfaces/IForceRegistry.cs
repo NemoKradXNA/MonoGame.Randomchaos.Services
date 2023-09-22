@@ -12,24 +12,25 @@ namespace MonoGame.Randomchaos.Physics.Interfaces
     public interface IForceRegistry
     {
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Adds forceGenerator. </summary>
+        /// <summary>   Adds a force to 'physicsObject'. </summary>
         ///
         /// <param name="forceGenerator">   The force generator. </param>
         /// <param name="physicsObject">    The physics object. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        void Add(IForceGenerator forceGenerator, IPhysicsObject physicsObject);
+        void AddForce(IForceGenerator forceGenerator, IPhysicsObject physicsObject);
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Removes this object. </summary>
+        /// <summary>   Removes the forces. </summary>
         ///
         /// <param name="forceGenerator">   The force generator. </param>
         /// <param name="physicsObject">    The physics object. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        void Remove(IForceGenerator forceGenerator, IPhysicsObject physicsObject);
-        /// <summary>   Clears this object to its blank/initial state. </summary>
-        void Clear();
+        void RemoveForce(IForceGenerator forceGenerator, IPhysicsObject physicsObject);
+
+        /// <summary>   Clears the forces. </summary>
+        void ClearForces();
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Updates the forcees described by gameTime. </summary>

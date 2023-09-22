@@ -1,31 +1,17 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Models;
 using MonoGame.Randomchaos.Physics.Basic;
 using MonoGame.Randomchaos.Primitives3D.Models;
 
 namespace Samples.MonoGame.Randomchaos.Physics.Models
 {
-    ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A basic 3D ball. </summary>
-    ///
-    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
-    ///-------------------------------------------------------------------------------------------------
-
-    public class Basic3DBall : BasicPhysicsObject
+    public class Basic3DCube : BasicPhysicsObject
     {
-        /// <summary>   The sphere. </summary>
-        protected SphereBasicEfect sphere;
+        protected CubeBasicEffect cube;
 
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Constructor. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
-        ///
-        /// <param name="game"> The game. </param>
-        ///-------------------------------------------------------------------------------------------------
-
-        public Basic3DBall(Game game) : base(game)
+        public Basic3DCube(Game game) : base(game)
         {
             Transform = new Transform();
         }
@@ -40,12 +26,15 @@ namespace Samples.MonoGame.Randomchaos.Physics.Models
         {
             base.LoadContent();
 
-            sphere = new SphereBasicEfect(Game);
-            sphere.Transform.Parent = Transform;
+            cube = new CubeBasicEffect(Game);
+            cube.Transform.Parent = Transform;
 
-            sphere.Initialize();
+            cube.Texture = new Texture2D(Game.GraphicsDevice, 1, 1);
+            cube.Texture.SetData(new Color[] { new Color(.8f, .8f, .8f) });
+            
+            cube.Initialize();
 
-            sphere.SetDirectionalLight(Vector3.Forward + Vector3.Down + Vector3.Right);
+            cube.SetDirectionalLight(Vector3.Forward + Vector3.Down + Vector3.Right);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -58,7 +47,7 @@ namespace Samples.MonoGame.Randomchaos.Physics.Models
 
         public override void Draw(GameTime gameTime)
         {
-            sphere.Draw(gameTime);
+            cube.Draw(gameTime);
         }
     }
 }
