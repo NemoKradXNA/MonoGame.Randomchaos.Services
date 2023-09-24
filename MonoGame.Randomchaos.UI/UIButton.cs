@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Delegates;
+using System;
+using System.ComponentModel.Design;
+using System.Threading;
 
 namespace MonoGame.Randomchaos.UI
 {
@@ -53,6 +56,14 @@ namespace MonoGame.Randomchaos.UI
         ///-------------------------------------------------------------------------------------------------
 
         public Color TextColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the segments. </summary>
+        ///
+        /// <value> The segments. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Rectangle? Segments { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the color of the highlight. </summary>
@@ -177,7 +188,97 @@ namespace MonoGame.Randomchaos.UI
             }
 
             // Draw BG
-            _spriteBatch.Draw(BackgroundTexture, Rectangle, colorBG);
+
+            // This is really messy, need to have a clean up, but it seems to work, for now :P
+            if (Segments != null)
+            {
+
+                // texture is 64x64, we are rendering it 32x16, the segments are 8,8,8,8
+                // ratio = (32,16) / (64,64) = (.5,.25)
+                // TL src = 0,0,8,8 dest = 0,0, 8 * ration.X, 8 * ratio.Y = 4,2
+                // *---------------------*
+                // |                     |
+                // |                     |
+                // |                     |
+                // |                     |
+                // |                     |
+                // *---------------------*
+                Rectangle seg = Segments.Value;
+                Vector2 ratio = new Vector2(Rectangle.Width,Rectangle.Height) / new Vector2(BackgroundTexture.Width,BackgroundTexture.Height);
+
+                // Top Left
+                float tlWidth = seg.Left * ratio.X;
+                float tlHeight = seg.Top * ratio.Y;
+
+                Rectangle srect = new Rectangle(0, 0, seg.Left, seg.Top);
+                Rectangle dest = new Rectangle(Rectangle.Left, Rectangle.Top, (int)Math.Round(tlWidth), (int)Math.Round(tlHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+                // Top
+                float tWidth = Rectangle.Width - (tlWidth * 2);
+
+                srect = new Rectangle(seg.Left, 0, BackgroundTexture.Width - seg.Right, seg.Top);
+                dest = new Rectangle(Rectangle.Left + (int)Math.Round(tlWidth), Rectangle.Top, (int)Math.Round(tWidth), (int)Math.Round(tlHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+                // Top right
+                float trWidth = seg.Left * ratio.X;
+                float trHeight = seg.Top * ratio.Y;
+
+                srect = new Rectangle(BackgroundTexture.Width - (seg.Right - seg.Left), 0, (seg.Right - seg.Left), seg.Top);
+                dest = new Rectangle(Rectangle.Right - (int)Math.Round(trWidth), Rectangle.Top, (int)Math.Round(trWidth), (int)Math.Round(trHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+                // Left
+                float lHeight = Rectangle.Height - (tlHeight * 2);
+                srect = new Rectangle(0, seg.Top, seg.Left, BackgroundTexture.Height - seg.Bottom);
+                dest = new Rectangle(Rectangle.Left, Rectangle.Top + (int)Math.Round(tlHeight), (int)Math.Round(tlWidth), (int)Math.Round(lHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+
+                // Middle
+                srect = new Rectangle(seg.Left,seg.Top, BackgroundTexture.Width-seg.Right,BackgroundTexture.Height - seg.Bottom);
+                dest = new Rectangle(Rectangle.Left + (int)Math.Round(tlWidth), Rectangle.Top + (int)Math.Round(tlHeight), (int)Math.Round(tWidth), (int)Math.Round(lHeight));
+                
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+                // Right
+                float rHeight = Rectangle.Height - (trHeight * 2);
+
+                srect = new Rectangle(BackgroundTexture.Width - (seg.Right - seg.Left), seg.Top, (seg.Right - seg.Left), BackgroundTexture.Height - seg.Bottom );
+                dest = new Rectangle(Rectangle.Right - (int)Math.Round(trWidth), Rectangle.Top + (int)Math.Round(trHeight), (int)Math.Round(trWidth), (int)Math.Round(rHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+
+                // Bottom Left
+                float blWidth = seg.Left * ratio.X;
+                float blHeight = (seg.Bottom - seg.Top) * ratio.Y;
+
+                srect = new Rectangle(0, BackgroundTexture.Height - (seg.Bottom - seg.Top), seg.Left, (seg.Bottom - seg.Top));
+                dest = new Rectangle(Rectangle.Left, Rectangle.Bottom - (int)Math.Round(blHeight), (int)Math.Round(blWidth), (int)Math.Round(blHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+                // Bottom 
+                float bWidth = Rectangle.Width - (trWidth * 2);
+
+                srect = new Rectangle(seg.Left, BackgroundTexture.Height - (seg.Bottom-seg.Top), BackgroundTexture.Width - seg.Right, seg.Bottom - seg.Top);
+                dest = new Rectangle(Rectangle.Left + (int)Math.Round(blWidth), Rectangle.Bottom - (int)Math.Round(blHeight), (int)Math.Round(bWidth), (int)Math.Round(blHeight));
+
+                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+
+                // Bottom Right
+                float brWidth = (seg.Right - seg.Left) * ratio.X;
+                float brHeight = (seg.Bottom - seg.Top) * ratio.Y;
+
+                srect = new Rectangle(BackgroundTexture.Width - (seg.Right - seg.Left), BackgroundTexture.Height - (seg.Bottom - seg.Top), seg.Right - seg.Left, (seg.Bottom - seg.Top));
+                dest = new Rectangle(Rectangle.Right - (int)Math.Round(brWidth), Rectangle.Bottom - (int)Math.Round(brHeight), (int)Math.Round(brWidth), (int)Math.Round(brHeight));
+
+               _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+            }
+            else
+            {
+                _spriteBatch.Draw(BackgroundTexture, Rectangle, colorBG);
+            }
+
             if (!string.IsNullOrEmpty(Text))
                 _spriteBatch.DrawString(Font, Text, TextPosition, colorTx);
             _spriteBatch.End();

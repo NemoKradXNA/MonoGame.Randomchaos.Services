@@ -3,10 +3,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Primitives3D.Models;
+using MonoGame.Randomchaos.Services.Audio;
 using MonoGame.Randomchaos.Services.Camera;
+using MonoGame.Randomchaos.Services.Coroutine;
 using MonoGame.Randomchaos.Services.Input;
 using MonoGame.Randomchaos.Services.Input.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
+using MonoGame.Randomchaos.Services.Scene.Services;
+using Sample.MonoGame.Randomchaos.Primitives3D.Scenes;
+using Samples.MonoGame.Randomchaos.Primitives3D.Scenes;
+using System.Globalization;
+using System.Net;
 
 namespace Samples.MonoGame.Randomchaos.Primitives3D
 {
@@ -32,28 +39,23 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
         /// <summary>   The state. </summary>
         IMouseStateManager mState;
 
-        /// <summary>   The camera. </summary>
-        ICameraService camera;
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the coroutine service. </summary>
+        ///
+        /// <value> The coroutine service. </value>
+        ///-------------------------------------------------------------------------------------------------
 
-        /// <summary>   The triangle. </summary>
-        TriangleBasicEffect triangle;
-        /// <summary>   The quad. </summary>
-        QuadBasicEffect quad;
-        /// <summary>   The cube. </summary>
-        CubeBasicEffect cube;
-        /// <summary>   The sphere. </summary>
-        SphereBasicEfect sphere;
-        /// <summary>   The capsule. </summary>
-        CapsuleBasicEffect capsule;
-        /// <summary>   The cylinder. </summary>
-        CylinderBasicEffect cylinder;
-        /// <summary>   The plane. </summary>
-        PlaneBasicEffect plane;
+        ICoroutineService coroutineService { get { return Services.GetService<ICoroutineService>(); } }
 
-        /// <summary>   True to render wire frame. </summary>
-        protected bool _renderWireFrame = false;
-        /// <summary>   True to disable, false to enable the culling. </summary>
-        protected bool _cullingOff = false;
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the scene service. </summary>
+        ///
+        /// <value> The scene service. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        ISceneService sceneService { get { return Services.GetService<ISceneService>(); } }
+
+
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Default constructor. </summary>
@@ -71,36 +73,17 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             mState = new MouseStateManager(this);
             inputService = new InputHandlerService(this, kbState, mState);
 
-            camera = new CameraService(this, .1f, 20000);
-            camera.Transform.Position = new Vector3(0, 0, 10);
+            // Set up coroutine service
+            new CoroutineService(this);
 
-            triangle = new TriangleBasicEffect(this);
-            triangle.Transform.Position = new Vector3(-1f, 0, 0);
-            Components.Add(triangle);
+            // Setup audio
+            new AudioService(this);
 
-            quad = new QuadBasicEffect(this);
-            quad.Transform.Position = new Vector3(1f, 0, 0);
-            Components.Add(quad);
+            // Set up our scene service
+            new SceneService(this);
 
-            cube = new CubeBasicEffect(this);
-            cube.Transform.Position = new Vector3(3, 1, 3);
-            Components.Add(cube);
+            new CameraService(this, .1f, 20000);
 
-            sphere = new SphereBasicEfect(this);
-            sphere.Transform.Position = new Vector3(3, 1f, -3);
-            Components.Add(sphere);
-
-            capsule = new CapsuleBasicEffect(this);
-            capsule.Transform.Position = new Vector3(-3, 1, 3);
-            Components.Add(capsule);
-
-            cylinder = new CylinderBasicEffect(this);
-            cylinder.Transform.Position = new Vector3(-3, 1, -3);
-            Components.Add(cylinder);
-
-            plane = new PlaneBasicEffect(this);
-            plane.Transform.Position = new Vector3(0, -1, -.5f);
-            Components.Add(plane);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -112,6 +95,11 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en");
+
+            sceneService.AddScene(new MainMenuScene(this, "mainMenu"));
+            sceneService.AddScene(new Primitives3DScene(this, "primitives3DScene"));
+            sceneService.AddScene(new VoxelScene(this, "voxelScene"));
 
             base.Initialize();
         }
@@ -128,16 +116,9 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
 
             // TODO: use this.Content to load your game content here
             _spriteFont = Content.Load<SpriteFont>("Fonts/font");
+            sceneService.LoadScene("mainMenu");
 
-            Vector3 ld = new Vector3(1, -1, -1);
 
-            sphere.SetDirectionalLight(ld);
-            cube.SetDirectionalLight(ld);
-            triangle.SetDirectionalLight(ld);
-            quad.SetDirectionalLight(ld);
-            capsule.SetDirectionalLight(ld);
-            cylinder.SetDirectionalLight(ld);
-            plane.SetDirectionalLight(ld);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -153,42 +134,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             inputService.PreUpdate(gameTime);
             base.Update(gameTime);
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbState.KeyDown(Keys.Escape))
-                Exit();
 
-            // Camera controls..
-            float speedTran = .1f;
-            float speedRot = .01f;
-
-            if (kbState.KeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0)
-                camera.Transform.Translate(Vector3.Forward * speedTran);
-            if (kbState.KeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0)
-                camera.Transform.Translate(Vector3.Backward * speedTran);
-            if (kbState.KeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0)
-                camera.Transform.Translate(Vector3.Left * speedTran);
-            if (kbState.KeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0)
-                camera.Transform.Translate(Vector3.Right * speedTran);
-
-            if (kbState.KeyDown(Keys.Left) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0)
-                camera.Transform.Rotate(Vector3.Up, speedRot);
-            if (kbState.KeyDown(Keys.Right) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0)
-                camera.Transform.Rotate(Vector3.Up, -speedRot);
-            if (kbState.KeyDown(Keys.Up) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0)
-                camera.Transform.Rotate(Vector3.Right, speedRot);
-            if (kbState.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
-                camera.Transform.Rotate(Vector3.Right, -speedRot);
-
-            if (kbState.KeyPress(Keys.F1))
-            {
-                _renderWireFrame = !_renderWireFrame;
-                SetRasterizerState();
-            }
-
-            if (kbState.KeyPress(Keys.F2))
-            {
-                _cullingOff = !_cullingOff;
-                SetRasterizerState();
-            }
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -201,60 +147,29 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
 
         protected override void Draw(GameTime gameTime)
         {
-            RasterizerState rasterizerState = GraphicsDevice.RasterizerState;
-            BlendState blendState = GraphicsDevice.BlendState;
-            DepthStencilState depthStencilState = GraphicsDevice.DepthStencilState;
 
-            GraphicsDevice.Clear(camera.ClearColor);
+
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            
+
 
             base.Draw(gameTime);
 
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, blendState: BlendState.AlphaBlend, samplerState: SamplerState.PointClamp);
 
-            int line = 8;
-
-            line = DrawString("Primitives 3D", line);
-            line = DrawString($"F1 - Toggle Wire Frame [{_renderWireFrame}]", line);
-            line = DrawString($"F2 - Toggle Cull Mode [{_cullingOff}]", line);
-
-            _spriteBatch.End();
-
-            GraphicsDevice.RasterizerState = rasterizerState;
-            GraphicsDevice.BlendState = blendState;
-            GraphicsDevice.DepthStencilState = depthStencilState;
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Draw string. </summary>
+        /// <summary>   Ends a draw. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
-        ///
-        /// <param name="text"> The text. </param>
-        /// <param name="line"> The line. </param>
-        ///
-        /// <returns>   An int. </returns>
+        /// <remarks>   Charles Humphrey, 24/09/2023. </remarks>
         ///-------------------------------------------------------------------------------------------------
 
-        private int DrawString(string text, int line)
+        protected override void EndDraw()
         {
-            _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) - new Vector2(1, -1), Color.Black);
-            //_spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line) + new Vector2(1, -1), Color.Black);
-            _spriteBatch.DrawString(_spriteFont, text, new Vector2(8, line), Color.Gold);
-            return line + _spriteFont.LineSpacing;
-        }
+            base.EndDraw();
 
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Sets rasterizer state. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
-        ///-------------------------------------------------------------------------------------------------
-
-        public void SetRasterizerState()
-        {
-            GraphicsDevice.RasterizerState = new RasterizerState() { FillMode = _renderWireFrame ? FillMode.WireFrame : FillMode.Solid, CullMode = _cullingOff ? CullMode.None : CullMode.CullCounterClockwiseFace };
+            coroutineService.UpdateEndFrame(null);
         }
     }
 }
