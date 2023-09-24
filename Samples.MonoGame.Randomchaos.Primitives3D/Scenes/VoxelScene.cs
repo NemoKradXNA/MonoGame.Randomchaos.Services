@@ -95,30 +95,30 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                     _cullingOff = !_cullingOff;
                 }
 
-                if (msManager.LeftClicked)
-                {
-                    float minD = float.MaxValue;
+                //if (msManager.LeftClicked)
+                //{
+                //    float minD = float.MaxValue;
 
-                    VoxelChunk liveChunk = null;
+                //    VoxelChunk liveChunk = null;
 
-                    foreach (VoxelChunk chunk in voxel.VisibleChunks)
-                    {
-                        BoundingBox box = TransformedBoundingBoxAA(chunk.BoundingBox, voxel.Transform);
-                        float d = RayPicking(msManager.ScreenPoint, box);
+                //    foreach (VoxelChunk chunk in voxel.VisibleChunks)
+                //    {
+                //        BoundingBox box = TransformedBoundingBoxAA(chunk.BoundingBox, voxel.Transform);
+                //        float d = RayPicking(msManager.ScreenPoint, box);
 
-                        if (d < minD)
-                        {
-                            minD = d;
-                            liveChunk = chunk;
-                        }
-                    }
+                //        if (d < minD)
+                //        {
+                //            minD = d;
+                //            liveChunk = chunk;
+                //        }
+                //    }
 
-                    if (liveChunk != null)
-                    {
-                        liveChunk.On = false;
-                        voxel.ReBuild();
-                    }
-                }
+                //    if (liveChunk != null)
+                //    {
+                //        liveChunk.On = false;
+                //        voxel.ReBuild();
+                //    }
+                //}
             }
 
             base.Update(gameTime);
