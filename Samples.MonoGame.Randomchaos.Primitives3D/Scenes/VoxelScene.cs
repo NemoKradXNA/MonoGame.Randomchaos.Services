@@ -161,7 +161,8 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                     var o = ((VoxelChunk) hitInfo.ContactObject).Triangles.OrderBy(o => Vector3.Distance(hitInfo.ContactPoint, Vector3.Transform( o.Center,voxel.Transform.World))).ToList();
                     var t = o.FirstOrDefault();
 
-                    var x = ((VoxelChunk)hitInfo.ContactObject).Triangles.Where(s => s.ContansPoint(hitInfo.ContactPoint, voxel.Transform.World));
+                    var x = ((VoxelChunk)hitInfo.ContactObject).Triangles.Where(s => s.ContansPoint(hitInfo.ContactPoint, voxel.Transform.World)).ToList();
+                    t = x.FirstOrDefault();
 
                     nearest = t;
 
