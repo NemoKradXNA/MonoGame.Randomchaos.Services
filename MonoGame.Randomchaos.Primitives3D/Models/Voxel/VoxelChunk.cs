@@ -24,6 +24,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
         public bool On { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether this object is transparent. </summary>
+        ///
+        /// <value> True if this object is transparent, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool IsTransparent { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the shape. </summary>
         ///
         /// <value> The shape. </value>

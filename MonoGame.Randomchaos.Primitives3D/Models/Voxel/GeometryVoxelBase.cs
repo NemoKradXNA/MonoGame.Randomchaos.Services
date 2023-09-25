@@ -114,7 +114,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             }
         }
 
-        protected virtual void Build()
+        public virtual void Build()
         {
             Vector2 fracUV = uvBase / _blocksWide;
 
@@ -145,11 +145,15 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             //if (RenderYFace)
             {
                 if (IsChunkTransparent(x, y - 1, z))
+                {
                     DrawFace(pos, CubeMapFace.NegativeY, block);
+                }
 
                 // Top
-                if (IsChunkTransparent(x, y + 1, z))
+                if (IsChunkTransparent(x, y + 1, z)) 
+                {
                     DrawFace(pos, CubeMapFace.PositiveY, block);
+                }
             }
 
             // right
@@ -163,16 +167,21 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 
             // left
             if (IsChunkTransparent(x + 1, y, z))
+            {
                 DrawFace(pos, CubeMapFace.PositiveX, block);
+            }
 
             // Front
             if (IsChunkTransparent(x, y, z - 1))
+            {
                 DrawFace(pos, CubeMapFace.NegativeZ, block);
+            }
 
             // Back
             if (IsChunkTransparent(x, y, z + 1))
+            {
                 DrawFace(pos, CubeMapFace.PositiveZ, block);
-
+            }
 
 
             //BoxCollider bc = gameObject.AddComponent<BoxCollider>();
@@ -244,13 +253,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
                 if (y >= _blocksHigh)// && !neigbours.ContainsKey(up))
                     return true;
 
-
                 return false;
 
             }
 
             if (map[x, y, z].On && map[x, y, z].Shape != 0)
+            {
                 return true;
+            }
 
             return !map[x, y, z].On;
         }
@@ -280,7 +290,11 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
                 map[x - 1, y + 1, z + 1].On &&
                 map[x + 1, y + 1, z - 1].On
                 )
+            {
                 retVal = true;
+            }
+
+            map[x, y, z].IsTransparent = retVal;
 
             return retVal;
         } }

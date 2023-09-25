@@ -47,7 +47,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             get
             {
                 // get all visible chunks
-                List<VoxelChunk> boxs = map.Cast<VoxelChunk>().Where(w => w.On).ToList();
+                List<VoxelChunk> boxs = map.Cast<VoxelChunk>().Where(w => w.On && !w.IsTransparent).ToList();
                 return boxs;
             }
         }
@@ -141,6 +141,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         }
 
         bool rebuild = false;
+        bool rebuilding = false;
         public void ReBuild()
         {
             rebuild = true;
@@ -148,7 +149,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
 
         public override void Draw(GameTime gameTime)
         {
-            if (Visible && !rebuild && Vertices.Count > 0)
+            if (Visible && Vertices.Count > 0)
             {
                 SetEffect(gameTime);
 
@@ -159,21 +160,28 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
 
             if (rebuild)
             {
-                Vertices = new List<Vector3>();
-                Normals = new List<Vector3>();
-                Colors = new List<Color>();
-                Texcoords = new List<Vector2>();
-                Indicies = new List<int>();
+                GeometryVoxelBase<VertexPositionColorNormalTexture> rebuildData = new GeometryVoxelBase<VertexPositionColorNormalTexture>(Game, _blocksWide, _blocksHigh, _blocksDeep);
 
-                Build();
+                rebuildData.map = map;
+
+                rebuildData.Build();
+
+                Vertices = rebuildData.Vertices;
+                Normals = rebuildData.Normals;
+                Colors = rebuildData.Colors;
+                Texcoords = rebuildData.Texcoords;
+                Indicies = rebuildData.Indicies;
 
                 int vCount = Vertices.Count;
                 _vertexArray = new List<VertexPositionColorNormalTexture>();
 
                 for (int v = 0; v < vCount; v++)
                     _vertexArray.Add(new VertexPositionColorNormalTexture(Vertices[v], Colors[v], Normals[v], Texcoords[v]));
+
+                rebuildData = null;
                 rebuild = false;
             }
         }
+
     }
 }

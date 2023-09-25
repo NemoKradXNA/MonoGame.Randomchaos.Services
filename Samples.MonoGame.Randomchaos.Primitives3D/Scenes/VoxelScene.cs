@@ -8,6 +8,9 @@ using MonoGame.Randomchaos.Primitives3D.Models.Voxel;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.Services.Scene.Models;
+using System.Collections.Generic;
+using System.Linq;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 {
@@ -47,7 +50,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             _camera.Transform.Position = new Vector3(0, 0, 10);
             _camera.Transform.Rotation = Quaternion.Identity;
 
-            voxel = new VoxelBasicEffect(Game);//,0,2,2,2);
+            voxel = new VoxelBasicEffect(Game);//,0,3,3,3);
             voxel.Texture = Game.Content.Load<Texture2D>("Textures/grass1");
             voxel.Transform.Position = new Vector3(0, 0, -10);
 
@@ -95,30 +98,32 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                     _cullingOff = !_cullingOff;
                 }
 
-                //if (msManager.LeftClicked)
-                //{
-                //    float minD = float.MaxValue;
+                selectedBox = null;
+                float minD = float.MaxValue;
+                VoxelChunk liveChunk = null;
 
-                //    VoxelChunk liveChunk = null;
+                foreach (VoxelChunk chunk in voxel.VisibleChunks)
+                {
+                    BoundingBox box = TransformedBoundingBoxAA(chunk.BoundingBox, voxel.Transform);
+                    float d = RayPicking(msManager.ScreenPoint, box);
 
-                //    foreach (VoxelChunk chunk in voxel.VisibleChunks)
-                //    {
-                //        BoundingBox box = TransformedBoundingBoxAA(chunk.BoundingBox, voxel.Transform);
-                //        float d = RayPicking(msManager.ScreenPoint, box);
+                    if (d < minD)
+                    {
+                        minD = d;
+                        liveChunk = chunk;
+                    }
+                }
 
-                //        if (d < minD)
-                //        {
-                //            minD = d;
-                //            liveChunk = chunk;
-                //        }
-                //    }
+                if (liveChunk != null)
+                {
+                    selectedBox = liveChunk.BoundingBox;
+                }
 
-                //    if (liveChunk != null)
-                //    {
-                //        liveChunk.On = false;
-                //        voxel.ReBuild();
-                //    }
-                //}
+                if (msManager.LeftClicked && liveChunk != null)
+                {
+                    liveChunk.On = false;
+                    voxel.ReBuild();
+                }
             }
 
             base.Update(gameTime);
@@ -126,12 +131,72 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             SetRasterizerState();
         }
 
+        BasicEffect basicEffect;
+        public virtual void DrawBoundsBoxs(List<BoundingBox> boxs)
+        {
+            VertexPositionColor[] points;
+            short[] index;
+
+            BuildBoxCorners(boxs, new List<Matrix>() { Matrix.Identity }, Color.White, out points, out index);
+
+            if (basicEffect == null)
+                basicEffect = new BasicEffect(GraphicsDevice);
+
+            basicEffect.World = Matrix.CreateScale(voxel.Transform.Scale) *
+                      Matrix.CreateTranslation(voxel.Transform.Position);
+            basicEffect.View = camera.View;
+            basicEffect.Projection = camera.Projection;
+            basicEffect.VertexColorEnabled = true;
+
+            basicEffect.CurrentTechnique.Passes[0].Apply();
+            GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, points, 0, points.Length, index, 0, 12 * boxs.Count);
+        }
+        public void BuildBoxCorners(List<BoundingBox> boxs, List<Matrix> worlds, Color color, out VertexPositionColor[] points, out short[] index)
+        {
+            short[] BoxIndexMap = new short[] {
+                0, 1, 0,
+                2, 1, 3,
+                2, 3, 4,
+                5, 4, 6,
+                5, 7, 6,
+                7, 0, 4,
+                1, 5, 2,
+                6, 3, 7
+                };
+
+            points = new VertexPositionColor[boxs.Count * 8];
+            short[] inds = new short[points.Length * 3];
+
+            for (int b = 0; b < boxs.Count; b++)
+            {
+                Vector3[] thisCorners = boxs[b].GetCorners();
+
+                points[(b * 8) + 0] = new VertexPositionColor(thisCorners[1], color);
+                points[(b * 8) + 1] = new VertexPositionColor(thisCorners[0], color);
+                points[(b * 8) + 2] = new VertexPositionColor(thisCorners[2], color);
+                points[(b * 8) + 3] = new VertexPositionColor(thisCorners[3], color);
+                points[(b * 8) + 4] = new VertexPositionColor(thisCorners[5], color);
+                points[(b * 8) + 5] = new VertexPositionColor(thisCorners[4], color);
+                points[(b * 8) + 6] = new VertexPositionColor(thisCorners[6], color);
+                points[(b * 8) + 7] = new VertexPositionColor(thisCorners[7], color);
+
+                for (int i = 0; i < 24; i++)
+                {
+                    inds[(b * 24) + i] = (short)(BoxIndexMap[i] + (b * 8));
+                }
+            }
+
+            index = inds;
+        }
+
         public BoundingBox TransformedBoundingBoxAA(BoundingBox box, ITransform transform)
         {
             Matrix AAWorld = Matrix.CreateScale(transform.Scale) * Matrix.CreateTranslation(transform.Position);
 
-            Vector3 min = Vector3.Transform(box.Min, AAWorld);
-            Vector3 max = Vector3.Transform(box.Max, AAWorld);
+            Vector3 halfBlock = voxel.VoxelCentre- new Vector3(.5f, .5f, .5f);
+
+            Vector3 min = Vector3.Transform(box.Min - halfBlock, AAWorld);
+            Vector3 max = Vector3.Transform(box.Max - halfBlock, AAWorld);
 
             return new BoundingBox(min, max);
         }
@@ -163,11 +228,31 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                 return float.MaxValue;
         }
 
+        BoundingBox? selectedBox = null;
+
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_camera.ClearColor);
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            if (selectedBox != null)
+            {
+                Vector3 halfBlock = new Vector3(.5f, .5f, .5f);
+
+                List<BoundingBox> boxs = new List<BoundingBox>()
+                {
+                    selectedBox.Value
+                };
+
+                boxs = boxs.Select(s => new BoundingBox()
+                {
+                    Max = s.Max - voxel.VoxelCentre + halfBlock,
+                    Min = s.Min - voxel.VoxelCentre + halfBlock,
+                }).ToList();
+
+                DrawBoundsBoxs(boxs);
+            }
 
             base.Draw(gameTime);
 
@@ -184,6 +269,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             line = DrawString($"ESC - Return to Menu", line);
             line = DrawString($"F1 - Toggle Wire Frame [{_renderWireFrame}]", line);
             line = DrawString($"F2 - Toggle Cull Mode [{_cullingOff}]", line);
+            line = DrawString($"Left Mouse Button - Delete selected chunk", line);
 
             _spriteBatch.End();
 
