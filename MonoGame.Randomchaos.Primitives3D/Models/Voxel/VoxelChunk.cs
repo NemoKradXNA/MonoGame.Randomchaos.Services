@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 {
@@ -30,6 +31,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
         ///-------------------------------------------------------------------------------------------------
 
         public bool IsTransparent { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the triangles. </summary>
+        ///
+        /// <value> The triangles. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public List<Triangle> Triangles { get; set; } = new List<Triangle>();
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the shape. </summary>

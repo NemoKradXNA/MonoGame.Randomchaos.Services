@@ -6,14 +6,21 @@ using MonoGame.Randomchaos.Primitives3D.Models.Voxel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
     public class VoxelBasicEffect : GeometryVoxelBase<VertexPositionColorNormalTexture>
     {
         public ITransform Transform { get; set; }
+
+        public BoundingBox BoundingBox
+        {
+            get
+            {
+                Vector3 v = new Vector3(_blocksWide,_blocksHigh,_blocksDeep) * .5f;
+                return new BoundingBox(v * -1, v);
+            }
+        }
 
         protected Texture2D _texture;
 
@@ -54,7 +61,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
 
        
 
-        public VoxelBasicEffect(Game game, int startBlockType = 0, int blocksWide = 10, int blocksHigh = 10, int blocksDeep = 10)
+        public VoxelBasicEffect(Game game, int startBlockType = 1, int blocksWide = 10, int blocksHigh = 10, int blocksDeep = 10)
             : base(game, startBlockType, blocksWide, blocksHigh, blocksDeep)
         {
             Transform = new Transform();
@@ -162,6 +169,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             {
                 GeometryVoxelBase<VertexPositionColorNormalTexture> rebuildData = new GeometryVoxelBase<VertexPositionColorNormalTexture>(Game, _blocksWide, _blocksHigh, _blocksDeep);
 
+                rebuildData.AtlasDimensions = AtlasDimensions;
                 rebuildData.map = map;
 
                 rebuildData.Build();
@@ -180,6 +188,22 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
 
                 rebuildData = null;
                 rebuild = false;
+            }
+        }
+
+        public void SetVoxelChunk(Vector3 p, bool on, int? blockType = null)
+        {
+
+            int x = (int)p.X;
+            int y = (int)p.Y;
+            int z = (int)p.Z;
+
+            if (x >= 0 && x < _blocksWide &&
+                y >= 0 && y < _blocksHigh &&
+                z >= 0 && z < _blocksDeep)
+            {
+
+                map[x, y, z].On = on;
             }
         }
 

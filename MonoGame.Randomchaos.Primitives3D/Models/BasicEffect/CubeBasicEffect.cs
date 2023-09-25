@@ -70,15 +70,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         protected override void LoadContent()
         {
             Effect = new BasicEffect(Game.GraphicsDevice);
-            Colors = new List<Color>()
-            {
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow,
-                Color.Red, Color.Blue, Color.Green, Color.Yellow
-            };
+
             base.LoadContent();
         }
 

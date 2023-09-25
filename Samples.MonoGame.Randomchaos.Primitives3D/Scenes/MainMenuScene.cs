@@ -51,7 +51,7 @@ namespace Sample.MonoGame.Randomchaos.Primitives3D.Scenes
 
 
             Vector2 c = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height) * .5f;
-            Point btnSize = new Point(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 12);
+            Point btnSize = new Point(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 8);
 
             int menuTop = GraphicsDevice.Viewport.Height / 4;
 
@@ -89,19 +89,22 @@ namespace Sample.MonoGame.Randomchaos.Primitives3D.Scenes
 
         private void Btn_OnMouseClick(IUIBase sender, IMouseStateManager mouseState)
         {
-            if (sender == btnPrimitivesScene)
+            if (State == SceneStateEnum.Loaded)
             {
-                sceneManager.LoadScene("primitives3DScene");
-            }
-            else if(sender == btnVoxelScene)
-            {
-                sceneManager.LoadScene("voxelScene");
-            }
-            else if (sender == btnExit)
-            {
-                exiting = true;
-                State = SceneStateEnum.Unloading;
-                UnloadScene();
+                if (sender == btnPrimitivesScene)
+                {
+                    sceneManager.LoadScene("primitives3DScene");
+                }
+                else if (sender == btnVoxelScene)
+                {
+                    sceneManager.LoadScene("voxelScene");
+                }
+                else if (sender == btnExit)
+                {
+                    exiting = true;
+                    State = SceneStateEnum.Unloading;
+                    UnloadScene();
+                }
             }
         }
 

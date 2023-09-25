@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 {
     public class GeometryVoxelBase<T> : GeometryBase<T> where T : IVertexType
     {
-        static Vector2 uvBase = new Vector2(0.0625f, -0.0625f);
+        static Vector2 uvBase = new Vector2(0.0625f, 0.0625f);
         static Vector3 halfBlock = new Vector3(.5f, .5f, .5f);
 
         static Dictionary<CubeMapFace, List<Vector3>> ChunkFaceVertices = new Dictionary<CubeMapFace, List<Vector3>>()
@@ -61,9 +59,8 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             { CubeMapFace.PositiveX, new List<int>() { 0, 3, 2, 2, 1, 0 } }
         };
 
+        public Point? AtlasDimensions { get; set; } = null;
         public Vector3 VoxelCentre { get { return new Vector3(_blocksWide, _blocksHigh, _blocksDeep) * .5f; } }
-
-        
 
         protected int _blocksWide;
         protected int _blocksHigh;
@@ -77,8 +74,10 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 
         public Vector3 UvOffset { get; set; } = Vector3.One;
 
-        public GeometryVoxelBase(Game game, int startBlockType = 0, int blocksWide = 10, int blocksHigh = 10, int blocksDeep = 10) : base(game)
+        public GeometryVoxelBase(Game game, int startBlockType = 1, int blocksWide = 10, int blocksHigh = 10, int blocksDeep = 10) : base(game)
         {
+            _startBlockType = startBlockType;
+
             _blocksWide = blocksWide;
             _blocksHigh = blocksHigh;
             _blocksDeep = blocksDeep;
@@ -93,7 +92,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             base.LoadContent();
         }
 
-        
+
         protected virtual void Generate()
         {
             if (map == null)
@@ -133,13 +132,15 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             }
         }
 
-        
+
 
         protected void DrawChunk(int x, int y, int z, VoxelChunk block)
         {
             Vector3 pos = new Vector3(x, y, z) - VoxelCentre;
 
             UvOffset = new Vector3(x, y, z);
+
+            block.Triangles.Clear();
 
             // Bottom
             //if (RenderYFace)
@@ -150,7 +151,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
                 }
 
                 // Top
-                if (IsChunkTransparent(x, y + 1, z)) 
+                if (IsChunkTransparent(x, y + 1, z))
                 {
                     DrawFace(pos, CubeMapFace.PositiveY, block);
                 }
@@ -211,14 +212,83 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             {
                 sOff = Vector3.Zero;
 
-                Vertices.Add((ChunkFaceVertices[facing][v] + pos + halfBlock + sOff));
-                Normals.Add(ChunkFaceNormals[facing][v]);
+                Vector3 p = ChunkFaceVertices[facing][v] + pos + halfBlock + sOff;
+                Vector3 n = ChunkFaceNormals[facing][v];
+
+                Vertices.Add(p);
+                Normals.Add(n);
                 Colors.Add(ChunkFaceColors[facing][v]);
-                Texcoords.Add(ChunkFaceTexcoords[facing][v]);
+                if (AtlasDimensions == null)
+                {
+                    Texcoords.Add(ChunkFaceTexcoords[facing][v]);
+                }
+                else
+                {
+                    Texcoords.Add(GetTextCoords(block.BlockType, v));
+                }
             }
 
             for (int i = 0; i < 6; i++)
+            {
                 Indicies.Add(ChunkFaceIndex[facing][i] + idx);
+            }
+
+            for (int t = 0; t < 6; t+=3)
+            {
+                Triangle triangle = new Triangle();
+
+                int i1 = ChunkFaceIndex[facing][t + 0] + idx;
+                int i2 = ChunkFaceIndex[facing][t + 1] + idx;
+                int i3 = ChunkFaceIndex[facing][t + 2] + idx;
+
+                triangle.Point1 = new VertexPoint(Vertices[i1], Normals[i1]);
+                triangle.Point2 = new VertexPoint(Vertices[i2], Normals[i2]);
+                triangle.Point3 = new VertexPoint(Vertices[i3], Normals[i3]);
+
+
+                block.Triangles.Add(triangle);
+            }
+        }
+
+        // new Vector2(0, 0),new Vector2(1, 0),new Vector2(1, 1),new Vector2(0, 1)
+        static Vector2[] uvMap = new Vector2[]
+        {
+            new Vector2(0, 0),
+            new Vector2(0.0625f, 0),
+            new Vector2(0.0625f, 0.0625f),
+            new Vector2(0, 0.0625f),
+        };
+
+        public Vector2 GetTextCoords(int BlockType, int vert)
+        {
+            int x = 0, y = 0;
+
+            // 
+            int blockType = BlockType - 1;
+
+            x = (blockType % AtlasDimensions.Value.X);
+            y = (blockType / AtlasDimensions.Value.Y);
+
+            Vector2 offset = new Vector2(uvBase.X * x, uvBase.Y * y);
+
+            Vector2 fv = uvMap[vert] / _blocksWide;
+            Vector2 uv = new Vector2(uvMap[vert].X + offset.X, uvMap[vert].Y + offset.Y);
+
+            return uv;
+        }
+
+        public VoxelChunk GetVoxelChunk(int x, int y, int z)
+        {
+            if (x >= 0 && x < _blocksWide &&
+                y >= 0 && y < _blocksHigh &&
+                z >= 0 && z < _blocksDeep)
+            {
+                return map[x, y, z];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool IsChunkTransparent(int x, int y, int z)
@@ -297,5 +367,6 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             map[x, y, z].IsTransparent = retVal;
 
             return retVal;
-        } }
+        }
+    }
 }
