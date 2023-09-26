@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Physics.Basic
+namespace MonoGame.Randomchaos.Physics.Models.Basic
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A force registry. </summary>

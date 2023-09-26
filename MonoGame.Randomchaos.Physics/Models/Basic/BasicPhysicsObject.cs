@@ -1,10 +1,10 @@
 ﻿
 using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Interfaces;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 using System;
 
-namespace MonoGame.Randomchaos.Physics.Basic
+namespace MonoGame.Randomchaos.Physics.Models.Basic
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A basic physics object. </summary>
@@ -121,7 +121,7 @@ namespace MonoGame.Randomchaos.Physics.Basic
         /// <param name="gameTime"> The game time. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public virtual void Integrate(GameTime gameTime) 
+        public virtual void Integrate(GameTime gameTime)
         {
             // Time 
             float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -132,7 +132,7 @@ namespace MonoGame.Randomchaos.Physics.Basic
                 Transform.Translate(Velocity * t);
 
                 // Acceleration
-                Vector3 ra = Acceleration + (ForceAccumilated * InverseMass);
+                Vector3 ra = Acceleration + ForceAccumilated * InverseMass;
 
                 // Velocity
                 Velocity += ra * t;

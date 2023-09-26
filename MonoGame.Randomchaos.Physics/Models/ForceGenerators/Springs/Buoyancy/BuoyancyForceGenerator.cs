@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 
-namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs.Buoyancy
+namespace MonoGame.Randomchaos.Physics.Models.ForceGenerators.Springs.Buoyancy
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A buoyancy force generator. </summary>
@@ -57,7 +57,7 @@ namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs.Buoyancy
             float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Check if out of the water.
-            if (depth >= _waterHeight +_maxDepth)
+            if (depth >= _waterHeight + _maxDepth)
             {
                 return;
             }

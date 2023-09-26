@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Randomchaos.Interfaces.Models;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
@@ -13,9 +13,13 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 
     public class VoxelChunk
     {
-        /// <summary>   The size of. </summary>
-        public static int SizeOf = 164;
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets information describing the other. </summary>
+        ///
+        /// <value> Information describing the other. </value>
+        ///-------------------------------------------------------------------------------------------------
 
+        public dynamic OtherData { get; set; }
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets a value indicating whether the on. </summary>
         ///
@@ -25,12 +29,12 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
         public bool On { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets a value indicating whether this object is transparent. </summary>
+        /// <summary>   Gets or sets a value indicating whether this object is surrounded. </summary>
         ///
-        /// <value> True if this object is transparent, false if not. </value>
+        /// <value> True if this object is surrounded, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool IsTransparent { get; set; }
+        public bool IsSurrounded { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the triangles. </summary>

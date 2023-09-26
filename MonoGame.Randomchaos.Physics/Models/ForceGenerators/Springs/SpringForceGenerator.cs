@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 using System;
 
-namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs
+namespace MonoGame.Randomchaos.Physics.Models.ForceGenerators.Springs
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A basic spring force generator. </summary>

@@ -1,21 +1,22 @@
 ﻿
 using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Interfaces;
-using MonoGame.Randomchaos.Physics.Interfaces;
-using System;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 
-namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs
+namespace MonoGame.Randomchaos.Physics.Models.ForceGenerators.Springs
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   An anchored spring force generator. </summary>
+    /// <summary>   An anchored bungee force generator. </summary>
     ///
     /// <remarks>   Charles Humphrey, 22/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class AnchoredSpringForceGenerator : IForceGenerator
+    public class AnchoredBungeeForceGenerator : IForceGenerator
     {
-        /// <summary>   The other. </summary>
+        /// <summary>   The anchor. </summary>
         protected ITransform _anchor;
+
+
         /// <summary>   The spring constant. </summary>
         protected float _springConstant;
         /// <summary>   Length of the REST. </summary>
@@ -31,7 +32,7 @@ namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs
         /// <param name="restLength">       Length of the REST. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public AnchoredSpringForceGenerator(ITransform anchor, float springConstant, float restLength)
+        public AnchoredBungeeForceGenerator(ITransform anchor, float springConstant, float restLength)
         {
             _anchor = anchor;
             _springConstant = springConstant;
@@ -52,10 +53,16 @@ namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs
             // Get the direction of the spring.
             Vector3 force = physicsObject.Transform.Position - _anchor.Position;
 
-            // Calculate the magnitude (length) of the force.
+            // Check if bungee is compressed.
             float magnitude = force.Length();
-            magnitude = Math.Abs(magnitude - _restLength);
-            magnitude *= _springConstant;
+
+            if (magnitude <= _restLength)
+            {
+                return;
+            }
+
+            // Calculate the magnitude (length) of the force.
+            magnitude = _springConstant * (magnitude - _restLength);
 
             // Calculate the final force.
             force.Normalize();

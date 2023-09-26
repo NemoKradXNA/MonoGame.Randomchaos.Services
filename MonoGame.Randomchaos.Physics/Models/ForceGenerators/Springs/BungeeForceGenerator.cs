@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 
-namespace MonoGame.Randomchaos.Physics.ForceGenerators.Springs
+namespace MonoGame.Randomchaos.Physics.Models.ForceGenerators.Springs
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A bungee force generator. </summary>

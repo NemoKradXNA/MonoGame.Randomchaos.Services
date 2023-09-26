@@ -140,5 +140,25 @@ namespace MonoGame.Randomchaos.Interfaces
         ///-------------------------------------------------------------------------------------------------
 
         void LocalRotate(Vector3 axis, float angle);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Transform point from local space to world space. </summary>
+        ///
+        /// <param name="point">    The point. </param>
+        ///
+        /// <returns>   A Vector3. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector3 TransformPoint(Vector3 point);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Inverse transform point, moves position from world to local space </summary>
+        ///
+        /// <param name="point">    The point. </param>
+        ///
+        /// <returns>   A Vector3. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector3 InverseTransformPoint(Vector3 point);
     }
 }

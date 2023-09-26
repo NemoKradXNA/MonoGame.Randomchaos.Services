@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
+using MonoGame.Randomchaos.Interfaces.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
+using System.Runtime;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
 {
@@ -102,5 +105,72 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         ///-------------------------------------------------------------------------------------------------
 
         bool RenderWireFrame { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ray from camera. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        ///
+        /// <returns>   A Ray. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Ray RayFromCamera(Point screenPixel);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ray picking. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        /// <param name="volume">       The volume. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        float RayPicking(Point screenPixel, BoundingBox volume);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ray picking. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        /// <param name="volume">       The volume. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        float RayPicking(Point screenPixel, BoundingSphere volume);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ray picking. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        /// <param name="volume">       The volume. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        float RayPicking(Point screenPixel, Plane volume);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ray picking. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        /// <param name="volume">       The volume. </param>
+        /// <param name="hitInfo">      [out] Information describing the hit. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        float RayPicking(Point screenPixel, BoundingBox volume, out IHitInfo hitInfo);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ray picking. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        /// <param name="volume">       The volume. </param>
+        /// <param name="hitInfo">      [out] Information describing the hit. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        float RayPicking(Point screenPixel, BoundingSphere volume, out IHitInfo hitInfo);
     }
 }

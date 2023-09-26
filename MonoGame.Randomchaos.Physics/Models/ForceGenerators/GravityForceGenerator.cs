@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 
-namespace MonoGame.Randomchaos.Physics.ForceGenerators
+namespace MonoGame.Randomchaos.Physics.Models.ForceGenerators
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A gravity force generator. </summary>

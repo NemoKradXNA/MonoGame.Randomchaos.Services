@@ -1,8 +1,8 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Physics.Interfaces
+namespace MonoGame.Randomchaos.Services.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Interface for physics service. </summary>

@@ -1,7 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace MonoGame.Randomchaos.Physics.Interfaces
+namespace MonoGame.Randomchaos.Services.Interfaces.Physics
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Interface for force registry. </summary>

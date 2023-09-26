@@ -54,7 +54,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             get
             {
                 // get all visible chunks
-                List<VoxelChunk> boxs = map.Cast<VoxelChunk>().Where(w => w.On && !w.IsTransparent).ToList();
+                List<VoxelChunk> boxs = map.Cast<VoxelChunk>().Where(w => w.On && !w.IsSurrounded).ToList();
                 return boxs;
             }
         }
@@ -193,6 +193,10 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
 
         public void SetVoxelChunk(Vector3 p, bool on, int? blockType = null)
         {
+            if (blockType == null) 
+            {
+                blockType = 1;
+            }
 
             int x = (int)p.X;
             int y = (int)p.Y;
@@ -204,6 +208,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             {
 
                 map[x, y, z].On = on;
+                map[x, y, z].BlockType = blockType.Value;
             }
         }
 

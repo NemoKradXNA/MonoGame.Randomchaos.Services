@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Randomchaos.Interfaces.Models;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
@@ -107,11 +108,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
                 {
                     for (int z = 0; z < _blocksDeep; z++)
                     {
-                        if (x == 5 && y == 5 && z == 5)
-                        {
-                            map[x, y, z] = new VoxelChunk() { On = !GenerateEmpty, Position = new Vector3(x, y, z), BlockType = _startBlockType, Shape = 0 };
-                        }
-                        else map[x, y, z] = new VoxelChunk() { On = false, Position = new Vector3(x, y, z), BlockType = _startBlockType, Shape = 0 };
+                        map[x, y, z] = new VoxelChunk() { On = !GenerateEmpty, Position = new Vector3(x, y, z), BlockType = _startBlockType, Shape = 0 };
                     }
                 }
             }
@@ -368,7 +365,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
                 retVal = true;
             }
 
-            map[x, y, z].IsTransparent = retVal;
+            map[x, y, z].IsSurrounded = retVal;
 
             return retVal;
         }
