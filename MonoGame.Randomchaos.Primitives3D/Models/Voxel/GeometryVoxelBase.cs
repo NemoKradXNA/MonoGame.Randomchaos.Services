@@ -107,7 +107,11 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
                 {
                     for (int z = 0; z < _blocksDeep; z++)
                     {
-                        map[x, y, z] = new VoxelChunk() { On = !GenerateEmpty, Position = new Vector3(x, y, z), BlockType = _startBlockType, Shape = 0 };
+                        if (x == 5 && y == 5 && z == 5)
+                        {
+                            map[x, y, z] = new VoxelChunk() { On = !GenerateEmpty, Position = new Vector3(x, y, z), BlockType = _startBlockType, Shape = 0 };
+                        }
+                        else map[x, y, z] = new VoxelChunk() { On = false, Position = new Vector3(x, y, z), BlockType = _startBlockType, Shape = 0 };
                     }
                 }
             }

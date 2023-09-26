@@ -1,8 +1,5 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Interfaces;
-using System;
-using System.Net.Http.Headers;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 {
@@ -101,10 +98,36 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
 
         public bool ContansPoint(Vector3 point, Matrix? transform = null)
         {
-            if (transform == null) 
+            if (transform == null)
             {
                 transform = Matrix.Identity;
             }
+
+            //Vector3 a = Vector3.Transform(Point1.Position, transform.Value);
+            //Vector3 b = Vector3.Transform(Point2.Position, transform.Value);
+            //Vector3 c = Vector3.Transform(Point3.Position, transform.Value);
+            //Vector3 p = point;
+
+            //// Compute vectors        
+            //Vector3 v0 = c - a;
+            //Vector3 v1 = b - a;
+            //Vector3 v2 = p - a;
+
+            //// Compute dot products
+            //float dot00 = Vector3.Dot(v0, v0);
+            //float dot01 = Vector3.Dot(v0, v1);
+            //float dot02 = Vector3.Dot(v0, v2);
+            //float dot11 = Vector3.Dot(v1, v1);
+            //float dot12 = Vector3.Dot(v1, v2);
+
+            //// Compute barycentric coordinates
+            //float invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+            //float u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+            //float v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+            //// Check if point is in triangle
+            //bool inTriangle = (u >= 0) && (v >= 0) && (u + v < 1);
+            //return inTriangle;
 
             Vector3 a = Vector3.Transform(Point1.Position, transform.Value);
             Vector3 b = Vector3.Transform(Point2.Position, transform.Value);

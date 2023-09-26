@@ -158,17 +158,18 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                 if (msManager.LeftClicked && hitInfo != null)
                 {
                     Vector3 p = ((VoxelChunk)hitInfo.ContactObject).Position;
-                    var o = ((VoxelChunk) hitInfo.ContactObject).Triangles.OrderBy(o => Vector3.Distance(hitInfo.ContactPoint, Vector3.Transform( o.Center,voxel.Transform.World))).ToList();
-                    var t = o.FirstOrDefault();
+                    //var o = ((VoxelChunk) hitInfo.ContactObject).Triangles.OrderBy(o => Vector3.Distance(hitInfo.ContactPoint, Vector3.Transform( o.Center,voxel.Transform.World))).ToList();
+                    //var t = o.FirstOrDefault();
 
                     var x = ((VoxelChunk)hitInfo.ContactObject).Triangles.Where(s => s.ContansPoint(hitInfo.ContactPoint, voxel.Transform.World)).ToList();
-                    t = x.FirstOrDefault();
+                    var o = x.OrderBy(o => Vector3.Distance(hitInfo.ContactPoint, Vector3.Transform(o.Center, voxel.Transform.World))).ToList();
+                    var t = o.FirstOrDefault();
 
-                    nearest = t;
+                    nearest = new List<Triangle>() { o.FirstOrDefault() };
 
                     contactP = hitInfo.ContactPoint;
-                    //voxel.SetVoxelChunk(p + t.Normal, true, 3);
-                    //voxel.ReBuild();
+                    voxel.SetVoxelChunk(p + t.Normal, true, 3);
+                    voxel.ReBuild();
                 }
             }
 
@@ -177,7 +178,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             SetRasterizerState();
         }
 
-        Triangle nearest;
+        List<Triangle> nearest = new List<Triangle>();
         Vector3? contactP;
         BasicEffect basicEffect;
         public virtual void DrawBoundsBoxs(List<BoundingBox> boxs, ITransform trannsform, Color? color = null)
@@ -378,11 +379,17 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                     DrawBoundsBoxs(new List<BoundingBox>() { new BoundingBox(m,p) }, new Transform(), Color.Gold);
                 }
 
-                if (nearest != null)
+                if (nearest != null && nearest.Count > 0)
                 {
-                    Vector3 m = nearest.Center - (Vector3.One * .01f);
-                    Vector3 p = nearest.Center + (Vector3.One * .01f);
-                    DrawBoundsBoxs(new List<BoundingBox>() { new BoundingBox(m, p) },voxel.Transform, Color.Red);
+                    boxs.Clear();
+                    foreach (Triangle triangle in nearest)
+                    {
+                        Vector3 m = triangle.Center - (Vector3.One * .01f);
+                        Vector3 p = triangle.Center + (Vector3.One * .01f);
+                        boxs.Add(new BoundingBox(m, p));
+                    }
+
+                    DrawBoundsBoxs(boxs, voxel.Transform, Color.Red);
                 }
             }
 
