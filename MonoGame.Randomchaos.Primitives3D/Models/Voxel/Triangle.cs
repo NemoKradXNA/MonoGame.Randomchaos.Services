@@ -71,6 +71,11 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             }
         }
 
+        public override string ToString()
+        {
+            return $"({Point1.Position},{Point2.Position},{Point3.Position})";
+        }
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Default constructor. </summary>
         ///
@@ -148,6 +153,11 @@ namespace MonoGame.Randomchaos.Primitives3D.Models.Voxel
             }
 
             if (Vector3.Dot(u, w) < 0.0f)
+            {
+                return false;
+            }
+
+            if (Vector3.Dot(v, w) < 0.0f)
             {
                 return false;
             }

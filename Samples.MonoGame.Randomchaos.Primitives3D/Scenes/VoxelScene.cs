@@ -165,11 +165,11 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                     var o = x.OrderBy(o => Vector3.Distance(hitInfo.ContactPoint, Vector3.Transform(o.Center, voxel.Transform.World))).ToList();
                     var t = o.FirstOrDefault();
 
-                    nearest = new List<Triangle>() { o.FirstOrDefault() };
+                    nearest = o;// new List<Triangle>() { o.FirstOrDefault() };
 
                     contactP = hitInfo.ContactPoint;
-                    voxel.SetVoxelChunk(p + t.Normal, true, 3);
-                    voxel.ReBuild();
+                    //voxel.SetVoxelChunk(p + t.Normal, true, 3);
+                    //voxel.ReBuild();
                 }
             }
 
@@ -181,7 +181,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
         List<Triangle> nearest = new List<Triangle>();
         Vector3? contactP;
         BasicEffect basicEffect;
-        public virtual void DrawBoundsBoxs(List<BoundingBox> boxs, ITransform trannsform, Color? color = null)
+        public virtual void DrawBoundsBoxs(List<BoundingBox> boxs, ITransform transform, Color? color = null)
         {
             if (color == null)
             {
@@ -193,18 +193,68 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 
             BuildBoxCorners(boxs, new List<Matrix>() { Matrix.Identity }, color.Value, out points, out index);
 
+            DrawPoints(points, index, boxs.Count * 12, transform);
+        }
+
+        protected void DrawPoints(VertexPositionColor[] points, short[] index, int primatives, ITransform transform)
+        {
             if (basicEffect == null)
                 basicEffect = new BasicEffect(GraphicsDevice);
 
-            basicEffect.World = Matrix.CreateScale(trannsform.Scale) *
-                      Matrix.CreateTranslation(trannsform.Position);
+            basicEffect.World = Matrix.CreateScale(transform.Scale) *
+                      Matrix.CreateTranslation(transform.Position);
             basicEffect.View = camera.View;
             basicEffect.Projection = camera.Projection;
             basicEffect.VertexColorEnabled = true;
 
             basicEffect.CurrentTechnique.Passes[0].Apply();
-            GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, points, 0, points.Length, index, 0, 12 * boxs.Count);
+            GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, points, 0, points.Length, index, 0, primatives);
         }
+
+        public void DrawTriangles(List<Triangle> triangles, ITransform transform, Color? color = null)
+        {
+            if (color == null)
+            {
+                color = Color.GreenYellow;
+            }
+
+            VertexPositionColor[] points = points = new VertexPositionColor[triangles.Count * 3];
+            short[] index = new short[triangles.Count * 6];
+            short[] idx = new short[] { 0, 1, 1, 2, 2, 0 };
+
+            for (int t = 0; t < triangles.Count; t++)
+            {
+                Triangle triangle = triangles[t];
+
+                points[(t * 3) + 0] = new VertexPositionColor(triangle.Point1.Position, color.Value);
+                points[(t * 3) + 1] = new VertexPositionColor(triangle.Point2.Position, color.Value);
+                points[(t * 3) + 2] = new VertexPositionColor(triangle.Point3.Position, color.Value);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    index[(t * 6) + i] = (short)(idx[i] + (t * 3));
+                }
+            }
+
+            //VertexPositionColor[] points = points = new VertexPositionColor[4];
+            //short[] index = new short[6];
+
+            //points[0] = new VertexPositionColor(new Vector3(-.5f,0,0), color.Value);
+            //points[1] = new VertexPositionColor(new Vector3(0,1,0), color.Value);
+            //points[2] = new VertexPositionColor(new Vector3(0, 1, 0), color.Value);
+            //points[3] = new VertexPositionColor(new Vector3(.5f, 0, 0), color.Value);
+
+            //index[0] = 0;
+            //index[1] = 1;
+            //index[2] = 2;
+            //index[3] = 3;
+            //index[4] = 3;
+            //index[5] = 0;
+
+            DrawPoints(points, index, triangles.Count * 3, transform);
+            //DrawPoints(points, index, 3, new Transform());
+        }
+
         public void BuildBoxCorners(List<BoundingBox> boxs, List<Matrix> worlds, Color color, out VertexPositionColor[] points, out short[] index)
         {
             short[] BoxIndexMap = new short[] {
@@ -341,6 +391,8 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 
             selectedBox = voxel.BoundingBox;
 
+            List<string> debug = new List<string>();
+
             if (selectedBox != null)
             {
                 Vector3 halfBlock = new Vector3(.5f, .5f, .5f);
@@ -373,6 +425,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 
                 if (contactP != null)
                 {
+                    Game.Window.Title = contactP.ToString();
                    
                     Vector3 m = contactP.Value - (Vector3.One * .01f);
                     Vector3 p = contactP.Value + (Vector3.One * .01f);
@@ -390,8 +443,23 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
                     }
 
                     DrawBoundsBoxs(boxs, voxel.Transform, Color.Red);
+
+                    ITransform t = new Transform()
+                    {
+                        Scale = voxel.Transform.Scale * 1.01f,
+                        Position = voxel.Transform.Position,
+                        Rotation = voxel.Transform.Rotation,
+                    };
+
+                    foreach (Triangle triangle in nearest)
+                    {
+                        debug.Add(triangle.ToString());
+                    }
+
+                    DrawTriangles(nearest, t);
                 }
             }
+
 
             base.Draw(gameTime);
 
@@ -409,6 +477,11 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             line = DrawString($"F1 - Toggle Wire Frame [{_renderWireFrame}]", line);
             line = DrawString($"F2 - Toggle Cull Mode [{_cullingOff}]", line);
             line = DrawString($"RMB - Delete selected chunk", line);
+
+            foreach (string db in debug)
+            {
+                line = DrawString($"{db}", line);
+            }
 
             _spriteBatch.End();
 
