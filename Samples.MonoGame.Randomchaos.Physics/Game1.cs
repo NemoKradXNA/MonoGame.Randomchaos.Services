@@ -1,6 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Randomchaos.Physics;
 using MonoGame.Randomchaos.Services.Audio;
 using MonoGame.Randomchaos.Services.Camera;
 using MonoGame.Randomchaos.Services.Coroutine;
@@ -8,18 +8,11 @@ using MonoGame.Randomchaos.Services.Input;
 using MonoGame.Randomchaos.Services.Input.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Scene.Services;
-using Sample.MonoGame.Randomchaos.Primitives3D.Scenes;
-using Samples.MonoGame.Randomchaos.Primitives3D.Scenes;
+using Samples.MonoGame.Randomchaos.Physics.Scenes;
 using System.Globalization;
 
-namespace Samples.MonoGame.Randomchaos.Primitives3D
+namespace Samples.MonoGame.Randomchaos.Physics
 {
-    ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A game 1. </summary>
-    ///
-    /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
-    ///-------------------------------------------------------------------------------------------------
-
     public class Game1 : Game
     {
         /// <summary>   The graphics. </summary>
@@ -66,9 +59,14 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+
             kbState = new KeyboardStateManager(this);
             mState = new MouseStateManager(this);
             inputService = new InputHandlerService(this, kbState, mState);
+
+            new PhysicsService(this);
 
             // Set up coroutine service
             new CoroutineService(this);
@@ -95,8 +93,10 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en");
 
             sceneService.AddScene(new MainMenuScene(this, "mainMenu"));
-            sceneService.AddScene(new Primitives3DScene(this, "primitives3DScene"));
-            sceneService.AddScene(new VoxelScene(this, "voxelScene"));
+            sceneService.AddScene(new BasicBallistics2DScene(this, "basicBallistics2DScene"));
+            sceneService.AddScene(new BasicBallistics3DScene(this, "basicBallistics3DScene"));
+            sceneService.AddScene(new BasicParticles2DScene(this, "basicParticles2DScene"));
+            sceneService.AddScene(new BasicForces3DScene(this, "basicForces3DScene"));
 
             base.Initialize();
         }

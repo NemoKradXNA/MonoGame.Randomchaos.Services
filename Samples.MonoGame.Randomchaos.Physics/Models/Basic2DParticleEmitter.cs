@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Models;
-using MonoGame.Randomchaos.Physics.Basic;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Physics.Models.Basic;
+using MonoGame.Randomchaos.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

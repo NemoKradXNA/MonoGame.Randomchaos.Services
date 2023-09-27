@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Models;
-using MonoGame.Randomchaos.Physics.Basic;
+using MonoGame.Randomchaos.Physics.Models.Basic;
 
 namespace Samples.MonoGame.Randomchaos.Physics.Models
 {

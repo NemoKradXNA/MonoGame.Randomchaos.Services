@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Models;
-using MonoGame.Randomchaos.Physics.Basic;
+using MonoGame.Randomchaos.Physics.Models.Basic;
 using MonoGame.Randomchaos.Primitives3D.Models;
 
 namespace Samples.MonoGame.Randomchaos.Physics.Models

@@ -13,7 +13,7 @@ namespace MonoGame.Randomchaos.Physics
     /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class PhysicsService : ServiceBase<PhysicsService>, IPhysicsService
+    public class PhysicsService : ServiceBase<IPhysicsService>, IPhysicsService
     {
         /// <summary>   (Immutable) the force registry. </summary>
         protected readonly IForceRegistry _forceRegistry;

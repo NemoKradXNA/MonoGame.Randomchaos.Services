@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Physics;
-using MonoGame.Randomchaos.Physics.ForceGenerators;
-using MonoGame.Randomchaos.Physics.ForceGenerators.Springs;
-using MonoGame.Randomchaos.Physics.ForceGenerators.Springs.Buoyancy;
-using MonoGame.Randomchaos.Physics.Interfaces;
+using MonoGame.Randomchaos.Physics.Models.ForceGenerators;
+using MonoGame.Randomchaos.Physics.Models.ForceGenerators.Springs;
+using MonoGame.Randomchaos.Physics.Models.ForceGenerators.Springs.Buoyancy;
 using MonoGame.Randomchaos.Services.Camera;
 using MonoGame.Randomchaos.Services.Input;
 using MonoGame.Randomchaos.Services.Input.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
+using MonoGame.Randomchaos.Services.Interfaces.Physics;
 using Samples.MonoGame.Randomchaos.Physics.Models;
 
 namespace Samples.MonoGame.Randomchaos.Physics

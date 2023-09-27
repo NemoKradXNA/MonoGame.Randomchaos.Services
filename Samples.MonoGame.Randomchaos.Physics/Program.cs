@@ -1,8 +1,5 @@
 ﻿
-//using var game = new Samples.MonoGame.Randomchaos.Physics.BasicBalistics2DGame();
-//using var game = new Samples.MonoGame.Randomchaos.Physics.BasicBalistics3DGame();
-//using var game = new Samples.MonoGame.Randomchaos.Physics.BasicParticles2DGame();
-using var game = new Samples.MonoGame.Randomchaos.Physics.BasicForces3DGame();
+using var game = new Samples.MonoGame.Randomchaos.Physics.Game1();
 
 ///-------------------------------------------------------------------------------------------------
 /// <summary>   Default constructor. </summary>
