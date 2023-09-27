@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.1" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0" />
   </ItemGroup>

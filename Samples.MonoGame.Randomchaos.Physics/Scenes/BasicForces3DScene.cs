@@ -38,6 +38,11 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
         /// <summary>   The fourth cube. </summary>
         protected Basic3DCube cube4;
 
+        /// <summary>   The fifth cube. </summary>
+        protected Basic3DCube cube5;
+        /// <summary>   The fifth ball. </summary>
+        protected Basic3DBall ball5;
+
         /// <summary>   The gravity. </summary>
         IForceGenerator gravity;
         /// <summary>   The spring. </summary>
@@ -46,6 +51,9 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
         IForceGenerator bungee;
         /// <summary>   The buoyancy. </summary>
         IForceGenerator buoyancy;
+
+        /// <summary>   The fake spring. </summary>
+        IForceGenerator fakeSpring;
 
         public BasicForces3DScene(Game game, string name) : base(game, name) { }
 
@@ -84,18 +92,29 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
             cube4.Transform.Position = new Vector3(5, 2, -20);
             Components.Add(cube4);
 
+            cube5 = new Basic3DCube(Game);
+            cube5.Transform.Position = new Vector3(10, 2, -20);
+            Components.Add(cube5);
+
+            ball5 = new Basic3DBall(Game);
+            ball5.Transform.Position = new Vector3(10, 0, -20);
+            Components.Add(ball5);
+
             base.Initialize();
 
             PhysicsService.RegisterObject(ball);
             PhysicsService.RegisterObject(ball2);
             PhysicsService.RegisterObject(ball3);
             PhysicsService.RegisterObject(cube4);
+            PhysicsService.RegisterObject(cube5);
+            PhysicsService.RegisterObject(ball5);
 
             gravity = new GravityForceGenerator();
             PhysicsService.AddForce(gravity, ball);
             PhysicsService.AddForce(gravity, ball2);
             PhysicsService.AddForce(gravity, ball3);
             PhysicsService.AddForce(gravity, cube4);
+            PhysicsService.AddForce(gravity, ball5);
 
             spring = new SpringForceGenerator(cube2, 1f, 2f);
             PhysicsService.AddForce(spring, ball2);
@@ -106,6 +125,9 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
             buoyancy = new BuoyancyForceGenerator(-1, MathHelper.PiOver2, 0);
             PhysicsService.AddForce(buoyancy, cube4);
 
+            fakeSpring = new FakeImplicitSpringForceGenerator(cube5.Transform, .5f, .9f);
+            PhysicsService.AddForce(fakeSpring, ball5);
+
             base.LoadScene();
         }
 
@@ -115,6 +137,8 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
             PhysicsService.RemoveObject(ball2);
             PhysicsService.RemoveObject(ball3);
             PhysicsService.RemoveObject(cube4);
+            PhysicsService.RemoveObject(ball5);
+            PhysicsService.RemoveObject(cube5);
 
             PhysicsService.ClearForces();
 
@@ -163,6 +187,13 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
                 //    //ball.Acceleration = new Vector3(0, 0, 0);
                 //}
 
+                if (kbManager.KeyDown(Keys.Space))
+                {
+                    ball5.Mass = 200;
+                    ball5.Damping = .99f;
+                    ball5.Velocity = new Vector3(0, 30f, -40f);
+                }
+
                 if (kbManager.KeyDown(Keys.F12))
                 {
                     ball.Mass = 1;
@@ -177,6 +208,12 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
 
                     cube4.Velocity = Vector3.Zero;
                     cube4.Transform.Position = new Vector3(5, 2, -20);
+
+                    cube5.Velocity = Vector3.Zero;
+                    cube5.Transform.Position = new Vector3(10, 2, -20);
+
+                    ball5.Velocity = Vector3.Zero;
+                    ball5.Transform.Position = new Vector3(10, 0, -20);
                 }
 
                 // Camera controls..
@@ -208,6 +245,8 @@ namespace Samples.MonoGame.Randomchaos.Physics.Scenes
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             base.Draw(gameTime);
 
