@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Interfaces.Interfaces;
-using MonoGame.Randomchaos.Services.Interfaces.Physics;
-using System.Runtime;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
 {

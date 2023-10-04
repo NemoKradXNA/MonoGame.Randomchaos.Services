@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using System;
@@ -62,6 +63,21 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         ///-------------------------------------------------------------------------------------------------
 
         protected IAudioService audioManager { get { return Game.Services.GetService<IAudioService>(); } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the post processing. </summary>
+        ///
+        /// <value> The post processing. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        protected IPostProcessingComponent postProcess { get; set; }
+        protected SpriteBatch _spriteBatch { get; set; }
+
+        /// <summary>   The current scene. </summary>
+        protected RenderTarget2D currentScene = null;
+        /// <summary>   The depth. </summary>
+        protected RenderTarget2D depth = null;
+
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets options for controlling the operation. </summary>
@@ -218,6 +234,11 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             if (State == SceneStateEnum.Unloaded)
                 return;
 
+            if (postProcess != null)
+            {
+                postProcess.Update(gameTime);
+            }
+
             base.Update(gameTime);
 
             foreach (IGameComponent component in Components)
@@ -287,6 +308,70 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             // Unload our shit!
             UnloadContent();
 
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Starts post process. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 04/10/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void StartPostProcess(GameTime gameTime)
+        {
+            if (postProcess != null && postProcess.Enabled)
+            {
+                if (currentScene == null)
+                {
+                    int mod = 1;
+
+                    Point screenSize = new Point(GraphicsDevice.Viewport.Width / mod, GraphicsDevice.Viewport.Height / mod);
+
+                    currentScene = new RenderTarget2D(GraphicsDevice,
+                                            screenSize.X,
+                                            screenSize.Y,
+                                            false,
+                                            SurfaceFormat.Color,
+                                            DepthFormat.Depth24, 2, RenderTargetUsage.DiscardContents, true);
+
+                    depth = new RenderTarget2D(GraphicsDevice,
+                                           screenSize.X,
+                                            screenSize.Y,
+                                            false, SurfaceFormat.Single,
+                                            DepthFormat.Depth24, 2, RenderTargetUsage.DiscardContents, true);
+                }
+
+                GraphicsDevice.SetRenderTargets(currentScene, depth);
+            }
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ends post process. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 04/10/2023. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void EndPostProcess(GameTime gameTime)
+        {
+            if (postProcess != null && postProcess.Enabled)
+            {
+                GraphicsDevice.SetRenderTarget(null);
+
+                GraphicsDevice.Clear(Color.Magenta);
+                postProcess.Draw(gameTime, currentScene, depth);
+
+                if (_spriteBatch == null)
+                {
+                    _spriteBatch = new SpriteBatch(GraphicsDevice);
+                }
+
+                _spriteBatch.Begin(SpriteSortMode.Immediate);
+                _spriteBatch.Draw(postProcess.FinalRenderTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                _spriteBatch.End();
+            }
         }
     }
 }

@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.MonoGame.Randomchao
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.MonoGame.Randomchaos.Windows.Audio", "Samples.MonoGame.Randomchaos.Windows.Audio\Samples.MonoGame.Randomchaos.Windows.Audio.csproj", "{BC158668-57EF-4683-9D64-9B6777BD796C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.PostProcessing", "MonoGame.Randomchaos.PostProcessing\MonoGame.Randomchaos.PostProcessing.csproj", "{A83656FE-267E-4650-AE12-3412A5AA0CD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{BC158668-57EF-4683-9D64-9B6777BD796C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC158668-57EF-4683-9D64-9B6777BD796C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC158668-57EF-4683-9D64-9B6777BD796C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83656FE-267E-4650-AE12-3412A5AA0CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83656FE-267E-4650-AE12-3412A5AA0CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83656FE-267E-4650-AE12-3412A5AA0CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83656FE-267E-4650-AE12-3412A5AA0CD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
