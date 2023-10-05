@@ -1,10 +1,12 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Randomchaos.Interfaces.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace MonoGame.Randomchaos.Services.Scene.Models
 {
@@ -71,12 +73,14 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         ///-------------------------------------------------------------------------------------------------
 
         protected IPostProcessingComponent postProcess { get; set; }
-        protected SpriteBatch _spriteBatch { get; set; }
 
-        /// <summary>   The current scene. </summary>
-        protected RenderTarget2D currentScene = null;
-        /// <summary>   The depth. </summary>
-        protected RenderTarget2D depth = null;
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the post process user interface. </summary>
+        ///
+        /// <value> The post process user interface. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        protected IPostProcessingComponent postProcessUI { get; set; }
 
 
         ///-------------------------------------------------------------------------------------------------
@@ -103,6 +107,14 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         public virtual IScene LastScene { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the clear. </summary>
+        ///
+        /// <value> The color of the clear. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color ClearColor { get; set; } = Color.CornflowerBlue;
+
         /// <summary>   The state. </summary>
         SceneStateEnum _state;
 
@@ -120,7 +132,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 _state = value;
                 if (_state == SceneStateEnum.Unloaded)
                 {
-                    foreach (IGameComponent compontent in Components)
+                    foreach (IGameComponent compontent in Components.Components)
                     {
                         Game.Components.Remove(compontent);
                     }
@@ -139,13 +151,30 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         public string AudioMusicAsset { get; set; }
 
+
+        /// <summary>   The components. </summary>
+        protected List<IGameComponent> _Components;
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the components. </summary>
         ///
         /// <value> The components. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public List<IGameComponent> Components { get; set; }
+        public ISceneComponentColection Components { get; set; } = new SceneComponentColection();
+
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets or sets a list of types of the UI components. This is used to distinguish between UI and
+        /// regular scene elements. UI elements will be rendered after scene objects and have their own
+        /// render loop.
+        /// </summary>
+        ///
+        /// <value> A list of types of the components. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public List<Type> UIComponentTypes { get { return Components.UIComponentTypes; } set { Components.UIComponentTypes = value; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
@@ -159,8 +188,6 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         public SceneBase(Game game, string name) : base(game)
         {
             Name = name;
-            Components = new List<IGameComponent>();
-
             game.Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
 
@@ -174,7 +201,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         /// <param name="audioMusicAsset">  The audio music asset. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SceneBase(Game game, string name, string audioMusicAsset) : this(game,name)
+        public SceneBase(Game game, string name, string audioMusicAsset) : this(game, name)
         {
             AudioMusicAsset = audioMusicAsset;
         }
@@ -193,7 +220,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         protected virtual void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -206,7 +233,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             base.Initialize();
 
-            foreach (IGameComponent component in Components)
+            foreach (IGameComponent component in Components.Components)
                 component.Initialize();
         }
 
@@ -218,7 +245,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         protected override void UnloadContent()
         {
-            base.UnloadContent();            
+            base.UnloadContent();
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -241,7 +268,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
             base.Update(gameTime);
 
-            foreach (IGameComponent component in Components)
+            foreach (IGameComponent component in Components.Components)
             {
                 if (component is IUpdateable && ((IUpdateable)component).Enabled)
                     ((IUpdateable)component).Update(gameTime);
@@ -261,14 +288,43 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             if (State == SceneStateEnum.Unloaded)
                 return;
 
-            foreach (IGameComponent component in Components)
+            // Main scene
+            if (postProcess != null)
+            {
+                postProcess.StartPostProcess(gameTime);
+                GraphicsDevice.Clear(camera != null ? camera.ClearColor : ClearColor);
+            }
+
+            foreach (IGameComponent component in Components.SceneComponents)
             {
                 if (component is IDrawable && ((IDrawable)component).Visible)
                     ((IDrawable)component).Draw(gameTime);
             }
 
-            base.Draw(gameTime);
+            if (postProcess != null)
+            {
+                postProcess.EndPostProcess(gameTime);
+            }
+
+            // UI/Overlay
+            if (postProcessUI != null)
+            {
+                postProcessUI.StartPostProcess(gameTime);
+            }
+
+            foreach (IGameComponent component in Components.UIComponents)
+            {
+                if (component is IDrawable && ((IDrawable)component).Visible)
+                    ((IDrawable)component).Draw(gameTime);
+            }
+
+            if (postProcessUI != null)
+            {
+                postProcessUI.EndPostProcess(gameTime);
+            }
         }
+
+
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Loads a scene. </summary>
@@ -308,70 +364,6 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             // Unload our shit!
             UnloadContent();
 
-        }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Starts post process. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 04/10/2023. </remarks>
-        ///
-        /// <param name="gameTime"> The game time. </param>
-        ///-------------------------------------------------------------------------------------------------
-
-        public void StartPostProcess(GameTime gameTime)
-        {
-            if (postProcess != null && postProcess.Enabled)
-            {
-                if (currentScene == null)
-                {
-                    int mod = 1;
-
-                    Point screenSize = new Point(GraphicsDevice.Viewport.Width / mod, GraphicsDevice.Viewport.Height / mod);
-
-                    currentScene = new RenderTarget2D(GraphicsDevice,
-                                            screenSize.X,
-                                            screenSize.Y,
-                                            false,
-                                            SurfaceFormat.Color,
-                                            DepthFormat.Depth24, 2, RenderTargetUsage.DiscardContents, true);
-
-                    depth = new RenderTarget2D(GraphicsDevice,
-                                           screenSize.X,
-                                            screenSize.Y,
-                                            false, SurfaceFormat.Single,
-                                            DepthFormat.Depth24, 2, RenderTargetUsage.DiscardContents, true);
-                }
-
-                GraphicsDevice.SetRenderTargets(currentScene, depth);
-            }
-        }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Ends post process. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 04/10/2023. </remarks>
-        ///
-        /// <param name="gameTime"> The game time. </param>
-        ///-------------------------------------------------------------------------------------------------
-
-        public void EndPostProcess(GameTime gameTime)
-        {
-            if (postProcess != null && postProcess.Enabled)
-            {
-                GraphicsDevice.SetRenderTarget(null);
-
-                GraphicsDevice.Clear(Color.Magenta);
-                postProcess.Draw(gameTime, currentScene, depth);
-
-                if (_spriteBatch == null)
-                {
-                    _spriteBatch = new SpriteBatch(GraphicsDevice);
-                }
-
-                _spriteBatch.Begin(SpriteSortMode.Immediate);
-                _spriteBatch.Draw(postProcess.FinalRenderTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-                _spriteBatch.End();
-            }
         }
     }
 }

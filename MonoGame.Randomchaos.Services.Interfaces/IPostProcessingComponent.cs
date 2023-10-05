@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Services.Interfaces.PostProcessing;
+using System;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
@@ -39,6 +40,40 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         bool Enabled { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   
+        /// Gets or sets the render target screen scale. The screen render target is divided by this value.
+        /// </summary>
+        ///
+        /// <value> The render target screen scale. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        Point RenderTargetScreenScale { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the render target depth format. </summary>
+        ///
+        /// <value> The render target depth format. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        DepthFormat RenderTargetDepthFormat { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the number of render target multi samples. </summary>
+        ///
+        /// <value> The number of render target multi samples. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        int RenderTargetMultiSampleCount { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the render target clear. </summary>
+        ///
+        /// <value> The color of the render target clear. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        Color RenderTargetClearColor { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Updates the given gameTime. </summary>
         ///
         /// <param name="gameTime"> The game time. </param>
@@ -71,5 +106,21 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         ///-------------------------------------------------------------------------------------------------
 
         RenderTarget2D FinalRenderTexture { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Starts post process. </summary>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        void StartPostProcess(GameTime gameTime);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Ends post process. </summary>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        void EndPostProcess(GameTime gameTime);
     }
 }

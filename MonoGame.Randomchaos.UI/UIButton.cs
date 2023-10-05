@@ -86,6 +86,14 @@ namespace MonoGame.Randomchaos.UI
         public event UIMouseEvent OnMouseDown;
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the scaled segments. </summary>
+        ///
+        /// <value> True if scaled segments, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool ScaledSegments { get; set; } = true;
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the text position. </summary>
         ///
         /// <value> The text position. </value>
@@ -204,7 +212,12 @@ namespace MonoGame.Randomchaos.UI
                 // |                     |
                 // *---------------------*
                 Rectangle seg = Segments.Value;
-                Vector2 ratio = new Vector2(Rectangle.Width,Rectangle.Height) / new Vector2(BackgroundTexture.Width,BackgroundTexture.Height);
+                Vector2 ratio = Vector2.One;
+
+                if (ScaledSegments)
+                {
+                    ratio = new Vector2(Rectangle.Width, Rectangle.Height) / new Vector2(BackgroundTexture.Width, BackgroundTexture.Height);
+                }
 
                 // Top Left
                 float tlWidth = seg.Left * ratio.X;

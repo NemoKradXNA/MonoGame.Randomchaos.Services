@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.Xna.Framework;
+using MonoGame.Randomchaos.Interfaces.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
@@ -51,7 +53,19 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         /// <value> The components. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        List<IGameComponent> Components { get; set; }
+        ISceneComponentColection Components { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   
+        /// Gets or sets a list of types of the UI components. This is used to distinguish between UI and
+        /// regular scene elements. UI elements will be rendered after scene objects and have their own
+        /// render loop.
+        /// </summary>
+        ///
+        /// <value> A list of types of the components. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        List<Type> UIComponentTypes { get; set; }
 
         /// <summary>   Loads a scene. </summary>
         void LoadScene();
@@ -63,6 +77,7 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         ///-------------------------------------------------------------------------------------------------
 
         void LoadScene(params object[] paramters);
+
         /// <summary>   Unload scene. </summary>
         void UnloadScene();
     }

@@ -48,6 +48,14 @@ namespace MonoGame.Randomchaos.UI
         public string Label { get { return lblLabel.Text; } set { lblLabel.Text = value; } }
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the label tint. </summary>
+        ///
+        /// <value> The label tint. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color LabelTint { get { return lblLabel.Tint; } set { lblLabel.Tint = value; } }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the bar texture. </summary>
         ///
         /// <value> The bar texture. </value>
@@ -73,20 +81,27 @@ namespace MonoGame.Randomchaos.UI
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 05/10/2023. </remarks>
         ///
-        /// <param name="game">     The game. </param>
-        /// <param name="position"> The position. </param>
-        /// <param name="size">     The size. </param>
+        /// <param name="game">         The game. </param>
+        /// <param name="position">     The position. </param>
+        /// <param name="size">         The size. </param>
+        /// <param name="thickness">    (Optional) The thickness of the bar. </param>
+        /// <param name="buttonSize">   (Optional) Size of the button. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public UISlider(Game game, Point position, Point size) : base(game, position, size)
+        public UISlider(Game game, Point position, Point size, int thickness = 4, Point? buttonSize = null) : base(game, position, size)
         {
+            if (buttonSize == null)
+            {
+                buttonSize = new Point(32, 32);
+            }
+
             lblLabel = new UILabel(Game);
 
-            imgBar = new UIImage(Game, Position, new Point(Size.X, 4));
+            imgBar = new UIImage(Game, Position, new Point(Size.X, thickness));
 
-            btnButton = new UIButton(Game, Position, new Point(32, 32));
+            btnButton = new UIButton(Game, Position, buttonSize.Value);
 
             btnButton.OnMouseDown += btnOnMouseDown;
         }
@@ -123,11 +138,6 @@ namespace MonoGame.Randomchaos.UI
             set
             {
                 _Value = value;
-
-                // Lerp button position.
-                int x = (int)MathHelper.Lerp(imgBar.Position.X, (imgBar.Position.X + imgBar.Size.X) - btnButton.Size.X, _Value);
-
-                btnButton.Position = new Point(x, btnButton.Position.Y);
             }
         }
 
@@ -167,7 +177,7 @@ namespace MonoGame.Randomchaos.UI
             imgBar.Size = new Point(Size.X - (lblLabel.Size.X + 16), 4);
             imgBar.Position = new Point(lblLabel.Position.X + 16 + m.X / 2, lblLabel.Position.Y - 2);
 
-            btnButton.Position = new Point(imgBar.Position.X, imgBar.Position.Y - btnButton.Size.Y / 2);
+            btnButton.Position = new Point(imgBar.Position.X, (imgBar.Position.Y + (imgBar.Size.Y / 2)) - (btnButton.Size.Y / 2));
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -193,6 +203,10 @@ namespace MonoGame.Randomchaos.UI
                 float xDelta = -inputManager.MouseManager.PositionDelta.X;
                 Value = Math.Max(0, Math.Min(1, invLerp(imgBar.Position.X, (imgBar.Position.X + imgBar.Size.X) - btnButton.Size.X, btnButton.Position.X + xDelta)));
             }
+
+            // Lerp button position.
+            int x = (int)MathHelper.Lerp(imgBar.Position.X, (imgBar.Position.X + imgBar.Size.X) - btnButton.Size.X, _Value);
+            btnButton.Position = new Point(x, btnButton.Position.Y);
 
             if (!inputManager.MouseManager.LeftButtonDown || !btnButton.IsMouseOver)
                 dragging = false;

@@ -75,6 +75,8 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
 
         public override void Initialize()
         {
+            UIComponentTypes.Add(typeof(IUIBase));
+
             font = Game.Content.Load<SpriteFont>("Fonts/font");
             buttonFont = Game.Content.Load<SpriteFont>("Fonts/ButtonFont");
 
@@ -83,7 +85,7 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             bleachEffect = new BleachEffect(Game, 1) { Enabled = false };
             postProcess.AddEffect(bleachEffect);
 
-            deRezedEffect = new DeRezedPostProcessEffect(Game, 1024) { Enabled = false };
+            deRezedEffect = new DeRezedPostProcessEffect(Game, 512) { Enabled = false };
             postProcess.AddEffect(deRezedEffect);
 
             Vector2 c = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height) * .5f;
@@ -151,9 +153,11 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
 
         protected UISlider CreateSlider(Point position, Point size, string text, SpriteFont font, float startingValue)
         {
-            UISlider sldr = new UISlider(Game, position, size) {
+            UISlider sldr = new UISlider(Game, position, size,4,new Point(24,24)) 
+            {
                 Font = font,
                 Label = text,
+                LabelTint = Color.Black,
                 BarTexture = CreateBox(300, 32, new Rectangle(1, 1, 1, 1), new Color(.2f, .2f, .5f, 1f), Color.DodgerBlue),
                 Tint = Color.Black,
                 SliderTexture = Game.Content.Load<Texture2D>("Textures/UI/circle"),
@@ -311,11 +315,11 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
                 if (kbManager.KeyDown(Keys.Down))
                     _camera.Transform.Rotate(Vector3.Right, -speedRot);
 
-                deRezedEffect.NumberofTiles =  (int)MathHelper.Lerp(16, 1024, sldDeRezTiles.Value);
+                deRezedEffect.NumberofTiles = (int)MathHelper.Lerp(128, 512, sldDeRezTiles.Value);
                 sldDeRezTiles.Label = $"Tiles: {deRezedEffect.NumberofTiles}";
-
-                SetRasterizerState();
             }
+
+            SetRasterizerState();
 
             base.Update(gameTime);
 
@@ -333,14 +337,11 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            StartPostProcess(gameTime);
             GraphicsDevice.Clear(_camera.ClearColor);
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             base.Draw(gameTime);
-
-            EndPostProcess(gameTime);
 
             DrawFader(gameTime);
         }
