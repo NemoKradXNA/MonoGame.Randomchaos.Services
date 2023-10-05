@@ -50,7 +50,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
 
             Normals = new List<Vector3>();
 
-            Texcoords = new List<Vector2>();
+            if (UVMap != null)
+            {
+                Texcoords = UVMap;
+            }
+            else
+            {
+                Texcoords = new List<Vector2>();
+            }
 
             Colors = new List<Color>();
 
@@ -61,7 +68,12 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
                     uv = new Vector2(x, y) / (float)(SquareSize - 1);
                     Vertices.Add(new Vector3(x, 0, y) - center);
                     Normals.Add(Vector3.Up);
-                    Texcoords.Add(uv);
+
+                    if (UVMap == null)
+                    {
+                        Texcoords.Add(uv);
+                    }
+
                     Colors.Add(Color.White);
                 }
             }

@@ -49,13 +49,21 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
                 Vector3.Backward
             };
 
-            Texcoords = new List<Vector2>()
+            if (UVMap != null)
             {
-                new Vector2(0,0),
-                new Vector2(1,0f),
-                new Vector2(1f, 1f),
-                new Vector2(0f, 1f)
-            };
+                Texcoords = UVMap;
+            }
+            else
+            {
+
+                Texcoords = new List<Vector2>()
+                {
+                    new Vector2(0,0),
+                    new Vector2(1,0f),
+                    new Vector2(1f, 1f),
+                    new Vector2(0f, 1f)
+                };
+            }
 
             if (Colors == null)
             {

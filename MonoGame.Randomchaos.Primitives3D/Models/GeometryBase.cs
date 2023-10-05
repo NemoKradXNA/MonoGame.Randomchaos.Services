@@ -105,6 +105,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         protected List<T> _vertexArray { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the uv map. Should we want to re map the UV's </summary>
+        ///
+        /// <value> The uv map. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public List<Vector2> UVMap { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
         ///
         /// <remarks>   Charles Humphrey, 19/09/2023. </remarks>

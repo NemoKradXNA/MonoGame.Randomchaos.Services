@@ -10,6 +10,7 @@ using MonoGame.Randomchaos.Services.Scene.Models;
 using MonoGame.Randomchaos.UI;
 using Samples.MonoGame.Randomchaos.PostProcessing.Models.PostProcessing.PostProcessingEffects;
 using System;
+using System.Collections.Generic;
 
 namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
 {
@@ -21,10 +22,13 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
         protected UIButton btnBleach;
         protected UIButton btndeRezed;
         protected UISlider sldDeRezTiles;
+        protected UIButton btnChroma;
 
 
         protected BleachEffect bleachEffect;
         protected DeRezedPostProcessEffect deRezedEffect;
+        protected ChromaticAberrationEffect chromaEffect;
+
         /// <summary>   The camera. </summary>
         protected ICameraService _camera { get { return Game.Services.GetService<ICameraService>(); } }
 
@@ -88,6 +92,9 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             deRezedEffect = new DeRezedPostProcessEffect(Game, 512) { Enabled = false };
             postProcess.AddEffect(deRezedEffect);
 
+            chromaEffect = new ChromaticAberrationEffect(Game) { Enabled = false, ScreenCurvature = 39f,Blur = .075f, LineDensity = .25f, Flickering = .05f };
+            postProcess.AddEffect(chromaEffect);
+
             Vector2 c = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height) * .5f;
             Point btnSize = new Point(256, buttonFont.LineSpacing + 16);
 
@@ -113,6 +120,9 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             sldDeRezTiles = CreateSlider(pos + new Point(btnSize.X + (btnSize.X/4), buttonFont.LineSpacing/2), btnSize, $"Tiles: {deRezedEffect.NumberofTiles}", font, 1);
             Components.Add(sldDeRezTiles);
 
+            pos += new Point(0, buttonFont.LineSpacing + 16 + 8);
+            btnChroma = CreateButton($"TV Effect {(chromaEffect.Enabled ? "On" : "Off")}", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
+            Components.Add(btnChroma);
 
             pos = new Point(GraphicsDevice.Viewport.Width - (btnSize.X + 8), GraphicsDevice.Viewport.Height - (btnSize.Y + 8));
             btnExit = CreateButton("Exit", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
@@ -124,14 +134,15 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             base.Initialize();
 
             Vector3 ld = new Vector3(1, -1, -1);
+            Vector3 amb = Color.Black.ToVector3();
 
-            sphere.SetDirectionalLight(ld);
-            cube.SetDirectionalLight(ld);
-            triangle.SetDirectionalLight(ld);
-            quad.SetDirectionalLight(ld);
-            capsule.SetDirectionalLight(ld);
-            cylinder.SetDirectionalLight(ld);
-            plane.SetDirectionalLight(ld);
+            sphere.SetDirectionalLight(ld, amb);
+            cube.SetDirectionalLight(ld, amb);
+            triangle.SetDirectionalLight(ld, amb);
+            quad.SetDirectionalLight(ld, amb);
+            capsule.SetDirectionalLight(ld, amb);
+            cylinder.SetDirectionalLight(ld, amb);
+            plane.SetDirectionalLight(ld, amb);
         }
 
         protected UIButton CreateButton(string text, Texture2D bgTeture, Point pos, Point size)
@@ -225,6 +236,16 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             Components.Add(quad);
 
             cube = new CubeBasicEffect(Game);
+            cube.Texture = Game.Content.Load<Texture2D>("Textures/boxTexture");
+            cube.UVMap = new List<Vector2>()
+            {
+                new Vector2(.25f, .25f),new Vector2(.5f, .25f),new Vector2(.5f, .5f),new Vector2(.25f, .5f), // F
+                new Vector2(.5f, .75f),new Vector2(.25f, .75f),new Vector2(.25f, 1),new Vector2(.5f, 1), // bK
+                new Vector2(.5f, .5f),new Vector2(.25f, .5f),new Vector2(.25f, .75f),new Vector2(.5f, .75f), // T
+                new Vector2(.25f, 0),new Vector2(.5f, 0),new Vector2(.5f, .25f),new Vector2(.25f, .25f), // B
+                new Vector2(0, .5f),new Vector2(.25f, .5f),new Vector2(.25f, .75f),new Vector2(0, .75f), // L
+                new Vector2(.75f, .5f),new Vector2(.5f, .5f),new Vector2(.5f, .75f),new Vector2(.75f, .75f), // R
+            };
             cube.Transform.Position = new Vector3(3, 1, 3);
             Components.Add(cube);
 
@@ -277,6 +298,12 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
                     deRezedEffect.Enabled = !deRezedEffect.Enabled;
                     btndeRezed.Text = $"DeRezed Effect {(deRezedEffect.Enabled ? "On" : "Off")}";
                 }
+                else if (sender == btnChroma)
+                {
+                    chromaEffect.Enabled = !chromaEffect.Enabled;
+                    btnChroma.Text = $"TV Effect {(chromaEffect.Enabled ? "On" : "Off")}";
+                }
+
             }
         }
 

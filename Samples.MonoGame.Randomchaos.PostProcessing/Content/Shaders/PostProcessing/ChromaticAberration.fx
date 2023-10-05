@@ -66,7 +66,7 @@ float4 ChromaticAberrationShader(VertexShaderOutput input) : COLOR0
     amount = pow(amount, 2.0);
 
     //amount *= 0.05;
-
+    float g = tex2D(ScreenSampler, float2(uv.x + (amount * shift.y), uv.y)).g;
     float os = tex2D(NoiseSampler, (uv * 3.0) - float2(0, -iTime) * amount).r;
 
     //amount *= 0.0005;
@@ -75,12 +75,12 @@ float4 ChromaticAberrationShader(VertexShaderOutput input) : COLOR0
 
     float3 col;
     col.r = tex2D(ScreenSampler, float2(uv.x + (amount * shift.x), uv.y)).r;
-    col.g = tex2D(ScreenSampler, float2(uv.x + (amount * shift.y), uv.y)).g;
+    col.g = g;// tex2D(ScreenSampler, float2(uv.x + (amount * shift.y), uv.y)).g;
     col.b = tex2D(ScreenSampler, float2(uv.x + (amount * shift.z), uv.y)).b;
 
     col *= (1.0 - amount * 0.5);
 
-    //col =texture( iChannel0, uv ).rgb;
+    ////col =texture( iChannel0, uv ).rgb;
 
     // scan lines
     float count = iResolution.y * density;
@@ -103,8 +103,9 @@ float4 ChromaticAberrationShader(VertexShaderOutput input) : COLOR0
 
         col *= edge.x * edge.y;
     }
+        
 
-	return float4(col,1);
+	return float4(col , 1);
 }
 
 technique ChromaticAberration
