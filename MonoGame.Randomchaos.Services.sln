@@ -51,9 +51,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{3B90
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{364C5727-124A-4E1D-8E9D-2558ED27C0E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Cross_Platform_Desktop_Template", "Templates\MonoGame.Randomchaos.Cross_Platform_Desktop_Template\MonoGame.Randomchaos.Cross_Platform_Desktop_Template.csproj", "{0302C863-6665-41D0-9664-D14D4F01E57F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Cross_Platform_Desktop_Template", "Templates\MonoGame.Randomchaos.Cross_Platform_Desktop_Template\MonoGame.Randomchaos.Cross_Platform_Desktop_Template.csproj", "{1155EB90-1D34-421D-B687-3E48EE6D6902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Windows_Desktop_Template", "Templates\MonoGame.Randomchaos.Windows_Desktop_Template\MonoGame.Randomchaos.Windows_Desktop_Template.csproj", "{C7D5A2B4-8DAC-4CAB-B8E3-91457C5F8DC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Windows_Desktop_Template", "Templates\MonoGame.Randomchaos.Windows_Desktop_Template\MonoGame.Randomchaos.Windows_Desktop_Template.csproj", "{E21CFDC8-F87A-4127-A1B4-F392C5912A97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -149,14 +149,14 @@ Global
 		{15EF4EBC-CDD2-4CBC-91B0-F23EF90287B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15EF4EBC-CDD2-4CBC-91B0-F23EF90287B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15EF4EBC-CDD2-4CBC-91B0-F23EF90287B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0302C863-6665-41D0-9664-D14D4F01E57F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0302C863-6665-41D0-9664-D14D4F01E57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0302C863-6665-41D0-9664-D14D4F01E57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0302C863-6665-41D0-9664-D14D4F01E57F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7D5A2B4-8DAC-4CAB-B8E3-91457C5F8DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7D5A2B4-8DAC-4CAB-B8E3-91457C5F8DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7D5A2B4-8DAC-4CAB-B8E3-91457C5F8DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7D5A2B4-8DAC-4CAB-B8E3-91457C5F8DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1155EB90-1D34-421D-B687-3E48EE6D6902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1155EB90-1D34-421D-B687-3E48EE6D6902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1155EB90-1D34-421D-B687-3E48EE6D6902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1155EB90-1D34-421D-B687-3E48EE6D6902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,8 +170,8 @@ Global
 		{798B4ECE-DD79-4541-A845-31DFB1F661CE} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{BC158668-57EF-4683-9D64-9B6777BD796C} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{15EF4EBC-CDD2-4CBC-91B0-F23EF90287B1} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
-		{0302C863-6665-41D0-9664-D14D4F01E57F} = {364C5727-124A-4E1D-8E9D-2558ED27C0E8}
-		{C7D5A2B4-8DAC-4CAB-B8E3-91457C5F8DC2} = {364C5727-124A-4E1D-8E9D-2558ED27C0E8}
+		{1155EB90-1D34-421D-B687-3E48EE6D6902} = {364C5727-124A-4E1D-8E9D-2558ED27C0E8}
+		{E21CFDC8-F87A-4127-A1B4-F392C5912A97} = {364C5727-124A-4E1D-8E9D-2558ED27C0E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3874550-0DE2-457B-BB59-69565E508597}
