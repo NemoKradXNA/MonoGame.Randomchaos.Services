@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Charles Humphrey",
+  "classifications": [ "Common", "Code", "MonoGame", "Randomchaos" ],
+  "identity": "MonoGame.Randomchaos.Extensions.Texture2DExtension",
+  "name": "MonoGame Randomchaos templates: Texture2D extensions",
+  "shortName": "tex2dext",
+  "tags": {
+    "language": "C#",
+    "type": "item"
+  },
+  "symbols": {
+    "ClassName": {
+      "type": "parameter",
+      "description": "The name of the code file and class.",
+      "datatype": "text",
+      "replaces": "Texture2DExtension",
+      "fileRename": "Texture2DExtension",
+      "defaultValue": "Texture2DExtension"
+    }
+  }
+}

@@ -8,6 +8,7 @@ using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.Services.Scene.Models;
 using MonoGame.Randomchaos.UI;
+using Samples.MonoGame.Randomchaos.PostProcessing.Models.PostProcessing.PostProcess;
 using Samples.MonoGame.Randomchaos.PostProcessing.Models.PostProcessing.PostProcessingEffects;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,13 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
         protected UIButton btndeRezed;
         protected UISlider sldDeRezTiles;
         protected UIButton btnChroma;
+        protected UIButton btnGrayScale;
 
 
         protected BleachEffect bleachEffect;
         protected DeRezedPostProcessEffect deRezedEffect;
         protected ChromaticAberrationEffect chromaEffect;
+        protected GrayScaleEffect graySaleEffect;
 
         /// <summary>   The camera. </summary>
         protected ICameraService _camera { get { return Game.Services.GetService<ICameraService>(); } }
@@ -95,6 +98,9 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             chromaEffect = new ChromaticAberrationEffect(Game) { Enabled = false, ScreenCurvature = 39f,Blur = .075f, LineDensity = .25f, Flickering = .05f };
             postProcess.AddEffect(chromaEffect);
 
+            graySaleEffect = new GrayScaleEffect(Game) { Enabled = false };
+            postProcess.AddEffect(graySaleEffect);
+
             Vector2 c = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height) * .5f;
             Point btnSize = new Point(256, buttonFont.LineSpacing + 16);
 
@@ -123,6 +129,10 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             pos += new Point(0, buttonFont.LineSpacing + 16 + 8);
             btnChroma = CreateButton($"TV Effect {(chromaEffect.Enabled ? "On" : "Off")}", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
             Components.Add(btnChroma);
+
+            pos += new Point(0, buttonFont.LineSpacing + 16 + 8);
+            btnGrayScale = CreateButton($"Gray Scale Effect {(chromaEffect.Enabled ? "On" : "Off")}", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
+            Components.Add(btnGrayScale);
 
             pos = new Point(GraphicsDevice.Viewport.Width - (btnSize.X + 8), GraphicsDevice.Viewport.Height - (btnSize.Y + 8));
             btnExit = CreateButton("Exit", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
@@ -303,7 +313,11 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
                     chromaEffect.Enabled = !chromaEffect.Enabled;
                     btnChroma.Text = $"TV Effect {(chromaEffect.Enabled ? "On" : "Off")}";
                 }
-
+                else if (sender == btnGrayScale)
+                {
+                    graySaleEffect.Enabled = ! graySaleEffect.Enabled;
+                    btnGrayScale.Text = $"Gray Scale Effect {(chromaEffect.Enabled ? "On" : "Off")}";
+                }
             }
         }
 

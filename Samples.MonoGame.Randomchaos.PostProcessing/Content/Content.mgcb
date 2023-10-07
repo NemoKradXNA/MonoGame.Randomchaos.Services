@@ -45,6 +45,12 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/PostProcessing/DeRezed.fx
 
+#begin Shaders/PostProcessing/GrayScale.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/PostProcessing/GrayScale.fx
+
 #begin Textures/boxTexture.png
 /importer:TextureImporter
 /processor:TextureProcessor

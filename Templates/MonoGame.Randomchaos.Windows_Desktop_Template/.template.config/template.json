@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Charles Humphrey",
+  "classifications": [ "Desktop", "MonoGame", "Randomchaos", "Games", "Windows" ],
+  "identity": "MonoGame.Randomchaos.Windows_Desktop_Template",
+  "name": "MonoGame Randomchaos Windows Desktop Template",
+  "shortName": "mgrcwindowsdx",
+  "sourceName": "MonoGame.Randomchaos.Windows_Desktop_Template",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

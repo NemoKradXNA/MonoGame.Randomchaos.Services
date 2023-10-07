@@ -42,24 +42,6 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         public bool FadeAudioOut { get; set; }
 
-        /// <summary>   The music maximum volume. </summary>
-        protected float _MusicMaxVolume;
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the music maximum volume. </summary>
-        ///
-        /// <value> The music maximum volume. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public float MusicMaxVolume
-        {
-            get { return _MusicMaxVolume; }
-            set 
-            {
-                _MusicMaxVolume = Math.Min(1,Math.Max(0, value));
-            }
-        }
-
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
         ///
@@ -74,6 +56,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             FadeAudioIn = true;
             FadeAudioOut = true;
             MusicMaxVolume = 1;
+            MusicVolume = 0;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -91,6 +74,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             FadeAudioIn = true;
             FadeAudioOut = true;
             MusicMaxVolume = 1;
+            MusicVolume = 0;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -190,9 +174,9 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 a = (byte)Math.Max(0, a - fadeSpeed);
                 fadeColor = new Color(fadeColor.R, fadeColor.G, fadeColor.B, a);
 
-                if (audioManager != null && FadeAudioIn)
+                if (audioManager != null && FadeAudioIn && audioManager.IsMusicPlaying)
                 {
-                    audioManager.MusicVolume = Math.Min(MusicMaxVolume, 1f - (a / 255f));
+                    MusicVolume = Math.Min(MusicMaxVolume, 1f - (a / 255f));
                 }
             }
 
@@ -218,9 +202,9 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 a = (byte)Math.Min(255, a + fadeSpeed);
                 fadeColor = new Color(fadeColor.R, fadeColor.G, fadeColor.B, a);
 
-                if (audioManager != null && FadeAudioOut)
+                if (audioManager != null && FadeAudioOut && audioManager.IsMusicPlaying)
                 {
-                    audioManager.MusicVolume = Math.Min(MusicMaxVolume, 1f - (a / 255f));
+                    MusicVolume = Math.Min(MusicMaxVolume, 1f - (a / 255f));
                 }
             }
 

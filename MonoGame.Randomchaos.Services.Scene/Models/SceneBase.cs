@@ -7,6 +7,7 @@ using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace MonoGame.Randomchaos.Services.Scene.Models
 {
@@ -150,6 +151,53 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         ///-------------------------------------------------------------------------------------------------
 
         public string AudioMusicAsset { get; set; }
+
+        /// <summary>   The music volume. </summary>
+        float _MusicVolume = 1;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the music volume. </summary>
+        ///
+        /// <value> The music volume. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public float MusicVolume
+        {
+            get { return _MusicVolume; }
+            set
+            {
+                _MusicVolume = Math.Min(1, Math.Max(0, value));
+
+                if (audioManager != null)
+                {
+                    audioManager.MusicVolume = _MusicVolume;
+                }
+            }
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the music maximum volume. </summary>
+        ///
+        /// <value> The music maximum volume. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        /// <summary>   The music maximum volume. </summary>
+        protected float _MusicMaxVolume = 1;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the music maximum volume. </summary>
+        ///
+        /// <value> The music maximum volume. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public float MusicMaxVolume
+        {
+            get { return _MusicMaxVolume; }
+            set
+            {
+                _MusicMaxVolume = Math.Min(1, Math.Max(0, value));
+            }
+        }
 
 
         /// <summary>   The components. </summary>

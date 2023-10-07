@@ -67,6 +67,30 @@ namespace MonoGame.Randomchaos.Services.Interfaces
 
         List<Type> UIComponentTypes { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the audio music asset. </summary>
+        ///
+        /// <value> The audio music asset. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        string AudioMusicAsset { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the music volume. </summary>
+        ///
+        /// <value> The music volume. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        float MusicVolume { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the music maximum volume. </summary>
+        ///
+        /// <value> The music maximum volume. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        float MusicMaxVolume { get; set; }
+
         /// <summary>   Loads a scene. </summary>
         void LoadScene();
 
