@@ -160,5 +160,17 @@ namespace MonoGame.Randomchaos.Interfaces
         ///-------------------------------------------------------------------------------------------------
 
         Vector3 InverseTransformPoint(Vector3 point);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Look at. </summary>
+        ///
+        /// <param name="target">   Target for the. </param>
+        /// <param name="speed">    The speed. </param>
+        /// <param name="fwd">      The forward. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        void LookAt(Vector3 target, float speed, Vector3 fwd);
+
+        void LookAtLockRotation(Vector3 target, float speed, Vector3 fwd, Vector3 lockedRots);
     }
 }

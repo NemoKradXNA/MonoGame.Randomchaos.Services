@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Randomchaos.Models;
 using MonoGame.Randomchaos.Primitives3D.Models;
 using MonoGame.Randomchaos.Services.Camera;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.Services.Scene.Models;
+using System.Collections.Generic;
 
 namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 {
@@ -29,6 +31,8 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
         CylinderBasicEffect cylinder;
         /// <summary>   The plane. </summary>
         PlaneBasicEffect plane;
+
+        GeometryLines lines;
 
         /// <summary>   True to render wire frame. </summary>
         protected bool _renderWireFrame = false;
@@ -108,6 +112,9 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             plane = new PlaneBasicEffect(Game);
             plane.Transform.Position = new Vector3(0, -1, -.5f);
             Components.Add(plane);
+
+            lines = new GeometryLines(Game);
+
             base.LoadScene();
         }
 
@@ -178,6 +185,17 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
             GraphicsDevice.Clear(_camera.ClearColor);
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            lines.DrawBoundsBoxs(new List<BoundingBox>()
+            {
+                new BoundingBox(Vector3.One * -.5f,Vector3.One * .5f)
+            }, new Transform() { Position = new Vector3(-3, 3, -3) }, Color.Red);
+
+            lines.DrawBoundsSpheres(new List<BoundingSphere>()
+            {
+                new BoundingSphere(Vector3.Zero,.5f)
+            }, new Transform() { Position = new Vector3(3,3,-3) });
+
 
             base.Draw(gameTime);
 

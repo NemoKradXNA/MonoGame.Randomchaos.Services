@@ -6,6 +6,7 @@ using MonoGame.Randomchaos.Interfaces.Interfaces;
 using MonoGame.Randomchaos.Interfaces.Models;
 using MonoGame.Randomchaos.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
+using System;
 
 namespace MonoGame.Randomchaos.Services.Camera
 {
@@ -30,8 +31,8 @@ namespace MonoGame.Randomchaos.Services.Camera
         {
             get
             {
-                if(aspectRatio == -1)
-                    aspectRatio =  Game.GraphicsDevice.PresentationParameters.BackBufferWidth / (float)Game.GraphicsDevice.PresentationParameters.BackBufferHeight;
+                if (aspectRatio == -1)
+                    aspectRatio = Game.GraphicsDevice.PresentationParameters.BackBufferWidth / (float)Game.GraphicsDevice.PresentationParameters.BackBufferHeight;
 
                 return aspectRatio;
             }
@@ -231,7 +232,7 @@ namespace MonoGame.Randomchaos.Services.Camera
         public Ray RayFromCamera(Point screenPixel)
         {
             Viewport viewPort = new Viewport(0, 0, Game.GraphicsDevice.PresentationParameters.BackBufferWidth, Game.GraphicsDevice.PresentationParameters.BackBufferHeight);
-            
+
             viewPort.MinDepth = Viewport.MinDepth;
             viewPort.MaxDepth = Viewport.MaxDepth;
 
@@ -310,7 +311,7 @@ namespace MonoGame.Randomchaos.Services.Camera
             float? retVal = float.MaxValue;
 
             Ray ray = RayFromCamera(screenPixel);
-            
+
             ray.Intersects(ref volume, out retVal);
 
             if (retVal != null)
@@ -383,6 +384,102 @@ namespace MonoGame.Randomchaos.Services.Camera
                 hitInfo = new HitInfo();
                 return float.MaxValue;
             }
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   World position to screen position. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="worldPosition">    The world position. </param>
+        ///
+        /// <returns>   A Vector2. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector2 WorldPositionToScreenPosition(Vector3 worldPosition)
+        {
+            Matrix ViewProjectionMatrix = View * Projection;
+
+            Vector4 result4 = Vector4.Transform(worldPosition, ViewProjectionMatrix);
+
+            if (result4.W <= 0)
+                return new Vector2(Viewport.Width, 0);
+
+            Vector3 result = new Vector3(result4.X / result4.W, result4.Y / result4.W, result4.Z / result4.W);
+
+            Vector2 retVal = new Vector2((int)Math.Round(+result.X * (Viewport.Width / 2)) + (Viewport.Width / 2), (int)Math.Round(-result.Y * (Viewport.Height / 2)) + (Viewport.Height / 2));
+            return retVal;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   World position to screen text coordinates. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="worldPosition">    The world position. </param>
+        ///
+        /// <returns>   A Vector2. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector2 WorldPositionToScreenTextCoords(Vector3 worldPosition)
+        {
+            Vector2 retVal;
+
+            retVal = WorldPositionToScreenPosition(worldPosition);
+
+            retVal.X /= Viewport.Width;
+            retVal.Y /= Viewport.Height;
+
+            return retVal;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Screen pixel to view pixel. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        ///
+        /// <returns>   A Vector3. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector3 ScreenPixelToViewPixel(Point screenPixel)
+        {
+            Vector3 nearSource = Viewport.Unproject(new Vector3(screenPixel.X, screenPixel.Y, Viewport.MinDepth), Projection, View, Matrix.Identity);
+
+            return nearSource;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets camera screen position. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="screenPoint">  The screen point. </param>
+        ///
+        /// <returns>   The camera screen position. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector2 GetCameraScreenPosition(Point screenPoint)
+        {
+            Vector3 worldPos = ScreenPixelToViewPixel(screenPoint);
+            Vector2 retVal = WorldPositionToScreenPosition(worldPos);
+
+            return retVal;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets screen pixel size. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <returns>   The screen pixel size. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector2 GetScreenPixelSize()
+        {
+            return new Vector2(1f / (float)Game.GraphicsDevice.Viewport.Width,
+                                     1f / (float)Game.GraphicsDevice.Viewport.Height);
         }
     }
 }

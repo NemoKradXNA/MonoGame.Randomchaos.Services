@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.Xna.Framework;
+using MonoGame.Randomchaos.Extensions;
 using MonoGame.Randomchaos.Interfaces;
+using System;
 
 namespace MonoGame.Randomchaos.Models
 {
@@ -12,6 +14,25 @@ namespace MonoGame.Randomchaos.Models
 
     public class Transform : ITransform
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the empty transform. </summary>
+        ///
+        /// <value> The empty transform. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static Transform EmptyTransform { get { return new Transform(null); } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the identity. </summary>
+        ///
+        /// <value> The identity. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static Transform Identity
+        {
+            get { return EmptyTransform; }
+        }
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the parent. </summary>
         ///
@@ -408,6 +429,58 @@ namespace MonoGame.Randomchaos.Models
         public Vector3 InverseTransformPoint(Vector3 point)
         {
             return Vector3.Transform(point, Matrix.Invert(World));
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Look at. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="target">   Target for the. </param>
+        /// <param name="speed">    The speed. </param>
+        /// <param name="fwd">      The forward. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void LookAt(Vector3 target, float speed, Vector3 fwd)
+        {
+            if (fwd == Vector3.Zero)
+                fwd = Vector3.Forward;
+
+            Vector3 tminusp = target - Position;
+            Vector3 ominusp = fwd;
+
+            if (tminusp == Vector3.Zero)
+                return;
+
+            tminusp.Normalize();
+
+            float theta = (float)Math.Acos(Vector3.Dot(tminusp, ominusp));
+            Vector3 cross = Vector3.Cross(ominusp, tminusp);
+
+            if (cross == Vector3.Zero)
+                return;
+
+            cross.Normalize();
+
+            Quaternion targetQ = Quaternion.CreateFromAxisAngle(cross, theta);
+            Rotation = Quaternion.Slerp(Rotation, targetQ, speed);
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Look at lock rotation. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="target">       Target for the. </param>
+        /// <param name="speed">        The speed. </param>
+        /// <param name="fwd">          The forward. </param>
+        /// <param name="lockedRots">   The locked rots. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void LookAtLockRotation(Vector3 target, float speed, Vector3 fwd, Vector3 lockedRots)
+        {
+            LookAt(target, speed, fwd);
+            Rotation.LockRotation(lockedRots);
         }
     }
 }

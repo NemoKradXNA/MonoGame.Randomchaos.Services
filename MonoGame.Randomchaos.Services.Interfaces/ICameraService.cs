@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Interfaces.Interfaces;
+using System;
 
 namespace MonoGame.Randomchaos.Services.Interfaces
 {
@@ -170,5 +171,53 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         ///-------------------------------------------------------------------------------------------------
 
         float RayPicking(Point screenPixel, BoundingSphere volume, out IHitInfo hitInfo);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   World to screen position. </summary>
+        ///
+        /// <param name="worldPosition">    The world position. </param>
+        ///
+        /// <returns>   A Vector2. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector2 WorldPositionToScreenPosition(Vector3 worldPosition);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   World position to screen text coordinates. </summary>
+        ///
+        /// <param name="worldPosition">    The world position. </param>
+        ///
+        /// <returns>   A Vector2. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector2 WorldPositionToScreenTextCoords(Vector3 worldPosition);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Screen pixel to view pixel. </summary>
+        ///
+        /// <param name="screenPixel">  The screen pixel. </param>
+        ///
+        /// <returns>   A Vector3. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector3 ScreenPixelToViewPixel(Point screenPixel);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets camera screen position. </summary>
+        ///
+        /// <param name="screenPoint">  The screen point. </param>
+        ///
+        /// <returns>   The camera screen position. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector2 GetCameraScreenPosition(Point screenPoint);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets screen pixel size. </summary>
+        ///
+        /// <returns>   The screen pixel size. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        Vector2 GetScreenPixelSize();
     }
 }

@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Cross_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Windows_Desktop_Template", "Templates\MonoGame.Randomchaos.Windows_Desktop_Template\MonoGame.Randomchaos.Windows_Desktop_Template.csproj", "{E21CFDC8-F87A-4127-A1B4-F392C5912A97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Extensions", "MonoGame.Randomchaos.Extensions\MonoGame.Randomchaos.Extensions.csproj", "{EA40660B-4D3B-450C-B3E6-FFBFF2445B4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
 		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E21CFDC8-F87A-4127-A1B4-F392C5912A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA40660B-4D3B-450C-B3E6-FFBFF2445B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA40660B-4D3B-450C-B3E6-FFBFF2445B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA40660B-4D3B-450C-B3E6-FFBFF2445B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA40660B-4D3B-450C-B3E6-FFBFF2445B4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

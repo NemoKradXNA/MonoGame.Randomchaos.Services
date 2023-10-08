@@ -32,7 +32,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 
         CubeBasicEffect voxelCursor;
 
-        GemometryLines _geomLines;
+        GeometryLines _geomLines;
 
         public VoxelScene(Game game, string name) : base(game, name) { }
 
@@ -71,7 +71,7 @@ namespace Samples.MonoGame.Randomchaos.Primitives3D.Scenes
 
             base.LoadScene();
 
-            _geomLines = new GemometryLines(Game);
+            _geomLines = new GeometryLines(Game);
         }
 
         public override void Update(GameTime gameTime)

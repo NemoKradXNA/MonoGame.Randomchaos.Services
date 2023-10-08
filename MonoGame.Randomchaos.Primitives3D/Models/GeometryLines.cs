@@ -4,17 +4,18 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Interfaces.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.Primitives3D.Models
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A gemometry lines. </summary>
+    /// <summary>   A geometry lines. </summary>
     ///
     /// <remarks>   Charles Humphrey, 26/09/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class GemometryLines
+    public class GeometryLines
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the camera. </summary>
@@ -37,7 +38,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         /// <param name="game"> The game. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public GemometryLines(Game game)
+        public GeometryLines(Game game)
         {
             _game = game;
         }
@@ -62,9 +63,21 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             VertexPositionColor[] points;
             short[] index;
 
-            BuildBoxCorners(boxs, new List<Matrix>() { Matrix.Identity }, color.Value, out points, out index);
+            BuildBoxCorners(boxs, color.Value, out points, out index);
 
             DrawPoints(points, index, boxs.Count * 12, transform);
+        }
+
+        public void DrawBoundsSpheres(List<BoundingSphere> spheres, ITransform transform)
+        {
+            VertexPositionColor[] points;
+            short[] index;
+
+
+            int segments = 64;
+
+            BuildSphere(spheres, segments, Color.Red, out points, out index, true);
+            DrawPoints(points, index, segments * 3, transform);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -137,13 +150,12 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
         /// <remarks>   Charles Humphrey, 26/09/2023. </remarks>
         ///
         /// <param name="boxs">     The boxs. </param>
-        /// <param name="worlds">   The worlds. </param>
         /// <param name="color">    The color. </param>
         /// <param name="points">   [out] The points. </param>
         /// <param name="index">    [out] Zero-based index of the. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void BuildBoxCorners(List<BoundingBox> boxs, List<Matrix> worlds, Color color, out VertexPositionColor[] points, out short[] index)
+        public void BuildBoxCorners(List<BoundingBox> boxs, Color color, out VertexPositionColor[] points, out short[] index)
         {
             short[] BoxIndexMap = new short[] {
                 0, 1, 0,
@@ -179,6 +191,80 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             }
 
             index = inds;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Builds a sphere. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 08/10/2023. </remarks>
+        ///
+        /// <param name="spheres">      The spheres. </param>
+        /// <param name="segements">    The segements. </param>
+        /// <param name="color">        The color. </param>
+        /// <param name="points">       [out] The points. </param>
+        /// <param name="index">        [out] Zero-based index of the. </param>
+        /// <param name="axisColored">  True if axis colored. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void BuildSphere(List<BoundingSphere> spheres, int segements, Color color, out VertexPositionColor[] points, out short[] index, bool axisColored)
+        {
+            List<VertexPositionColor> pointsList = new List<VertexPositionColor>();
+
+            List<short> inds = new List<short>();
+            double step = MathHelper.TwoPi / segements;
+
+            Vector3 p = Vector3.Zero;
+
+            float r = MathHelper.ToRadians(90);
+
+            foreach (BoundingSphere sphere in spheres)
+            {
+                float radius = sphere.Radius;
+                Matrix rotMat = Matrix.Identity;
+
+                for (int axis = 0; axis < 3; axis++)
+                {
+                    switch (axis)
+                    {
+                        case 0:
+                            if (axisColored)
+                                color = Color.Red;
+
+                            rotMat = Matrix.CreateFromYawPitchRoll(r, 0, 0);
+                            break;
+                        case 1:
+                            if (axisColored)
+                                color = Color.Yellow;
+                            rotMat = Matrix.CreateFromYawPitchRoll(0, r, 0);
+                            break;
+                        case 2:
+                            if (axisColored)
+                                color = Color.Blue;
+                            rotMat = Matrix.CreateFromYawPitchRoll(0, 0, 1);
+                            break;
+                    }
+
+                    for (double angle = 0; angle < MathHelper.TwoPi; angle += step)
+                    {
+                        float x = radius * (float)Math.Cos(angle);
+                        float y = radius * (float)Math.Sin(angle);
+
+                        p = Vector3.Transform(new Vector3(x, y, 0), rotMat);
+                        pointsList.Add(new VertexPositionColor(p, color));
+                        inds.Add((short)inds.Count);
+
+                        x = radius * (float)Math.Cos(angle + step);
+                        y = radius * (float)Math.Sin(angle + step);
+
+                        p = Vector3.Transform(new Vector3(x, y, 0), rotMat);
+                        pointsList.Add(new VertexPositionColor(p, color));
+                        inds.Add((short)inds.Count);
+                    }
+                }
+            }
+
+            points = pointsList.ToArray();
+            index = inds.ToArray();
         }
     }
 }
