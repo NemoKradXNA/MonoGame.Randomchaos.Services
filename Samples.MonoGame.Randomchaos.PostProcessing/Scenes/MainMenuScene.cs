@@ -95,11 +95,12 @@ namespace Samples.MonoGame.Randomchaos.PostProcessing.Scenes
             deRezedEffect = new DeRezedPostProcessEffect(Game, 512) { Enabled = false };
             postProcess.AddEffect(deRezedEffect);
 
-            chromaEffect = new ChromaticAberrationEffect(Game) { Enabled = false, ScreenCurvature = 39f,Blur = .075f, LineDensity = .25f, Flickering = .05f };
-            postProcess.AddEffect(chromaEffect);
-
             graySaleEffect = new GrayScaleEffect(Game) { Enabled = false };
             postProcess.AddEffect(graySaleEffect);
+
+            chromaEffect = new ChromaticAberrationEffect(Game) { Enabled = false, ScreenCurvature = 39f,Blur = .0015f, LineDensity = .25f, Flickering = .05f };
+            postProcess.AddEffect(chromaEffect);
+                       
 
             Vector2 c = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height) * .5f;
             Point btnSize = new Point(256, buttonFont.LineSpacing + 16);

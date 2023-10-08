@@ -67,7 +67,7 @@ float4 ChromaticAberrationShader(VertexShaderOutput input) : COLOR0
 
     //amount *= 0.05;
     float g = tex2D(ScreenSampler, float2(uv.x + (amount * shift.y), uv.y)).g;
-    float os = tex2D(NoiseSampler, (uv * 3.0) - float2(0, -iTime) * amount).r;
+    float os = tex2D(NoiseSampler, (uv * 8.0) - float2(0, -iTime) * amount).r;
 
     //amount *= 0.0005;
     //amount = 0.0125;
