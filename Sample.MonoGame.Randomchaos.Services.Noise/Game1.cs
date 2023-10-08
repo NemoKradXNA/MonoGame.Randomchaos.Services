@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Services.Noise;
+using MonoGame.Randomchaos.Services.Noise.Services;
 using System.Globalization;
 
 namespace Sample.MonoGame.Randomchaos.Services.Noise
@@ -25,13 +26,16 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
         /// <summary>   The noise texture with ramp. </summary>
         protected Texture2D noiseTextureWithRamp;
 
+        protected Texture2D voronoiNoiseTexture;
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the noise service. </summary>
         ///
         /// <value> The noise service. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        KeijiroPerlinService noiseService {get { return (KeijiroPerlinService)Services.GetService<KeijiroPerlinService>(); } }
+        KeijiroPerlinService noiseService { get { return Services.GetService<KeijiroPerlinService>(); } }
+        VoronoiNoiseService voronoiNoiseService { get { return Services.GetService<VoronoiNoiseService>(); } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Default constructor. </summary>
@@ -59,6 +63,7 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             // TODO: Add your initialization logic here
 
             new KeijiroPerlinService(this);
+            new VoronoiNoiseService(this);
 
             base.Initialize();
         }
@@ -77,10 +82,12 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             noiseTexture = new Texture2D(GraphicsDevice, 128, 128);
             noiseTextureWithRamp = new Texture2D(GraphicsDevice, 128, 128);
 
+            voronoiNoiseTexture = new Texture2D(GraphicsDevice, 128, 128);
+
             Color[] color = new Color[noiseTexture.Width * noiseTexture.Height];
             Color[] colorRamp = new Color[noiseTexture.Width * noiseTexture.Height];
             Color[] ramp = new Color[] { Color.Blue, Color.Tan, Color.Green, Color.DarkGray, Color.White };
-
+            Color[] colorV = new Color[voronoiNoiseTexture.Width * voronoiNoiseTexture.Height];
 
             // fill a texture with noise.
             for (int x = 0; x < noiseTexture.Width; x++)
@@ -98,11 +105,19 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
                     int r = (int)MathHelper.Lerp(0, ramp.Length-1, n);
 
                     colorRamp[x + y * noiseTexture.Width] = ramp[r];
+
+                    Vector3 v = new Vector3(coord.X, coord.Y, 1);
+                    n = voronoiNoiseService.Noise(coord * 6);
+                    n = (n + 1) * .5f;
+
+                    colorV[x + y * noiseTexture.Width] = new Color(n, n, n, 1);
                 }
             }
 
             noiseTexture.SetData(color);
             noiseTextureWithRamp.SetData(colorRamp);
+
+            voronoiNoiseTexture.SetData(colorV);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -121,6 +136,16 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
                             + (.5f * noiseService.Noise(coord * 2))
                             + (.25f * noiseService.Noise(coord * 4))
                             + (.125f * noiseService.Noise(coord * 8));
+        }
+
+        protected float GetNoiseV(Vector2 coord)
+        {
+            Vector3 v = new Vector3(coord.X, coord.Y, coord.X * coord.Y);
+
+            return voronoiNoiseService.Noise(v)
+                             + (.5f * voronoiNoiseService.Noise(v * 2))
+                             + (.25f * voronoiNoiseService.Noise(v * 4))
+                             + (.125f * voronoiNoiseService.Noise(v * 8));
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -163,6 +188,8 @@ namespace Sample.MonoGame.Randomchaos.Services.Noise
             _spriteBatch.Draw(noiseTexture, new Rectangle(8, 8, 256, 256), Color.White);
 
             _spriteBatch.Draw(noiseTextureWithRamp, new Rectangle(256 + 16, 8, 256, 256), Color.White);
+
+            _spriteBatch.Draw(voronoiNoiseTexture, new Rectangle(512 + 32, 8, 256, 256), Color.White);
 
             _spriteBatch.End();
         }
