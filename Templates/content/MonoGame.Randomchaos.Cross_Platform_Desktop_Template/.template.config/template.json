@@ -4,8 +4,10 @@
   "classifications": [ "Desktop", "MonoGame", "Randomchaos", "Games", "Linux", "macOS", "Windows" ],
   "identity": "MonoGame.Randomchaos.Cross_Platform_Desktop_Template",
   "name": "MonoGame Randomchaos Cross-Platform Desktop Template",
+  "description": "A MonoGame game project for Windows, Linux and macOS using OpenGL and MonoGame.Randomchaos packages.",
   "shortName": "mgrcdesktopgl",
   "sourceName": "MonoGame.Randomchaos.Cross_Platform_Desktop_Template",
+  "groupIdentity": "MonoGame.Randomchaos.Templates",
   "tags": {
     "language": "C#",
     "type": "project"

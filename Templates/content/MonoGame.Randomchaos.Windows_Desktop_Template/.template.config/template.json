@@ -4,8 +4,10 @@
   "classifications": [ "Desktop", "MonoGame", "Randomchaos", "Games", "Windows" ],
   "identity": "MonoGame.Randomchaos.Windows_Desktop_Template",
   "name": "MonoGame Randomchaos Windows Desktop Template",
+  "description": "A MonoGame game project for Windows, using DirectX and MonoGame.Randomchaos packages.",
   "shortName": "mgrcwindowsdx",
   "sourceName": "MonoGame.Randomchaos.Windows_Desktop_Template",
+  "groupIdentity": "MonoGame.Randomchaos.Templates",
   "tags": {
     "language": "C#",
     "type": "project"
