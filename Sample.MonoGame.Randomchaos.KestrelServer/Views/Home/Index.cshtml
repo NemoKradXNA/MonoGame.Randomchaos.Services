@@ -1,0 +1,39 @@
+﻿@model Sample.MonoGame.Randomchaos.KestrelServer.Game1
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<h1>Welcome to the server!</h1>
+<hr>
+
+<p>We are running in conjunction with the MonoGame Game titled [@Model.Title]</p>
+<p>There are currently <span id="rd">[@Model.RedSquares.Count]</span> Red Squares in play.</p>
+<p>There are currently <span id="bk">[@Model.BlackSquares.Count]</span> Black Squares in play.</p>
+<p>There are currently <span id="tb">[@(Model.BlackSquares.Count + Model.RedSquares.Count)]</span> Squares in play.</p>
+
+
+<script type="text/javascript">
+
+    var i = setInterval(onGetValues, 500);
+
+    function onGetValues(){
+
+        $.ajax({
+            url: "/api/GetGameValues", 
+            success: function (result) {
+                
+                $("#rd").text('[' + result.redSquares + ']');
+                $("#bk").text('[' + result.blackSquares + ']');
+                $("#tb").text('[' + (result.redSquares + result.blackSquares) + ']');
+            },
+            error: function (result){
+                alert(result);
+                clearInterval(i);
+            }
+
+        });
+    }
+    
+</script>
