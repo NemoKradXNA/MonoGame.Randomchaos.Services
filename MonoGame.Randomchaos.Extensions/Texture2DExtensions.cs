@@ -71,11 +71,12 @@ namespace MonoGame.Randomchaos.Extensions
             {
                 for (int y = 0; y < texture.Height; y++)
                 {
+                    Vector4 col = color.ToVector4();
+
                     if (x < borderThickenss.X || x >= texture.Width - borderThickenss.Width || y < borderThickenss.Height || y >= texture.Height - borderThickenss.Y)
-                        color = borderColor;
+                        col = borderColor.ToVector4();
                     else
                     {
-                        Vector4 col = color.ToVector4();
 
                         if (horizontalFade > 0)
                             col *= MathF.Min(1, horizontalFade - ((float)x / (texture.Width - (borderThickenss.X + borderThickenss.Width))));
@@ -86,11 +87,9 @@ namespace MonoGame.Randomchaos.Extensions
                             col *= MathF.Min(1, verticalFade - ((float)y / texture.Height));
                         else
                             col *= MathF.Min(1, Math.Abs(verticalFade) - (1 - ((float)y / texture.Height)));
-
-                        color = new Color(col);
                     }
 
-                    c[x + y * texture.Width] = color;
+                    c[x + y * texture.Width] = new Color(col);
                 }
             }
 

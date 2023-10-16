@@ -91,6 +91,8 @@ namespace MonoGame.Randomchaos.UI
         /// <summary>   The cursor. </summary>
         Texture2D cursor;
 
+        public Color TextColor { get; set; } = Color.Black;
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the measure. </summary>
         ///
@@ -296,7 +298,7 @@ namespace MonoGame.Randomchaos.UI
             {
                 if (ShadowOffset != Vector2.Zero)
                     _spriteBatch.DrawString(Font, Text, TextPosition + ShadowOffset, ShadowColor);
-                _spriteBatch.DrawString(Font, Text, TextPosition, tint);
+                _spriteBatch.DrawString(Font, Text, TextPosition, TextColor);
             }
 
             if (IsSelected && _cursorOn)
