@@ -27,13 +27,12 @@
     <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.8" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.5" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.Randomchaos.Extensions\MonoGame.Randomchaos.Extensions.csproj" />
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Input\MonoGame.Randomchaos.Services.Input.csproj" />
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Scene\MonoGame.Randomchaos.Services.Scene.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.UI\MonoGame.Randomchaos.UI.csproj" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

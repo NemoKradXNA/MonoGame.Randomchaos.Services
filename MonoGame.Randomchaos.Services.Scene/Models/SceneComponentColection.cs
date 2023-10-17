@@ -25,6 +25,20 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
             }
         }
 
+        public void Remove(IGameComponent component)
+        {
+            Components.Remove(component);
+
+            if (UIComponentTypes != null && UIComponentTypes.Count > 0)
+            {
+                UIComponents.Remove(component);
+            }
+            else
+            {
+                SceneComponents.Remove(component);
+            }
+        }
+
         public void Clear()
         {
             UIComponents.Clear();

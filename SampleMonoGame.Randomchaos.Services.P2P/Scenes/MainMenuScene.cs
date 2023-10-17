@@ -68,7 +68,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             };
 
             pos += new Point(0, btnSize.Y + 32);
-            btnServer = CreateButton("Start Server", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
+            btnServer = CreateButton("Host Server", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
 
             pos += new Point(0, btnSize.Y + 32);
             btnClient = CreateButton("Join Server", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);

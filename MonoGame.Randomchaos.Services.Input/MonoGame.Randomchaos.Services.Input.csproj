@@ -15,4 +15,7 @@
     </PackageReference>
     <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Interfaces\MonoGame.Randomchaos.Services.Interfaces.csproj" />
+  </ItemGroup>
 </Project>

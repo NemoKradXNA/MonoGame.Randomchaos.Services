@@ -57,6 +57,15 @@ namespace MonoGame.Randomchaos.Interfaces.Interfaces
 
         void Add(IGameComponent component);
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Removes the given component. </summary>
+        ///
+        /// <param name="component">    The component to add. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        void Remove(IGameComponent component);
+
+
         /// <summary>   Clears this object to its blank/initial state. </summary>
         void Clear();
     }

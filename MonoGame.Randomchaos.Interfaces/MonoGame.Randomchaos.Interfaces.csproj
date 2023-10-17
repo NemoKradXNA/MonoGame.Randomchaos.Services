@@ -15,4 +15,7 @@
     </PackageReference>
     <PackageReference Include="MonoGame.Randomchaos.Extensions" Version="1.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame.Randomchaos.Extensions\MonoGame.Randomchaos.Extensions.csproj" />
+  </ItemGroup>
 </Project>

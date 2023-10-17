@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyVersion>2.0.0.5</AssemblyVersion>
-	  <FileVersion>2.0.0.5</FileVersion>
-	  <Version>2.0.0.5</Version>
+    <AssemblyVersion>2.0.0.6</AssemblyVersion>
+	  <FileVersion>2.0.0.6</FileVersion>
+	  <Version>2.0.0.6</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds base UI classes for use with MonoGame.Randomchaos packages.</Description>
@@ -13,7 +13,11 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Randomchaos.Interfaces" Version="2.0.0.2" />
+    <PackageReference Include="MonoGame.Randomchaos.Interfaces" Version="2.0.0.3" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.0.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Input\MonoGame.Randomchaos.Services.Input.csproj" />
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Interfaces\MonoGame.Randomchaos.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

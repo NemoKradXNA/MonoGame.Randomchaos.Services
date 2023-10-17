@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.UI.BaseClasses;
+using MonoGame.Randomchaos.UI.Delegates;
 using MonoGame.Randomchaos.UI.Enums;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace MonoGame.Randomchaos.UI
 
     public class UIInputText : UIBase
     {
+        public event UIInputCompleteEvent OnUIInputComplete;
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the font. </summary>
         ///
@@ -31,7 +34,7 @@ namespace MonoGame.Randomchaos.UI
         /// <value> The text. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the text position offset. </summary>
@@ -92,6 +95,22 @@ namespace MonoGame.Randomchaos.UI
         Texture2D cursor;
 
         public Color TextColor { get; set; } = Color.Black;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the name. </summary>
+        ///
+        /// <value> The name. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public string Name { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the tag. </summary>
+        ///
+        /// <value> The tag. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public object? Tag { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the measure. </summary>
@@ -169,6 +188,35 @@ namespace MonoGame.Randomchaos.UI
         /// <summary>   True if is selected, false if not. </summary>
         public bool IsSelected;
 
+        public TextInputTypeEnum TextInputType { get; set; } = TextInputTypeEnum.AlphaNumeric;
+
+        public List<Keys> AllowedKeys { get; set; } = null;
+
+        // else if ((int)key >= 48 && (int)key <= 90)
+        protected int _minKeyValue
+        {
+            get
+            {
+                if (TextInputType == TextInputTypeEnum.AlphaNumeric || TextInputType == TextInputTypeEnum.Numeric)
+                {
+                    return 48;
+                }
+                
+                return 65;
+            }
+        }
+        protected int _maxKeyValue
+        {
+            get
+            {
+                if (TextInputType == TextInputTypeEnum.AlphaNumeric || TextInputType == TextInputTypeEnum.Alpha)
+                {
+                    return 90;
+                }
+                return 57;
+            }
+        }
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Initializes this object. </summary>
         ///
@@ -232,17 +280,17 @@ namespace MonoGame.Randomchaos.UI
             {
                 if (CaptureUserInput)
                 {
+                    List<Keys> allKeys = inputManager.KeyboardManager.KeysPressed().ToList();
                     List<Keys> keysPressed = inputManager.KeyboardManager.KeysPressedThisFrame().ToList();
 
                     if (keysPressed != null && keysPressed.Count > 0)
                     {
                         bool ucase = inputManager.KeyboardManager.CapsLock;
 
+                        ucase = !ucase && (allKeys.Contains(Keys.LeftShift) || allKeys.Contains(Keys.RightShift));
+
                         foreach (Keys key in keysPressed)
                         {
-                            if (key == Keys.LeftShift || key == Keys.RightShift)
-                                ucase = true;
-
                             if ((key == Keys.Back || key == Keys.Delete) && Text.Length > 0)
                             {
                                 Text = Text.Substring(0, Text.Length - 1);
@@ -254,10 +302,42 @@ namespace MonoGame.Randomchaos.UI
                             else if (key == Keys.Enter)
                             {
                                 IsSelected = false;
+                                if (OnUIInputComplete != null)
+                                {
+                                    OnUIInputComplete(this);
+                                }
                             }
-                            else if ((int)key >= 65 && (int)key <= 90)
+                            else if (TextInputType == TextInputTypeEnum.AlphaNumeric)
                             {
-                                Text = Text + key;
+                                string keyValue = inputManager.KeyboardManager.KeysToString(key);
+
+                                if (!string.IsNullOrEmpty(keyValue))
+                                {
+                                    if (!ucase)
+                                        keyValue = keyValue.ToLower();
+
+                                    Text = Text + keyValue;
+                                }
+                            }
+                            else if (((int)key >= _minKeyValue && (int)key <= _maxKeyValue) || (AllowedKeys != null && AllowedKeys.Contains(key)))
+                            {
+                                string keyValue = $"{key}";
+
+                                if (AllowedKeys != null && AllowedKeys.Contains(key))
+                                {
+                                    keyValue = inputManager.KeyboardManager.KeysToString(key);
+                                }
+
+                                // Remove numeric prefix
+                                if (TextInputType != TextInputTypeEnum.Alpha && keyValue.Length > 1)
+                                {
+                                    keyValue = keyValue.Replace("D", "");
+                                }
+
+                                if (!ucase)
+                                    keyValue = keyValue.ToLower();
+
+                                Text = Text + keyValue;
                             }
                         }
                     }

@@ -1,18 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Extensions;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.Enums;
+using System.Collections.Generic;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {
     public class ServerStartScene : P2PBaseScene
     {
         protected UILabel lblLocalAddress;
+
+        protected UILabel lblExternalIPv4;
+        protected UIInputText txtExternalIPv4;
+        
         protected UILabel lblPort;
+        
         /// <summary>   The button server. </summary>
         protected UIInputText txtPort;
         /// <summary>   The button client. </summary>
@@ -61,15 +68,37 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 Position = pos,
                 Text = $"Local IP: [{p2pService.LocalIPv4Address}] Machine Name: [{p2pService.MachineName}]",
                 Tint = Color.Black,
-                Size = btnSize,
+                Size = new Point(btnSize.X, buttonFont.LineSpacing + 8),
             };
 
-            pos += new Point(0, btnSize.Y + 32);
+            pos += new Point(0, buttonFont.LineSpacing + 16);
+            lblExternalIPv4 = new UILabel(Game)
+            {
+                Font = buttonFont,
+                Position = pos,
+                Text = $"IP (will listen on external too): ",
+                Tint = Color.Black,
+                Size = new Point(128, buttonFont.LineSpacing + 8),                
+            };
+            txtExternalIPv4 = new UIInputText(Game, pos + new Point(128, 0), txtBg, txtBdr)
+            {
+                Font = buttonFont,
+                Size = new Point(512, buttonFont.LineSpacing + 8),
+                Text = $"{p2pService.LocalIPv4Address}",
+                TextAlingment = TextAlingmentEnum.Middle,
+                TextColor = Color.White,
+                ShadowColor = Color.Black,
+                ShadowOffset = new Vector2(1, 1),
+                TextInputType = TextInputTypeEnum.Numeric,
+                AllowedKeys = new List<Keys>() { Keys.OemPeriod, Keys.Decimal }
+            };
+
+            pos += new Point(0, buttonFont.LineSpacing + 16);
             lblPort = new UILabel(Game)
             {
                 Font = buttonFont,
                 Position = pos,
-                Text = $"Port: ",
+                Text = $"*Port: ",
                 Tint = Color.Black,
                 Size = new Point(128, buttonFont.LineSpacing + 8),
             };
@@ -81,16 +110,19 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 TextAlingment = TextAlingmentEnum.Middle,
                 TextColor = Color.White,
                 ShadowColor = Color.Black,
-                ShadowOffset = new Vector2(1,1),                
+                ShadowOffset = new Vector2(1,1),    
+                TextInputType = TextInputTypeEnum.Numeric,
             };
 
-            pos += new Point(0, btnSize.Y + 32);
+            pos += new Point(0, buttonFont.LineSpacing + 32);
             btnEnterLoby = CreateButton("Enter Lobby", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
 
             pos += new Point(0, btnSize.Y + 32);
             btnBack = CreateButton("Back", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
 
             Components.Add(lblLocalAddress);
+            Components.Add(lblExternalIPv4);
+            Components.Add(txtExternalIPv4);
             Components.Add(lblPort);
             Components.Add(txtPort);
             Components.Add(btnEnterLoby);
@@ -118,7 +150,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
                     if (int.TryParse(txtPort.Text, out port))
                     {
-                        p2pService.StartServer(port);
+                        p2pService.StartServer(port, txtExternalIPv4.Text); // Use your public IP here (Google "Whats my IP" if you dont know what it is..)
                         sceneManager.LoadScene("lobyScene");
                     }
                     else
