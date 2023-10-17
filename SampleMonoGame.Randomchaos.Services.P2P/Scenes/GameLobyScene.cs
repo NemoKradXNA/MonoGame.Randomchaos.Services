@@ -362,7 +362,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 btnStart.Text = $"{(p2pService.IsServer ? "Waiting for players..." : "I'm Ready")}";
             }
 
-            lblStatus.Text = $"{(p2pService.IsServer ? $"Waitign for players to join..." : $"Waitign for server to start the game...")} [{p2pService.PlayerCount + 1}]";
+            lblStatus.Text = $"{(p2pService.IsServer ? $"Waiting for players to join..." : $"Waitign for server to start the game...")} [{p2pService.PlayerCount + 1}]";
 
 
             lblIncommingMessages.Text = "";
