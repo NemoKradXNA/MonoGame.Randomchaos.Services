@@ -94,6 +94,14 @@ namespace MonoGame.Randomchaos.UI
         public bool ScaledSegments { get; set; } = true;
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the tag. </summary>
+        ///
+        /// <value> The tag. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public object? Tag { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the text position. </summary>
         ///
         /// <value> The text position. </value>

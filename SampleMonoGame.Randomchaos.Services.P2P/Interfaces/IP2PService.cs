@@ -27,6 +27,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         void StartServer(int port, string externalIPv4Address = null);
         void StopServer();
 
+        void BootClient(Guid id, string msg = null);
+
         void ConnectClient(string serverIPv4Address, int port);
         void Disconnect();
 

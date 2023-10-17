@@ -76,10 +76,13 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             {
                 Font = buttonFont,
                 Position = pos,
-                Text = $"IP (will listen on external too): ",
+                Text = $"IPv4 Address : ",
                 Tint = Color.Black,
-                Size = new Point(128, buttonFont.LineSpacing + 8),                
+                Size = new Point(128, buttonFont.LineSpacing + 8),
+                Visible = false,
+                Enabled = false,
             };
+
             txtExternalIPv4 = new UIInputText(Game, pos + new Point(128, 0), txtBg, txtBdr)
             {
                 Font = buttonFont,
@@ -90,10 +93,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 ShadowColor = Color.Black,
                 ShadowOffset = new Vector2(1, 1),
                 TextInputType = TextInputTypeEnum.Numeric,
-                AllowedKeys = new List<Keys>() { Keys.OemPeriod, Keys.Decimal }
+                AllowedKeys = new List<Keys>() { Keys.OemPeriod, Keys.Decimal },
+                Visible = false,
+                Enabled = false,
             };
 
-            pos += new Point(0, buttonFont.LineSpacing + 16);
+            //pos += new Point(0, buttonFont.LineSpacing + 16);
             lblPort = new UILabel(Game)
             {
                 Font = buttonFont,

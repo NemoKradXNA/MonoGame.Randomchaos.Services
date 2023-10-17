@@ -381,9 +381,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         public void DisconnectClient(IClientData client)
         {
-            client.Close();
-            Clients.Remove(client);
-
             CommsPacket bcPkt = new CommsPacket()
             {
                 Comms = CommsEnum.ClientDisconnected,
@@ -392,6 +389,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 Protocol = ProtocolTypesEnum.Tcp,
                 Sent = DateTime.UtcNow
             };
+
+            SendDataTo(client, bcPkt);
+
+            client.Close();
+            Clients.Remove(client);
+
 
             SendDataToAll(bcPkt);
 

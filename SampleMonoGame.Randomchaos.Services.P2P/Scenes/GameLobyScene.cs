@@ -11,6 +11,7 @@ using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {
@@ -104,7 +105,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
             txtBroadcast = new UIInputText(Game, new Point(lblBroadcast.Position.X + lblBroadcast.Size.X + 32, lblBroadcast.Position.Y), txtBg, txtBdr)
             {
-                Size = new Point(btnSize.X, buttonFont.LineSpacing + 8),
+                Size = new Point(512, buttonFont.LineSpacing + 8),
                 TextAlingment = TextAlingmentEnum.LeftMiddle,
                 TextPositionOffset = new Vector2(8, 0),
                 TextColor = Color.White,
@@ -124,7 +125,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 Background = txtBg,
                 TextAlingment = TextAlingmentEnum.LeftTop,
                 TextPositionOffset = new Vector2(8,8),
-                Size = new Point(GraphicsDevice.Viewport.Width - 64, 256),
+                Size = new Point(1024, 256),
             };
 
 
@@ -258,6 +259,25 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     }
                 };
 
+                if (p2pService.IsServer)
+                {
+                    ctrls.Add(new UIButton(Game, Point.Zero, new Point(32, buttonFont.LineSpacing + 8))
+                    {
+                        BackgroundTexture = txtBg,
+                        Font = buttonFont,
+                        Text = "X",
+                        HighlightColor = Color.SkyBlue,
+                        Segments = new Rectangle(8, 8, 8, 8),
+                        TextColor = Color.DarkSlateGray,
+                        Tag = client.Id,
+                    });
+
+                    ((UIButton)ctrls[2]).OnMouseClick += GameLobyScene_OnMouseClick;
+
+                    ctrls[2].Initialize();
+                    Components.Add(ctrls[2]);
+                }
+
                 ((UIInputText)ctrls[1]).OnUIInputComplete += GameLobyScene_OnUIInputComplete;
 
                 ctrls[0].Initialize();
@@ -267,6 +287,17 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 Components.Add(ctrls[1]);
 
                 ClientIds.Add(client.Id,ctrls);
+            }
+        }
+
+        private void GameLobyScene_OnMouseClick(IUIBase sender, IMouseStateManager mouseState)
+        {
+            if (p2pService.IsServer)
+            {
+                UIButton btn = (UIButton)sender;
+                Guid id = (Guid)btn.Tag;
+
+                p2pService.BootClient(id);
             }
         }
 
@@ -354,7 +385,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     if (visible)
                     {
                         ctrl.Position = pos;
-                        pos.X += ctrl.Position.X + ctrl.Size.X;
+                        pos.X = ctrl.Position.X + ctrl.Size.X + 8;
                         //pos.X += 256;
                     }
                     else
@@ -379,9 +410,16 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     {
                         ((UIInputText)ctrl).OnUIInputComplete -= GameLobyScene_OnUIInputComplete;
                     }
+
+                    if (ctrl is UIButton)
+                    {
+                        ((UIButton)ctrl).OnMouseClick -= GameLobyScene_OnMouseClick;
+                    }
+
                     Components.Remove(ctrl);
                 }
             }
         }
+
     }
 }

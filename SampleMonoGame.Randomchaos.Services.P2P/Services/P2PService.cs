@@ -79,6 +79,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             
         }
 
+        public void BootClient(Guid id, string msg = null)
+        {
+            if (IsServer)
+            {
+                IClientData client = _p2pServer.Clients.SingleOrDefault(s => s.PacketData.Id == id);
+                _p2pServer.DisconnectClient(client);
+            }
+        }
+
         private void _p2pServer_OnLog(LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
         {
             if (OnLog != null)
