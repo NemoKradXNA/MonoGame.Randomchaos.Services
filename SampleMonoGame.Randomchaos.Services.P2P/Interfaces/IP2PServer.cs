@@ -2,9 +2,6 @@
 using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
 {
@@ -20,6 +17,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         event ErrorEvent OnError;
         event ClientCommsError OnClientCommsError;
         event LogEvent OnLog;
+
+        PlayerData PlayerData { get; set; }
 
         string LocalIPv4Address { get; }
         string ExternalIP4vAddress { get; }

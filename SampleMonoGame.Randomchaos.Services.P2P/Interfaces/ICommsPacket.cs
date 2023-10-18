@@ -13,6 +13,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
     public interface ICommsPacket
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the identifier. </summary>
+        ///
+        /// <value> The identifier. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        Guid Id { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the communications. </summary>
         ///
         /// <value> The communications. </value>

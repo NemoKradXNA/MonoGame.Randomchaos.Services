@@ -316,12 +316,19 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
             base.Update(gameTime);
 
-            foreach (IGameComponent component in Components.Components)
+            try
             {
-                if (component is IUpdateable && ((IUpdateable)component).Enabled)
-                    ((IUpdateable)component).Update(gameTime);
+                foreach (IGameComponent component in Components.Components)
+                {
+                    if (component is IUpdateable && ((IUpdateable)component).Enabled)
+                        ((IUpdateable)component).Update(gameTime);
+                }
             }
-        }
+            catch (Exception ex)
+            {
+                // need to log this. This could be due to runtime changes in the list.
+            }
+}
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Draws the given game time. </summary>

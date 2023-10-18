@@ -15,6 +15,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
     public class CommsPacket : ICommsPacket
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the identifier. </summary>
+        ///
+        /// <value> The identifier. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Guid Id { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the communications. </summary>
         ///
         /// <value> The communications. </value>
@@ -80,8 +88,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
         /// <param name="data">         (Optional) The data. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public CommsPacket(CommsEnum udpComms, string ipAddress, object? data = null) : base()
+        public CommsPacket(Guid id, CommsEnum udpComms, string ipAddress, object? data = null) : base()
         {
+            Id = id;
             Comms = udpComms;
             IPAddress = ipAddress;
             Data = data;

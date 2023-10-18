@@ -50,7 +50,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P
             inputService = new InputHandlerService(this, kbState, mState);
 
             // Set up P2P service
-            new P2PService(this);
+            new P2PService(this, null); // If you are playing over the WAN, you need to put your external IP here if you are a client.
 
             // Set up coroutine service
             new CoroutineService(this);
@@ -71,7 +71,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P
 
             sceneService.AddScene(new MainMenuScene(this, "mainMenu"));
             sceneService.AddScene(new ServerStartScene(this, "serverStartScene"));
+            sceneService.AddScene(new ClientStartScene(this, "clientStartScene"));
             sceneService.AddScene(new GameLobyScene(this, "lobyScene"));
+
+            //_graphics.IsFullScreen = true;
+            //_graphics.ApplyChanges();
 
             base.Initialize();
         }

@@ -50,7 +50,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Delegates
     /// <param name="client">   The client. </param>
     ///-------------------------------------------------------------------------------------------------
 
-    public delegate void DataReceivedEvent(IClientPacketData client, object? data);
+    public delegate void DataReceivedEvent(ICommsPacket pkt);
 
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Client communications error. </summary>

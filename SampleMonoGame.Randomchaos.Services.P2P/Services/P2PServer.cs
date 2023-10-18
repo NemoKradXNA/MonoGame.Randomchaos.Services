@@ -26,6 +26,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
         public event ClientCommsError OnClientCommsError;
         public event LogEvent OnLog;
 
+        public PlayerData PlayerData { get; set; }
+
         public string LocalIPv4Address { get; protected set; }
         public string ExternalIP4vAddress { get; protected set; }
         public string MachineName { get; protected set; }
@@ -126,7 +128,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                 CommsPacket pkt = JsonConvert.DeserializeObject<CommsPacket>(receiveString);
 
-                IClientData client = Clients.SingleOrDefault(w => $"{w.UdpEndPoint.Address}:{w.UdpEndPoint.Port}" == pkt.IPAddress);
+                IClientData client = Clients.SingleOrDefault(w => $"{w.UdpEndPoint}" == $"{pkt.IPAddress}:{pkt.Port}");
 
                 if (client != null)
                 {
@@ -187,18 +189,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                         OnConnectionAttempt(client.PacketData);
                     }
 
-                    CommsPacket pkt = new CommsPacket(
-                        CommsEnum.Accepted,
-                        ExternalIP4vAddress,
-                        "Your request has been received.")
-                    {
-                        Protocol = ProtocolTypesEnum.Tcp,
-                        IPAddress = $"{ExternalIP4vAddress}:{Port}"
-                    };
+                    CommsPacket pkt = new CommsPacket(Guid.Empty, CommsEnum.Accepted, ExternalIP4vAddress, "Your request has been received.")
+                        {
+                            Protocol = ProtocolTypesEnum.Tcp,
+                            IPAddress = $"{ExternalIP4vAddress}:{Port}"
+                        };
 
                     SendDataTo(client, pkt);
 
-                    pkt = new CommsPacket(CommsEnum.RequestUdpData, ExternalIP4vAddress) { Protocol = ProtocolTypesEnum.Tcp, IPAddress = $"{ExternalIP4vAddress}:{Port}" };
+                    pkt = new CommsPacket(Guid.Empty, CommsEnum.RequestUdpData, ExternalIP4vAddress) { Protocol = ProtocolTypesEnum.Tcp, IPAddress = $"{ExternalIP4vAddress}:{Port}" };
                     SendDataTo(client, pkt);
                 }
                 catch (Exception ex)
@@ -345,7 +344,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                             if (OnTcpDataReceived != null)
                             {
-                                OnTcpDataReceived(client.PacketData, pkt.Data);
+                                OnTcpDataReceived(pkt);
                             }
                         }
                     }
@@ -356,7 +355,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                         if (OnTcpDataReceived != null)
                         {
-                            OnTcpDataReceived(client.PacketData, pkt.Data);
+                            OnTcpDataReceived(pkt);
                         }
                     }
 
@@ -393,6 +392,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
         {
             CommsPacket bcPkt = new CommsPacket()
             {
+                Id = Guid.Empty,
                 Comms = CommsEnum.ClientDisconnected,
                 IPAddress = $"{ExternalIP4vAddress}:{Port}",
                 Data = client.PacketData,
@@ -416,7 +416,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         protected void ProcessPacket(IClientData client, ICommsPacket pkt)
         {
-            CommsPacket bcPkt = null;
+            ICommsPacket bcPkt = null;
 
             client.LastActivity = DateTime.UtcNow;
 
@@ -426,11 +426,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     break;
                 case CommsEnum.RequestUdpDataResponse:
                     string[] pktData = pkt.IPAddress.Split(":");
+                    
                     client.UdpEndPoint = new IPEndPoint(IPAddress.Parse(pktData[0]), int.Parse(pktData[1]));
-                    // This is a new client, add them to the list, and tell everyone they have a new friend :)
+                    client.PacketData.PlayerGameData = pkt.Data;
 
+                    // This is a new client, add them to the list, and tell everyone they have a new friend :)
+                    
                     bcPkt = new CommsPacket()
                     {
+                        Id = Guid.Empty,
                         Comms = CommsEnum.NewClientAdded,
                         IPAddress = $"{ExternalIP4vAddress}:{Port}",
                         Data = client.PacketData,
@@ -458,6 +462,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                     bcPkt = new CommsPacket()
                     {
+                        Id = Guid.Empty,
                         Comms = CommsEnum.RequestClientListResponse,
                         IPAddress = $"{ExternalIP4vAddress}:{Port}",
                         Data = dataList,
@@ -473,7 +478,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     {
                         if (OnUdpDataReceived != null)
                         {
-                            OnUdpDataReceived(client.PacketData, pkt.Data);
+                            OnUdpDataReceived(pkt);
                         }
                     }
                     else
@@ -496,6 +501,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 // Terminate all client sockets.
                 CommsPacket pkt = new CommsPacket()
                 {
+                    Id = Guid.Empty,
                     Protocol = ProtocolTypesEnum.Tcp,
                     IPAddress = $"{ExternalIP4vAddress}:{Port}",
                     Comms = CommsEnum.Closing
@@ -505,6 +511,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                 pkt = new CommsPacket()
                 {
+                    Id = Guid.Empty,
                     Protocol = ProtocolTypesEnum.Tcp,
                     IPAddress = $"{ExternalIP4vAddress}:{Port}",
                     Comms = CommsEnum.Closed

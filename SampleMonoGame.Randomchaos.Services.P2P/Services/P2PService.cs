@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 {
@@ -26,9 +27,23 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         public SessionData Session { get; set; }
 
+        public Guid ClientId
+        {
+            get
+            {
+                if (_p2pClient != null && _p2pClient.Id != null)
+                {
+                    return _p2pClient.Id.Value;
+                }
+
+                return Guid.Empty;
+            }
+        }
+
         public int ListeningPort { get; protected set; }
         public bool IsServer { get; set; }
         public string LocalIPv4Address { get; protected set; }
+        public string ExternalIPv4Address{get; protected set; }
         public string MachineName { get; protected set; }
 
         public string ServerIPv4Address { get; protected set; }
@@ -41,10 +56,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     {
                         return _p2pServer.Clients.Count;
                     }
+                    
                     return 0;
                 }
                 else
                 {
+                    if (_p2pClient != null)
+                    {
+                        return _p2pClient.Clients.Count;
+                    }
                     return 0;
                 }
             }
@@ -52,9 +72,16 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         protected IP2PServer _p2pServer { get; set; }
 
-        public P2PService(Game game) : base(game)
+        protected IP2PClient _p2pClient { get; set; }
+
+        public P2PService(Game game, string extrenalIPv4Address = null) : base(game)
         {
             LoadHostDetails();
+
+            if (string.IsNullOrEmpty(extrenalIPv4Address))
+            {
+                ExternalIPv4Address = LocalIPv4Address;
+            }
         }
 
         public void BootClient(Guid id, string msg = null)
@@ -82,21 +109,28 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 // remove previously hooked events.
             }
 
-            _p2pServer = new P2PServer(port, externalIPv4Address);
+            _p2pServer = new P2PServer(port, externalIPv4Address)
+            {
+                PlayerData = new PlayerData()
+                {
+                    Name = "Client",
+                    Session = Session
+                }
+            };
 
-            ServerIPv4Address = $"{externalIPv4Address}:{port}";
+            ServerIPv4Address = externalIPv4Address;
 
             _p2pServer.OnConnectionAttempt += _p2pServer_OnConnectionAttempt;
-            _p2pServer.OnNewClientAdded += _p2pServer_OnNewClientAdded;
-            _p2pServer.OnConnectionDropped += _p2pServer_OnConnectionDropped;
-            _p2pServer.OnUdpDataReceived += _p2pServer_OnUdpDataReceived;
-            _p2pServer.OnTcpDataReceived += _p2pServer_OnTcpDataReceived;
-            _p2pServer.OnLog += _p2pServer_OnLog;
+            _p2pServer.OnNewClientAdded += _p2p_OnNewClientAdded;
+            _p2pServer.OnConnectionDropped += _p2p_OnConnectionDropped;
+            _p2pServer.OnUdpDataReceived += _p2p_OnUdpDataReceived;
+            _p2pServer.OnTcpDataReceived += _p2p_OnTcpDataReceived;
+            _p2pServer.OnLog += _p2p_OnLog;
 
             _p2pServer.Start();
         }
 
-        private void _p2pServer_OnNewClientAdded(IClientPacketData client)
+        private void _p2p_OnNewClientAdded(IClientPacketData client)
         {
             if (OnNewClientAdded != null)
             {
@@ -104,17 +138,16 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
-        private void _p2pServer_OnTcpDataReceived(IClientPacketData client, object data)
+        private void _p2p_OnTcpDataReceived(ICommsPacket data)
         {
             if (OnTcpDataReceived != null)
             {
-                OnTcpDataReceived(client, data);
+                OnTcpDataReceived(data);
             }
         }
 
-       
 
-        private void _p2pServer_OnLog(LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
+        private void _p2p_OnLog(LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
         {
             if (OnLog != null)
             {
@@ -122,15 +155,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
-        private void _p2pServer_OnUdpDataReceived(IClientPacketData client, object? data)
+        private void _p2p_OnUdpDataReceived(ICommsPacket data)
         {
             if (OnUdpDataReceived != null)
             {
-                OnUdpDataReceived(client, data);
+                OnUdpDataReceived(data);
             }
         }
 
-        private void _p2pServer_OnConnectionDropped(IClientPacketData client)
+        private void _p2p_OnConnectionDropped(IClientPacketData client)
         {
             if (OnConnectionDropped != null)
             {
@@ -149,22 +182,30 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         public Exception SendDataTo(Guid id, object? data)
         {
+
             if (IsServer && _p2pServer != null && _p2pServer.IsRunning)
             {
                 // get the client
                 IClientData client = _p2pServer.Clients.SingleOrDefault(s => s.PacketData.Id == id);
                 if (client != null)
                 {
-                    return _p2pServer.SendDataTo(client, CreateDataSendPacket(ServerIPv4Address, ListeningPort, data));
+                    return _p2pServer.SendDataTo(client, CreateDataSendPacket(Guid.Empty, ServerIPv4Address, ListeningPort, data));
                 }
-
-                return new Exception("A client with this Id does not exist.");
             }
             else
             {
                 // Do client send.
-                return null;
+                IClientPacketData clientPkt = _p2pClient.Clients.SingleOrDefault(s => s.Id == id);
+
+                if (clientPkt != null)
+                {
+                    _p2pClient.SendDataTo(CreateDataSendPacket(_p2pClient.Id.Value, ExternalIPv4Address, _p2pClient.Port, data), clientPkt.GetIPEndPoint());
+                    return null;
+                }
+
             }
+
+            return new Exception("A client with this Id does not exist.");
         }
 
         public Dictionary<Guid, Exception> SendDataTo(List<Guid> ids, object? data)
@@ -174,7 +215,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             if (IsServer)
             {
                 List<IClientData> clients = _p2pServer.Clients.Where(s => ids.Contains(s.PacketData.Id)).ToList();
-                var excpeitons = _p2pServer.SendDataTo(clients, CreateDataSendPacket(ServerIPv4Address, ListeningPort, data));
+                var excpeitons = _p2pServer.SendDataTo(clients, CreateDataSendPacket(Guid.Empty, ServerIPv4Address, ListeningPort, data));
 
                 if (excpeitons != null && excpeitons.Count > 0)
                 {
@@ -183,6 +224,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                         retVal.Add(client.PacketData.Id, excpeitons[client]);
                     }
                 }
+            }
+            else
+            {
+                List<IClientPacketData> clients = _p2pClient.Clients.Where(s => ids.Contains(s.Id)).ToList();
+                _p2pClient.BroadcastTo(CreateDataSendPacket(_p2pClient.Id.Value, ServerIPv4Address, ListeningPort, data), clients);
             }
 
             return retVal;
@@ -194,7 +240,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
             if (IsServer)
             {
-                var excpeitons = _p2pServer.SendDataToAll(CreateDataSendPacket(ServerIPv4Address, ListeningPort, data));
+                var excpeitons = _p2pServer.SendDataToAll(CreateDataSendPacket(Guid.Empty, ServerIPv4Address, ListeningPort, data));
 
                 if (excpeitons != null && excpeitons.Count > 0)
                 {
@@ -206,14 +252,19 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                 return null;
             }
+            else
+            {
+                _p2pClient.BroadcastTo(CreateDataSendPacket(_p2pClient.Id.Value, ExternalIPv4Address, _p2pClient.Port, data), _p2pClient.Clients);
+            }
 
             return retVal;
         }
 
-        protected ICommsPacket CreateDataSendPacket(string senderIP, int senderPort, object? data)
+        protected ICommsPacket CreateDataSendPacket(Guid senderId, string senderIP, int senderPort, object? data)
         {
             return new CommsPacket()
             {
+                Id  = senderId,
                 Comms = CommsEnum.SendData,
                 Data = data,
                 IPAddress = senderIP,
@@ -226,22 +277,63 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
         public void StopServer()
         {
             _p2pServer.OnConnectionAttempt -= _p2pServer_OnConnectionAttempt;
-            _p2pServer.OnNewClientAdded -= _p2pServer_OnNewClientAdded;
-            _p2pServer.OnConnectionDropped -= _p2pServer_OnConnectionDropped;
-            _p2pServer.OnUdpDataReceived -= _p2pServer_OnUdpDataReceived;
-            _p2pServer.OnTcpDataReceived -= _p2pServer_OnTcpDataReceived;
-            _p2pServer.OnLog -= _p2pServer_OnLog;
+            _p2pServer.OnNewClientAdded -= _p2p_OnNewClientAdded;
+            _p2pServer.OnConnectionDropped -= _p2p_OnConnectionDropped;
+            _p2pServer.OnUdpDataReceived -= _p2p_OnUdpDataReceived;
+            _p2pServer.OnTcpDataReceived -= _p2p_OnTcpDataReceived;
+            _p2pServer.OnLog -= _p2p_OnLog;
 
             _p2pServer.Stop();
         }
 
-        public void ConnectClient(string serverIPv4Address, int port)
+        public void ConnectClient(string serverIPv4Address, int port, string clientIPv4Address, int clientPort, string sessionName = null, string sessionToken = null)
         {
+            Session = new SessionData()
+            {
+                Name = sessionName,
+                Token = sessionToken,
+            };
 
+            if (_p2pClient != null) // make sure the old one is stopped..
+            {
+                _p2pClient.Disconnect();
+            }
+
+            ListeningPort = port;
+
+            _p2pClient = new P2PClient(serverIPv4Address, port, clientIPv4Address, clientPort)
+            {
+                PlayerData = new PlayerData()
+                {
+                    Name = "Server",
+                    Session = Session
+                }
+            };
+
+            _p2pClient.OnConnectionDropped += _p2p_OnConnectionDropped;
+            _p2pClient.OnClientConnectionDropped += _p2p_OnConnectionDropped;
+            _p2pClient.OnLog += _p2p_OnLog;
+            _p2pClient.OnUdpDataReceived += _p2p_OnUdpDataReceived;
+            _p2pClient.OnTcpDataReceived += _p2p_OnTcpDataReceived;
+            _p2pClient.OnNewClientAdded += _p2p_OnNewClientAdded;
+
+            ServerIPv4Address = $"{serverIPv4Address}";
+
+            _p2pClient.Connect();
         }
-        public void Disconnect()
-        {
 
+        public void Disconnect(bool informServer = true)
+        {
+            if (!IsServer && _p2pClient != null)
+            {
+                _p2pClient.Disconnect(informServer);
+
+                _p2pClient.OnConnectionDropped -= _p2p_OnConnectionDropped;
+                _p2pClient.OnClientConnectionDropped -= _p2p_OnConnectionDropped;
+                _p2pClient.OnLog -= _p2p_OnLog;
+                _p2pClient.OnUdpDataReceived -= _p2p_OnUdpDataReceived;
+                _p2pClient.OnTcpDataReceived -= _p2p_OnTcpDataReceived;
+            }
         }
 
         protected void LoadHostDetails()

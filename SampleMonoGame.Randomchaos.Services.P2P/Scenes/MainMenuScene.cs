@@ -104,7 +104,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 }
                 else if (sender == btnClient)
                 {
-                    p2pService.IsServer = true;
+                    p2pService.IsServer = false;
                     sceneManager.LoadScene("clientStartScene");
                 }
                 else if (sender == btnExit)
