@@ -343,10 +343,18 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 GraphicsDevice.Clear(camera != null ? camera.ClearColor : ClearColor);
             }
 
-            foreach (IGameComponent component in Components.SceneComponents)
+            try
             {
-                if (component is IDrawable && ((IDrawable)component).Visible)
-                    ((IDrawable)component).Draw(gameTime);
+                foreach (IGameComponent component in Components.SceneComponents)
+                {
+                    if (component is IDrawable && ((IDrawable)component).Visible)
+                        ((IDrawable)component).Draw(gameTime);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // need to log this. This could be due to runtime changes in the list.
             }
 
             if (postProcess != null)
@@ -360,10 +368,17 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 postProcessUI.StartPostProcess(gameTime);
             }
 
+            try{
             foreach (IGameComponent component in Components.UIComponents)
             {
-                if (component is IDrawable && ((IDrawable)component).Visible)
-                    ((IDrawable)component).Draw(gameTime);
+                    if (component is IDrawable && ((IDrawable)component).Visible)
+                        ((IDrawable)component).Draw(gameTime);
+                
+            }
+            }
+            catch (Exception ex)
+            {
+                // need to log this. This could be due to runtime changes in the list.
             }
 
             if (postProcessUI != null)

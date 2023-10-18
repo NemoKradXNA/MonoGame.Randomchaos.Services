@@ -7,7 +7,9 @@ using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Enums;
+using Newtonsoft.Json;
 using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
+using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -147,31 +149,13 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
         }
 
-        public override void LoadScene()
-        {
-            p2pService.OnConnectionAttempt += P2pService_OnConnectionAttempt;
-            p2pService.OnConnectionDropped += P2pService_OnConnectionDropped;
-            p2pService.OnUdpDataReceived += P2pService_OnUdpDataReceived;
-            p2pService.OnLog += P2pService_OnLog;
-
-            if (txtBroadcast != null)
-            {
-                txtBroadcast.OnUIInputComplete += TxtBroadcast_OnUIInputComplete;
-            }
-
-            MessageFeed = new List<string>()
-            {
-                "Incoming messages are shown here..."
-            };
-
-            base.LoadScene();
-        }
-
         public override void UnloadScene()
         {
             p2pService.OnConnectionAttempt -= P2pService_OnConnectionAttempt;
+            p2pService.OnNewClientAdded -= P2pService_OnNewClientAdded;
             p2pService.OnConnectionDropped -= P2pService_OnConnectionDropped;
             p2pService.OnUdpDataReceived -= P2pService_OnUdpDataReceived;
+            p2pService.OnTcpDataReceived -= P2pService_OnTcpDataReceived;
             p2pService.OnLog -= P2pService_OnLog;
 
             txtBroadcast.OnUIInputComplete -= TxtBroadcast_OnUIInputComplete;
@@ -187,54 +171,52 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             base.UnloadScene();
         }
 
-        private void TxtBroadcast_OnUIInputComplete(IUIBase sender)
+        public override void LoadScene()
         {
-            if (!string.IsNullOrEmpty(txtBroadcast.Text))
+            p2pService.OnConnectionAttempt += P2pService_OnConnectionAttempt;
+            p2pService.OnNewClientAdded += P2pService_OnNewClientAdded;
+            p2pService.OnConnectionDropped += P2pService_OnConnectionDropped;
+            p2pService.OnUdpDataReceived += P2pService_OnUdpDataReceived;
+            p2pService.OnTcpDataReceived += P2pService_OnTcpDataReceived;
+            p2pService.OnLog += P2pService_OnLog;
+
+            if (txtBroadcast != null)
             {
-                AddToMessages($"You -> All: {txtBroadcast.Text}");
-                p2pService.Broadcast(txtBroadcast.Text);
-                txtBroadcast.Text = string.Empty;
+                txtBroadcast.OnUIInputComplete += TxtBroadcast_OnUIInputComplete;
             }
-        }
 
-        private void P2pService_OnLog(Enums.LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
-        {
-            AddToMessages($"[{DateTime.UtcNow: dd-MM-yyyy hh:mm:ss}] - {lvl}: {message}");
-        }
-
-        private void P2pService_OnUdpDataReceived(IClientPacketData client, object? data)
-        {
-            AddToMessages($"[{client.Id}] - {data}");
-        }
-
-        private void AddToMessages(string msg)
-        {
-            MessageFeed.Add(msg);
-
-            if (MessageFeed.Count > 13)
+            MessageFeed = new List<string>()
             {
-                MessageFeed.RemoveRange(0, MessageFeed.Count - 13);
-            }
+                "Incoming messages are shown here..."
+            };
+
+            base.LoadScene();
         }
 
-        private void P2pService_OnConnectionDropped(IClientPacketData client)
+        protected bool AuthenticateClient(IClientPacketData client)
         {
-            if (ClientIds.ContainsKey(client.Id))
+            if (!p2pService.IsServer)
             {
-                AddToMessages($"[{client.Id}] - Disconnected...");
-                // disable and hide their controls.
-                foreach (UIBase ctrl in ClientIds[client.Id])
-                {
-                    ctrl.Enabled = false;
-                    ctrl.Visible = false;
-                }
+                return true; // Not up to clients to authenticate users.
             }
+
+            bool retVal = false;
+
+            if (client.PlayerGameData != null)
+            {
+                PlayerData plrData = JsonConvert.DeserializeObject<PlayerData>(client.PlayerGameData.ToString());
+
+                retVal = plrData != null && plrData.Session.Name == p2pService.Session.Name && plrData.Session.Token == p2pService.Session.Token;
+            }
+            return retVal;
         }
 
-        private void P2pService_OnConnectionAttempt(IClientPacketData client)
+        private void P2pService_OnNewClientAdded(IClientPacketData client)
         {
-            // Authorize the user here?
-            if (!ClientIds.ContainsKey(client.Id))
+            // Authorize the user here.
+            bool IsAuthenticated = AuthenticateClient(client);
+
+            if (IsAuthenticated && !ClientIds.ContainsKey(client.Id))
             {
                 var s = buttonFont.MeasureString(client.Id.ToString());
                 Point btnSize = new Point((int)s.X, buttonFont.LineSpacing + 8);
@@ -286,8 +268,67 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 Components.Add(ctrls[0]);
                 Components.Add(ctrls[1]);
 
-                ClientIds.Add(client.Id,ctrls);
+                ClientIds.Add(client.Id, ctrls);
             }
+            else
+            {
+                p2pService.BootClient(client.Id);
+                AddToMessages($"Could not authenticate connection [{client.Id}] from [{client}], Session and/or Token where wrong.");
+            }
+        }
+
+        private void P2pService_OnTcpDataReceived(IClientPacketData client, object data)
+        {
+            
+        }       
+
+        private void TxtBroadcast_OnUIInputComplete(IUIBase sender)
+        {
+            if (!string.IsNullOrEmpty(txtBroadcast.Text))
+            {
+                AddToMessages($"You -> All: {txtBroadcast.Text}");
+                p2pService.Broadcast(txtBroadcast.Text);
+                txtBroadcast.Text = string.Empty;
+            }
+        }
+
+        private void P2pService_OnLog(Enums.LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
+        {
+            AddToMessages($"[{DateTime.UtcNow: dd-MM-yyyy hh:mm:ss}] - {lvl}: {message}");
+        }
+
+        private void P2pService_OnUdpDataReceived(IClientPacketData client, object? data)
+        {
+            AddToMessages($"[{client.Id}] - {data}");
+        }
+
+        private void AddToMessages(string msg)
+        {
+            MessageFeed.Add(msg);
+
+            if (MessageFeed.Count > 13)
+            {
+                MessageFeed.RemoveRange(0, MessageFeed.Count - 13);
+            }
+        }
+
+        private void P2pService_OnConnectionDropped(IClientPacketData client)
+        {
+            if (ClientIds.ContainsKey(client.Id))
+            {
+                AddToMessages($"[{client.Id}] - Disconnected...");
+                // disable and hide their controls.
+                foreach (UIBase ctrl in ClientIds[client.Id])
+                {
+                    ctrl.Enabled = false;
+                    ctrl.Visible = false;
+                }
+            }
+        }
+
+        private void P2pService_OnConnectionAttempt(IClientPacketData client)
+        {
+            
         }
 
         private void GameLobyScene_OnMouseClick(IUIBase sender, IMouseStateManager mouseState)
@@ -362,7 +403,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 btnStart.Text = $"{(p2pService.IsServer ? "Waiting for players..." : "I'm Ready")}";
             }
 
-            lblStatus.Text = $"{(p2pService.IsServer ? $"Waiting for players to join..." : $"Waitign for server to start the game...")} [{p2pService.PlayerCount + 1}]";
+            lblStatus.Text = $"{(p2pService.IsServer ? $"Waiting for players to join [({p2pService.Session.Name}) ({p2pService.Session.Token})]..." : $"Waitign for server to start the game...")} [{p2pService.PlayerCount + 1}]";
 
 
             lblIncommingMessages.Text = "";

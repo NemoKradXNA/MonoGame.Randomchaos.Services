@@ -1,4 +1,5 @@
 ﻿using SampleMonoGame.Randomchaos.Services.P2P.Delegates;
+using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
 
@@ -17,6 +18,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         event ClientCommsError OnClientCommsError;
         event LogEvent OnLog;
 
+        SessionData Session { get; set; }
         bool IsServer { get; set; }
         int ListeningPort { get; }
         string ServerIPv4Address { get; }
@@ -24,7 +26,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         string MachineName { get; }
 
         int PlayerCount { get; }
-        void StartServer(int port, string externalIPv4Address = null);
+        void StartServer(int port, string externalIPv4Address = null, string sessionName = null, string sessionToken = null);
         void StopServer();
 
         void BootClient(Guid id, string msg = null);

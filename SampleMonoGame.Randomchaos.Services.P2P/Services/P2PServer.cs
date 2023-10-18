@@ -128,7 +128,17 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                 IClientData client = Clients.SingleOrDefault(w => $"{w.UdpEndPoint.Address}:{w.UdpEndPoint.Port}" == pkt.IPAddress);
 
-                ProcessPacket(client, pkt);
+                if (client != null)
+                {
+                    ProcessPacket(client, pkt);
+                }
+                else // Dead or booted client.
+                {
+                    if (OnLog != null)
+                    {
+                        OnLog(LogLevelEnum.Warning, "UDP data from invalid client ignored.");
+                    }
+                }
             }
             catch (Exception ex)
             {
