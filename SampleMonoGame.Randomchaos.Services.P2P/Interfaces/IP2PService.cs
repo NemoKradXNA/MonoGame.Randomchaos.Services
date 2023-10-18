@@ -19,6 +19,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         event LogEvent OnLog;
 
         SessionData Session { get; set; }
+        PlayerData PlayerData { get; set; }
 
         Guid ClientId { get; }
         bool IsServer { get; set; }
@@ -29,12 +30,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         string MachineName { get; }
 
         int PlayerCount { get; }
-        void StartServer(int port, string externalIPv4Address = null, string sessionName = null, string sessionToken = null);
+        void StartServer(int port, string externalIPv4Address = null, string sessionName = null, string sessionToken = null, string name = "Server");
         void StopServer();
 
         void BootClient(Guid id, string msg = null);
 
-        void ConnectClient(string serverIPv4Address, int port, string clientIPv4Address, int clientPort, string sessionName = null, string sessionToken = null);
+        void ConnectClient(string serverIPv4Address, int port, string clientIPv4Address, int clientPort, string sessionName = null, string sessionToken = null, string name = null);
         void Disconnect(bool informServer = true);
 
         Exception SendDataTo(Guid id, object? data);
@@ -43,5 +44,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
 
         Dictionary<Guid, Exception> Broadcast(object? data);
 
+        IClientPacketData GetClientById(Guid id);
+
+        int GetRandomPortNumber(params int[] exclude);
     }
 }

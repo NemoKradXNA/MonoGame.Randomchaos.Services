@@ -143,15 +143,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             Components.Add(btnBack);
             Components.Add(lblIncommingMessages);
 
-            if (!p2pService.IsServer)
-            {
-                P2pService_OnNewClientAdded(new ClientPacketData()
-                {
-                    Id = Guid.Empty,
-                    UdpAddress = p2pService.ServerIPv4Address,
-                    UdPPort = p2pService.ListeningPort,
-                });
-            }
+            //if (!p2pService.IsServer)
+            //{
+            //    P2pService_OnNewClientAdded(new ClientPacketData()
+            //    {
+            //        Id = Guid.Empty,
+            //        UdpAddress = p2pService.ServerIPv4Address,
+            //        UdPPort = p2pService.ListeningPort,
+            //    });
+            //}
 
             base.Initialize();
 
@@ -175,6 +175,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     ((UIInputText)component).OnUIInputComplete -= GameLobyScene_OnUIInputComplete;
                 }
             }
+
+            ClientIds.Clear();
 
             base.UnloadScene();
         }
@@ -212,7 +214,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
             if (client.PlayerGameData != null)
             {
-                PlayerData plrData = JsonConvert.DeserializeObject<PlayerData>(client.PlayerGameData.ToString());
+                IPlayerData plrData = JsonConvert.DeserializeObject<PlayerData>(client.PlayerGameData.ToString());
 
                 retVal = plrData != null && plrData.Session.Name == p2pService.Session.Name && plrData.Session.Token == p2pService.Session.Token;
             }
@@ -224,17 +226,23 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             // Authorize the user here.
             bool IsAuthenticated = AuthenticateClient(client);
 
+            IPlayerData pd = null;
+            if (client.PlayerGameData != null)
+            {
+                pd = JsonConvert.DeserializeObject<PlayerData>(client.PlayerGameData.ToString());
+            }
+
             if (!p2pService.IsServer)
             {
                 if (client.Id == p2pService.ClientId)
                 {
                     // Find and add the server reference.
-                    client = new ClientPacketData()
-                    {
-                        Id = Guid.Empty,
-                        UdpAddress = p2pService.ServerIPv4Address,
-                        UdPPort = p2pService.ListeningPort,
-                    };
+                    //client = new ClientPacketData()
+                    //{
+                    //    Id = Guid.Empty,
+                    //    UdpAddress = p2pService.ServerIPv4Address,
+                    //    UdPPort = p2pService.ListeningPort,
+                    //};
                     return;
                 }
             }
@@ -251,7 +259,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     new UILabel(Game)
                     {
                         Font = buttonFont,
-                        Text = $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
+                        //Text = $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
+                        Text = pd != null ? pd.Name : $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
                         Tint = Color.Black,
                         Size = btnSize,
                     },
@@ -308,16 +317,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             
         }       
 
-        private void TxtBroadcast_OnUIInputComplete(IUIBase sender)
-        {
-            if (!string.IsNullOrEmpty(txtBroadcast.Text))
-            {
-                AddToMessages($"You -> All: {txtBroadcast.Text}");
-                p2pService.Broadcast(txtBroadcast.Text);
-                txtBroadcast.Text = string.Empty;
-            }
-        }
-
+        
         private void P2pService_OnLog(Enums.LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
         {
             AddToMessages($"[{DateTime.UtcNow: dd-MM-yyyy hh:mm:ss}] - {lvl}: {message}");
@@ -325,7 +325,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
         private void P2pService_OnUdpDataReceived(ICommsPacket pkt)
         {
-            AddToMessages($"[{(pkt.Id == Guid.Empty ? "Server" : pkt.Id)}] - {pkt.Data}");
+            var pd = JsonConvert.DeserializeObject<PlayerData>(pkt.Data.ToString());
+
+            AddToMessages($"[{(pd.Name)}] - {pd.Properties["Message"]}");
         }
 
         private void AddToMessages(string msg)
@@ -342,7 +344,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         {
             if (ClientIds.ContainsKey(client.Id))
             {
-                AddToMessages($"[{(client.Id == Guid.Empty ? "Server" : client.Id)}] - Disconnected...");
+                IPlayerData data = null;
+
+                if (client.PlayerGameData != null)
+                {
+                    data = JsonConvert.DeserializeObject<PlayerData>(client.PlayerGameData.ToString());
+                }
+
+
+                AddToMessages($"[{(data == null ? client.Id == Guid.Empty ? "Server" : client.Id : data.Name)}] - Disconnected...");
                 // disable and hide their controls.
                 foreach (UIBase ctrl in ClientIds[client.Id])
                 {
@@ -368,6 +378,18 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             }
         }
 
+        private void TxtBroadcast_OnUIInputComplete(IUIBase sender)
+        {
+            if (!string.IsNullOrEmpty(txtBroadcast.Text))
+            {
+                AddToMessages($"You -> All: {txtBroadcast.Text}");
+
+                p2pService.PlayerData.SetProperty("Message", txtBroadcast.Text);
+                p2pService.Broadcast(p2pService.PlayerData);
+                txtBroadcast.Text = string.Empty;
+            }
+        }
+
         private void GameLobyScene_OnUIInputComplete(IUIBase sender)
         {
             UIInputText txtBox = (UIInputText)sender;
@@ -379,8 +401,19 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 if (!string.IsNullOrEmpty(msg))
                 {
                     Guid id = (Guid)txtBox.Tag;
-                    AddToMessages($"You -> [{(id == Guid.Empty ? "Server" : id)}]: {msg}");
-                    p2pService.SendDataTo(id, msg);
+
+                    var pkt = p2pService.GetClientById(id);
+                    IPlayerData pd = null;
+
+                    if (pkt.PlayerGameData != null)
+                    {
+                        pd = JsonConvert.DeserializeObject<PlayerData>(pkt.PlayerGameData.ToString());
+                    }
+
+                    AddToMessages($"You -> [{(pd != null ? pd.Name : id == Guid.Empty ? "Server" : id)}]: {msg}");
+
+                    p2pService.PlayerData.SetProperty("Message", msg);
+                    p2pService.SendDataTo(id, p2pService.PlayerData);
                     txtBox.Text = string.Empty;
                 }
             }

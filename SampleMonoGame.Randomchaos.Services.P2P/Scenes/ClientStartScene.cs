@@ -7,6 +7,7 @@ using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.Enums;
+using SampleMonoGame.Randomchaos.Services.P2P.Services;
 using System;
 using System.Collections.Generic;
 
@@ -28,6 +29,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
         protected UILabel lblUdpPort;
         protected UIInputText txtUdpPort;
+
+        protected UILabel lblYourName;
+        protected UIInputText txtYourName;
 
         protected UIButton btnEnterLoby;
         /// <summary>   The button exit. </summary>
@@ -122,12 +126,35 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             {
                 Font = buttonFont,
                 Size = new Point(512, buttonFont.LineSpacing + 8),
-                Text = $"{(int)MathHelper.Lerp(5500, 6600, DateTime.UtcNow.Millisecond / 1000f)}",
+                Text = $"{p2pService.GetRandomPortNumber(6060)}",
                 TextAlingment = TextAlingmentEnum.Middle,
                 TextColor = Color.White,
                 ShadowColor = Color.Black,
                 ShadowOffset = new Vector2(1, 1),
                 TextInputType = TextInputTypeEnum.Numeric,
+            };
+
+            pos += new Point(0, buttonFont.LineSpacing + 16);
+            lblYourName = new UILabel(Game)
+            {
+                Font = buttonFont,
+                Position = pos,
+                Text = $"Your Name: ",
+                Tint = Color.Black,
+                TextAlingment = TextAlingmentEnum.LeftMiddle,
+                Size = new Point(200, buttonFont.LineSpacing + 8),
+            };
+            txtYourName = new UIInputText(Game, pos + new Point(200, 0), txtBg, txtBdr)
+            {
+                Font = buttonFont,
+                Size = new Point(512, buttonFont.LineSpacing + 8),
+                Text = $"Client {p2pService.LocalIPv4Address}:{txtUdpPort.Text}",
+                TextAlingment = TextAlingmentEnum.LeftMiddle,
+                TextColor = Color.White,
+                ShadowColor = Color.Black,
+                ShadowOffset = new Vector2(1, 1),
+                TextInputType = TextInputTypeEnum.AlphaNumeric,
+                TextPositionOffset = new Vector2(8, 0)
             };
 
             pos += new Point(0, buttonFont.LineSpacing + 16);
@@ -149,7 +176,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 TextColor = Color.White,
                 ShadowColor = Color.Black,
                 ShadowOffset = new Vector2(1, 1),
-                TextInputType = TextInputTypeEnum.Numeric,
+                TextInputType = TextInputTypeEnum.AlphaNumeric,
                 TextPositionOffset = new Vector2(8, 0)
             };
 
@@ -172,11 +199,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 TextColor = Color.White,
                 ShadowColor = Color.Black,
                 ShadowOffset = new Vector2(1, 1),
-                TextInputType = TextInputTypeEnum.Numeric,
+                TextInputType = TextInputTypeEnum.AlphaNumeric,
                 TextPositionOffset = new Vector2(8, 0)
             };
-
-           
 
             pos += new Point(0, buttonFont.LineSpacing + 32);
             btnEnterLoby = CreateButton("Enter Lobby", Game.Content.Load<Texture2D>("Textures/UI/Button"), pos, btnSize);
@@ -195,6 +220,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             Components.Add(txtSessionToken);
             Components.Add(lblUdpPort);
             Components.Add(txtUdpPort);
+            Components.Add(lblYourName);
+            Components.Add(txtYourName);
             Components.Add(btnEnterLoby);
             Components.Add(btnBack);
 
@@ -215,6 +242,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                         if (int.TryParse(txtUdpPort.Text, out clientPort))
                         {
                             p2pService.ConnectClient(txtExternalIPv4.Text, port, p2pService.LocalIPv4Address, clientPort, txtSessionName.Text, txtSessionToken.Text);
+                            p2pService.PlayerData.Name = txtYourName.Text;
                             sceneManager.LoadScene("lobyScene");
                         }
                         else

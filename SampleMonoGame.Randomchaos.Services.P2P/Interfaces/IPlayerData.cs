@@ -1,16 +1,16 @@
 ﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
+using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System.Collections.Generic;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Models
+namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A player data. </summary>
+    /// <summary>   Interface for player data. </summary>
     ///
     /// <remarks>   Charles Humphrey, 18/10/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class PlayerData : IPlayerData
+    public interface IPlayerData
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the session. </summary>
@@ -18,7 +18,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
         /// <value> The session. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public ISessionData Session { get; set; } = new SessionData();
+        ISessionData Session { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the name. </summary>
@@ -26,7 +26,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
         /// <value> The name. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public string Name { get; set; }
+        string Name { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the properties. </summary>
@@ -34,43 +34,23 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
         /// <value> The properties. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public Dictionary<string, object?> Properties { get; set; } = new Dictionary<string, object?>();
+        Dictionary<string, object?> Properties { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Sets a property. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 18/10/2023. </remarks>
         ///
         /// <param name="name">     The name. </param>
         /// <param name="value">    The value. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void SetProperty(string name, object value)
-        {
-            if (!Properties.ContainsKey(name))
-            {
-                Properties.Add(name, value);
-            }
-            else
-            {
-                Properties[name] = value;
-            }
-        }
+        void SetProperty(string name, object value);
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Removes the property described by name. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 18/10/2023. </remarks>
-        ///
         /// <param name="name"> The name. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void RemoveProperty(string name)
-        {
-            if (Properties.ContainsKey(name))
-            {
-                Properties.Remove(name);
-            }
-        }
+        void RemoveProperty(string name);
     }
 }

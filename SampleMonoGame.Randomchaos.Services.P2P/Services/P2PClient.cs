@@ -172,7 +172,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             {
                 try
                 {
-
+                    await Task.Delay(1000);
                     while (_tcpClient.Connected)
                     {
                         await PollTcpAsync();
@@ -270,12 +270,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     };
                     SendDataTo(epPkt);
 
-                    AddClient(new ClientPacketData()
-                    {
-                        Id = Guid.Empty,
-                        UdpAddress = _serverEndpoint.Address.ToString(),
-                        UdPPort = _serverEndpoint.Port
-                    });
+                    //AddClient(new ClientPacketData()
+                    //{
+                    //    Id = Guid.Empty,
+                    //    UdpAddress = _serverEndpoint.Address.ToString(),
+                    //    UdPPort = _serverEndpoint.Port
+                    //});
+
+                    // At runtime, this is firing faster than the screen load...
+                    await Task.Delay(1000);
 
                     break;
                 case CommsEnum.NewClientAdded:

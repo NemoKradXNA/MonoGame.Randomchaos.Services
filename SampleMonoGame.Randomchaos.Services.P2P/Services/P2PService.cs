@@ -26,6 +26,34 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
         public event LogEvent OnLog;
 
         public SessionData Session { get; set; }
+        public PlayerData PlayerData
+        {
+            get
+            {
+                if (IsServer && _p2pServer != null)
+                {
+                    return _p2pServer.PlayerData;
+                }
+                else if (_p2pClient != null)
+                {
+                    return _p2pClient.PlayerData;
+                }
+
+                return null;
+            }
+            set
+            {
+                if (IsServer && _p2pServer != null)
+                {
+                    _p2pServer.PlayerData = value;
+                }
+                else if (_p2pClient != null)
+                {
+                    _p2pClient.PlayerData = value;
+                }
+
+            }
+        }
 
         public Guid ClientId
         {
@@ -93,7 +121,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
-        public void StartServer(int port, string externalIPv4Address = null, string sessionName = null, string sessionToken = null)
+        public void StartServer(int port, string externalIPv4Address = null, string sessionName = null, string sessionToken = null, string name = "Server")
         {
             Session = new SessionData()
             {
@@ -113,7 +141,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             {
                 PlayerData = new PlayerData()
                 {
-                    Name = "Client",
+                    Name = name,
                     Session = Session
                 }
             };
@@ -276,17 +304,17 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         public void StopServer()
         {
+            _p2pServer.Stop();
+
             _p2pServer.OnConnectionAttempt -= _p2pServer_OnConnectionAttempt;
             _p2pServer.OnNewClientAdded -= _p2p_OnNewClientAdded;
             _p2pServer.OnConnectionDropped -= _p2p_OnConnectionDropped;
             _p2pServer.OnUdpDataReceived -= _p2p_OnUdpDataReceived;
             _p2pServer.OnTcpDataReceived -= _p2p_OnTcpDataReceived;
             _p2pServer.OnLog -= _p2p_OnLog;
-
-            _p2pServer.Stop();
         }
 
-        public void ConnectClient(string serverIPv4Address, int port, string clientIPv4Address, int clientPort, string sessionName = null, string sessionToken = null)
+        public void ConnectClient(string serverIPv4Address, int port, string clientIPv4Address, int clientPort, string sessionName = null, string sessionToken = null, string name = null)
         {
             Session = new SessionData()
             {
@@ -305,7 +333,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             {
                 PlayerData = new PlayerData()
                 {
-                    Name = "Server",
+                    Name = string.IsNullOrEmpty(name) ? $"Client {clientIPv4Address}:{clientPort}" : name,
                     Session = Session
                 }
             };
@@ -334,6 +362,39 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 _p2pClient.OnUdpDataReceived -= _p2p_OnUdpDataReceived;
                 _p2pClient.OnTcpDataReceived -= _p2p_OnTcpDataReceived;
             }
+        }
+
+        public IClientPacketData GetClientById(Guid id)
+        {
+            IClientPacketData retVal;
+
+            if (IsServer)
+            {
+                retVal = _p2pServer.Clients.Select(s => s.PacketData).SingleOrDefault(s => s.Id == id);
+            }
+            else
+            {
+                retVal = _p2pClient.Clients.SingleOrDefault(s => s.Id == id);
+            }
+
+            return retVal;
+        }
+
+        public int GetRandomPortNumber(params int[] exclude)
+        {
+            if (exclude == null)
+            {
+                exclude = new int[0];
+            }
+
+            int portNumber = (int)MathHelper.Lerp(6000, 7000, DateTime.UtcNow.Millisecond / 1000f);
+
+            while (exclude.Contains(portNumber))
+            {
+                portNumber = (int)MathHelper.Lerp(6000, 7000, DateTime.UtcNow.Millisecond / 1000f);
+            }
+
+            return portNumber;
         }
 
         protected void LoadHostDetails()
@@ -365,6 +426,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
             else
             {
+                Disconnect();
                 // Close client.
             }
             base.Dispose(disposing);

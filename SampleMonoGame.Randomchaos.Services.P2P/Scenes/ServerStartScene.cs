@@ -7,6 +7,7 @@ using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.Enums;
+using SampleMonoGame.Randomchaos.Services.P2P.Services;
 using System.Collections.Generic;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
@@ -19,6 +20,10 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         protected UIInputText txtExternalIPv4;
         
         protected UILabel lblPort;
+        protected UIInputText txtPort;
+
+        protected UILabel lblYourName;
+        protected UIInputText txtYourName;
 
         protected UILabel lblSessionName;
         protected UIInputText txtSessionName;
@@ -26,8 +31,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         protected UILabel lblSessionToken;
         protected UIInputText txtSessionToken;
 
-        /// <summary>   The button server. </summary>
-        protected UIInputText txtPort;
+        
         /// <summary>   The button client. </summary>
         protected UIButton btnEnterLoby;
         /// <summary>   The button exit. </summary>
@@ -127,6 +131,29 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             };
 
             pos += new Point(0, buttonFont.LineSpacing + 16);
+            lblYourName = new UILabel(Game)
+            {
+                Font = buttonFont,
+                Position = pos,
+                Text = $"Your Name: ",
+                Tint = Color.Black,
+                TextAlingment = TextAlingmentEnum.LeftMiddle,
+                Size = new Point(200, buttonFont.LineSpacing + 8),
+            };
+            txtYourName = new UIInputText(Game, pos + new Point(200, 0), txtBg, txtBdr)
+            {
+                Font = buttonFont,
+                Size = new Point(512, buttonFont.LineSpacing + 8),
+                Text = $"Server",
+                TextAlingment = TextAlingmentEnum.LeftMiddle,
+                TextColor = Color.White,
+                ShadowColor = Color.Black,
+                ShadowOffset = new Vector2(1, 1),
+                TextInputType = TextInputTypeEnum.AlphaNumeric,
+                TextPositionOffset = new Vector2(8, 0)
+            };
+
+            pos += new Point(0, buttonFont.LineSpacing + 16);
             lblSessionName = new UILabel(Game)
             {
                 Font = buttonFont,
@@ -183,6 +210,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             Components.Add(txtExternalIPv4);
             Components.Add(lblPort);
             Components.Add(txtPort);
+            Components.Add(lblYourName);
+            Components.Add(txtYourName);
             Components.Add(lblSessionName);
             Components.Add(txtSessionName);
             Components.Add(lblSessionToken);
@@ -212,7 +241,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
                     if (int.TryParse(txtPort.Text, out port))
                     {
-                        p2pService.StartServer(port, txtExternalIPv4.Text, txtSessionName.Text, txtSessionToken.Text); // Use your public IP here (Google "Whats my IP" if you dont know what it is..)
+                        p2pService.StartServer(port, txtExternalIPv4.Text, txtSessionName.Text, txtSessionToken.Text, txtYourName.Text); // Use your public IP here (Google "Whats my IP" if you dont know what it is..)
                         sceneManager.LoadScene("lobyScene");
                     }
                     else

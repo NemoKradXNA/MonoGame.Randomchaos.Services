@@ -189,7 +189,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                         OnConnectionAttempt(client.PacketData);
                     }
 
-                    CommsPacket pkt = new CommsPacket(Guid.Empty, CommsEnum.Accepted, ExternalIP4vAddress, "Your request has been received.")
+                    ICommsPacket pkt = new CommsPacket(Guid.Empty, CommsEnum.Accepted, ExternalIP4vAddress, "Your request has been received.")
                         {
                             Protocol = ProtocolTypesEnum.Tcp,
                             IPAddress = $"{ExternalIP4vAddress}:{Port}"
@@ -459,6 +459,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 case CommsEnum.RequestClientList:
 
                     List<IClientPacketData> dataList = Clients.Select(s => s.PacketData).ToList();
+
+                    // add the server
+                    dataList.Insert(0, new ClientPacketData()
+                    {
+                        Id = Guid.Empty,
+                        PlayerGameData = PlayerData,
+                        UdpAddress = ExternalIP4vAddress,
+                        UdPPort = Port
+                    });
 
                     bcPkt = new CommsPacket()
                     {
