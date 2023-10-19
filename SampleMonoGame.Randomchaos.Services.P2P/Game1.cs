@@ -73,6 +73,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P
             sceneService.AddScene(new ServerStartScene(this, "serverStartScene"));
             sceneService.AddScene(new ClientStartScene(this, "clientStartScene"));
             sceneService.AddScene(new GameLobyScene(this, "lobyScene"));
+            sceneService.AddScene(new GamePlayScene(this, "gameScene"));
 
             //_graphics.IsFullScreen = true;
             //_graphics.ApplyChanges();

@@ -74,5 +74,21 @@ namespace MonoGame.Randomchaos.Extensions
                 Matrix.CreateFromAxisAngle(Vector3.Backward, rots.Z)
                 );
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   A Quaternion extension method that from string. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/10/2023. </remarks>
+        ///
+        /// <param name="q">                The q to act on. </param>
+        /// <param name="quaternionString"> The quaternion string. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static void FromString(this Quaternion q, string quaternionString)
+        {
+            string[] xyxw = quaternionString.Split(",");
+
+            q = new Quaternion(float.Parse(xyxw[0]), float.Parse(xyxw[1]), float.Parse(xyxw[2]), float.Parse(xyxw[3]));
+        }
     }
 }

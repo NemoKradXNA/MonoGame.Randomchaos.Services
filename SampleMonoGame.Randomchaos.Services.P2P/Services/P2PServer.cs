@@ -28,6 +28,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         public PlayerData PlayerData { get; set; }
 
+        public bool AcceptingConnections { get; set; } = false;
+
         public string LocalIPv4Address { get; protected set; }
         public string ExternalIP4vAddress { get; protected set; }
         public string MachineName { get; protected set; }
@@ -68,6 +70,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
 
             IsRunning = true;
+            AcceptingConnections = true;
+
             _tcpListener.Start();
 
             _tcpListener.BeginAcceptTcpClient(AcceptTcpClient, _tcpListener);
@@ -164,6 +168,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 {
                     // Client Exists?
                     TcpClient tcpClient = _tcpListener.EndAcceptTcpClient(result);
+
+
+                    if (!AcceptingConnections)
+                    {
+                        tcpClient.Close();
+                        return;
+                    }
+
                     IClientData client = Clients.SingleOrDefault(s => s.Client == tcpClient);
 
                     if (client == null)
@@ -229,7 +241,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                         }
                         break;
                     case ProtocolTypesEnum.Udp:
-                        //_udpListener.Send(pktData, pktData.Length);
                         _udpClient.Send(pktData, client.UdpEndPoint);
                         break;
                     default:
@@ -485,6 +496,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 case CommsEnum.SendData:
                     if (client != null)
                     {
+                        client.PacketData.PlayerGameData = pkt.Data;
                         if (OnUdpDataReceived != null)
                         {
                             OnUdpDataReceived(pkt);

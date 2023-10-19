@@ -20,6 +20,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
 
         PlayerData PlayerData { get; set; }
 
+
+        bool AcceptingConnections { get; set; }
+
         string LocalIPv4Address { get; }
         string ExternalIP4vAddress { get; }
         string MachineName { get; }

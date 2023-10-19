@@ -18,8 +18,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         event ClientCommsError OnClientCommsError;
         event LogEvent OnLog;
 
+        List<IClientPacketData> Clients { get; }
         SessionData Session { get; set; }
         PlayerData PlayerData { get; set; }
+
+        bool AcceptingConnections { get; set; }
 
         Guid ClientId { get; }
         bool IsServer { get; set; }
@@ -47,5 +50,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         IClientPacketData GetClientById(Guid id);
 
         int GetRandomPortNumber(params int[] exclude);
+        List<T> GetClientsPlayerGameData<T>();
     }
 }

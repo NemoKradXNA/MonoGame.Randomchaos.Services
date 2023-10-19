@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace MonoGame.Randomchaos.Extensions
 {
@@ -32,6 +33,37 @@ namespace MonoGame.Randomchaos.Extensions
             angle.Y = (float)Math.Atan2((double)-v3.X, (double)-v3.Z);
 
             return angle;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Creates a new Vector3 from the given string. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/10/2023. </remarks>
+        ///
+        /// <param name="vector3">  The third vector. </param>
+        ///
+        /// <returns>   A Vector3. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static Vector3 FromString(this Vector3 v3, string vector3)
+        {
+            string[] xyz = vector3.Split(",");
+
+            return new Vector3(float.Parse(xyz[0]),float.Parse(xyz[1]), float.Parse(xyz[2]));
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   A Vector3 extension method that  from vector 2. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 19/10/2023. </remarks>
+        ///
+        /// <param name="v3">   The v3 to act on. </param>
+        /// <param name="v2">   The second value. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static void FromVector2(this Vector3 v3, Vector2 v2)
+        {
+            v3 = new Vector3(v2.X, v2.Y, v3.Z);
         }
     }
 }

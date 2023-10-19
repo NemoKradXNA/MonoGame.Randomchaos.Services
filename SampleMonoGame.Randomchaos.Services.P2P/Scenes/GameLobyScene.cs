@@ -8,10 +8,13 @@ using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Enums;
 using Newtonsoft.Json;
+using SampleMonoGame.Randomchaos.Services.P2P.Enums;
 using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
 using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {
@@ -28,6 +31,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         protected UIInputText txtBroadcast;
 
         protected Dictionary<Guid, List<UIBase>> ClientIds = new Dictionary<Guid, List<UIBase>>();
+
+        protected bool StartGame = false;
 
 
         List<string> MessageFeed = new List<string>()
@@ -143,16 +148,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             Components.Add(btnBack);
             Components.Add(lblIncommingMessages);
 
-            //if (!p2pService.IsServer)
-            //{
-            //    P2pService_OnNewClientAdded(new ClientPacketData()
-            //    {
-            //        Id = Guid.Empty,
-            //        UdpAddress = p2pService.ServerIPv4Address,
-            //        UdPPort = p2pService.ListeningPort,
-            //    });
-            //}
-
             base.Initialize();
 
         }
@@ -236,13 +231,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             {
                 if (client.Id == p2pService.ClientId)
                 {
-                    // Find and add the server reference.
-                    //client = new ClientPacketData()
-                    //{
-                    //    Id = Guid.Empty,
-                    //    UdpAddress = p2pService.ServerIPv4Address,
-                    //    UdPPort = p2pService.ListeningPort,
-                    //};
                     return;
                 }
             }
@@ -254,26 +242,28 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     var s = buttonFont.MeasureString(client.Id.ToString());
                     Point btnSize = new Point((int)s.X, buttonFont.LineSpacing + 8);
 
+                    bool ready = pd.Properties.ContainsKey("Status") && (ThisGamesStateEnum)((long)pd.Properties["Status"]) == ThisGamesStateEnum.ClientReady;
+
                     List<UIBase> ctrls = new List<UIBase>()
-                {
-                    new UILabel(Game)
                     {
-                        Font = buttonFont,
-                        //Text = $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
-                        Text = pd != null ? pd.Name : $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
-                        Tint = Color.Black,
-                        Size = btnSize,
-                    },
-                    new UIInputText(Game, Point.Zero,txtBg,txtBdr)
-                    {
-                        Size = new Point(btnSize.X, buttonFont.LineSpacing+8),
-                        TextAlingment = TextAlingmentEnum.LeftMiddle,
-                        TextPositionOffset = new Vector2(8,0),
-                        TextColor = Color.White,
-                        Font = buttonFont,
-                        Tag = client.Id,
-                    }
-                };
+                        new UILabel(Game)
+                        {
+                            Font = buttonFont,
+                            //Text = $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
+                            Text = pd != null ? $"{pd.Name}{(ready ? " Ready" : "")}" : $"{(client.Id != Guid.Empty ? client.Id : "Server")}",
+                            Tint = Color.Black,
+                            Size = btnSize,
+                        },
+                        new UIInputText(Game, Point.Zero,txtBg,txtBdr)
+                        {
+                            Size = new Point(btnSize.X, buttonFont.LineSpacing+8),
+                            TextAlingment = TextAlingmentEnum.LeftMiddle,
+                            TextPositionOffset = new Vector2(8,0),
+                            TextColor = Color.White,
+                            Font = buttonFont,
+                            Tag = client.Id,
+                        }
+                    };
 
                     if (p2pService.IsServer)
                     {
@@ -327,7 +317,30 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         {
             var pd = JsonConvert.DeserializeObject<PlayerData>(pkt.Data.ToString());
 
-            AddToMessages($"[{(pd.Name)}] - {pd.Properties["Message"]}");
+            var client = p2pService.GetClientById(pkt.Id);
+            ThisGamesStateEnum status = ThisGamesStateEnum.None;
+
+            if (pd.Properties.ContainsKey("Status"))
+            {
+                status = (ThisGamesStateEnum)((long)pd.Properties["Status"]);
+            }
+
+            bool ready = status == ThisGamesStateEnum.ClientReady;
+            var lbl = ClientIds[pkt.Id].FirstOrDefault(f => f is UILabel);
+
+            if (ready)
+            {
+                ((UILabel)lbl).Text += " Ready";
+            }
+
+            StartGame = status == ThisGamesStateEnum.InGame;
+            if (StartGame && !p2pService.IsServer)
+            {
+                sceneManager.LoadScene("gameScene");
+            }
+
+
+            AddToMessages($"[{(pd.Name)}{(ready ? " Ready" : "")}] - {pd.Properties["Message"]}");
         }
 
         private void AddToMessages(string msg)
@@ -445,6 +458,33 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                         sceneManager.LoadScene("clientStartScene");
                     }
                 }
+                else if (sender == btnStart)
+                {
+                    if (p2pService.IsServer)
+                    {
+                        btnStart.Enabled = false;
+
+                        p2pService.AcceptingConnections = false;
+                        sceneManager.LoadScene("gameScene");
+
+                        p2pService.PlayerData.SetProperty("Status", ThisGamesStateEnum.InGame);
+                        p2pService.PlayerData.SetProperty("Message",  "Game On!");
+
+                        p2pService.Broadcast(p2pService.PlayerData);
+
+                        StartGame = true;
+                    }
+                    else
+                    {
+                        btnStart.Enabled = !btnStart.Enabled;
+
+                        
+                        p2pService.PlayerData.SetProperty("Status", btnStart.Enabled ? ThisGamesStateEnum.ClientNotReady : ThisGamesStateEnum.ClientReady);
+                        p2pService.PlayerData.SetProperty("Message", btnStart.Enabled ? "Not ready to play!" :  "Ready to play.");
+                        
+                        p2pService.Broadcast(p2pService.PlayerData);
+                    }
+                }
             }
         }
 
@@ -454,10 +494,23 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
             if (!p2pService.IsServer)
             {
-                lblLocalAddress.Text = $"{(p2pService.IsServer ? $"Listening on Port[{p2pService.ListeningPort}]" : $"Server: [{p2pService.ServerIPv4Address}:{p2pService.ListeningPort}]")} Local IP: [{p2pService.LocalIPv4Address}] Machine Name: [{p2pService.MachineName}] Id [{p2pService.ClientId}]";
+                lblLocalAddress.Text = $"{p2pService.PlayerData.Name} {(p2pService.IsServer ? $"Listening on Port[{p2pService.ListeningPort}]" : $"Server: [{p2pService.ServerIPv4Address}:{p2pService.ListeningPort}]")} Local IP: [{p2pService.LocalIPv4Address}] Machine Name: [{p2pService.MachineName}] Id [{p2pService.ClientId}]";
             }
 
-            btnStart.Enabled = p2pService.PlayerCount > 0;
+            if (!p2pService.IsServer)
+            {
+                btnStart.Enabled = p2pService.PlayerCount > 0 &&
+                    (!p2pService.PlayerData.Properties.ContainsKey("Status") || (ThisGamesStateEnum)p2pService.PlayerData.Properties["Status"] != ThisGamesStateEnum.ClientReady);
+
+            }
+            else
+            {
+                // Are all the clients ready?
+                int playersNotReady = p2pService.GetClientsPlayerGameData<PlayerData>().Count(c => !c.Properties.ContainsKey("Status") || (ThisGamesStateEnum)(long)c.Properties["Status"] != ThisGamesStateEnum.ClientReady);
+
+                btnStart.Enabled = p2pService.PlayerCount > 0 && playersNotReady == 0 && !StartGame;
+
+            }
 
             if (btnStart.Enabled)
             {
@@ -465,7 +518,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             }
             else 
             {   
-                btnStart.Text = $"{(p2pService.IsServer ? "Waiting for players..." : "I'm Ready")}";
+                btnStart.Text = $"{(p2pService.IsServer ? !StartGame ? "Waiting for players..." : "Starting Game..." : "I'm Ready")}";
             }
 
             lblStatus.Text = $"{(p2pService.IsServer ? $"Waiting for players to join [({p2pService.Session.Name}) ({p2pService.Session.Token})]..." : $"Waiting for server to start the game...")} [{p2pService.PlayerCount + 1}]";

@@ -408,7 +408,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
                     retVal = "~";
                     break;
                 case Keys.OemOpenBrackets:
-                    retVal = ")";
+                    retVal = "(";
                     break;
                 case Keys.OemPipe:
                     retVal = "|";

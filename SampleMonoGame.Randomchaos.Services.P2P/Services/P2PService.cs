@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Randomchaos.Services.Interfaces;
+using Newtonsoft.Json;
 using SampleMonoGame.Randomchaos.Services.P2P.Delegates;
 using SampleMonoGame.Randomchaos.Services.P2P.Enums;
 using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 {
@@ -24,6 +24,46 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
         public event ErrorEvent OnError;
         public event ClientCommsError OnClientCommsError;
         public event LogEvent OnLog;
+
+        public bool AcceptingConnections {
+            get 
+            {
+                if (IsServer && _p2pServer != null)
+                {
+                    return _p2pServer.AcceptingConnections;
+                }
+
+                return false;
+            }
+            set
+            {
+                if (IsServer && _p2pServer != null)
+                {
+                    _p2pServer.AcceptingConnections = value;
+                }
+            }
+        }
+
+        public List<IClientPacketData> Clients
+        {
+            get
+            {
+                if (IsServer)
+                {
+                    if (_p2pServer != null)
+                    {
+                        return _p2pServer.Clients.Select(s => s.PacketData).ToList();
+                    }
+                    
+                }
+                else if(_p2pServer != null) 
+                {
+                    return _p2pClient.Clients;
+                }
+
+                return new List<IClientPacketData>();
+            }
+        }
 
         public SessionData Session { get; set; }
         public PlayerData PlayerData
@@ -395,6 +435,26 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
 
             return portNumber;
+        }
+
+        public List<T> GetClientsPlayerGameData<T>()
+        {
+            List<T> retVal = new List<T>();
+
+            foreach (IClientPacketData data in Clients)
+            {
+                if (data.PlayerGameData != null)
+                {
+                    T pkt = JsonConvert.DeserializeObject<T>(data.PlayerGameData.ToString());
+
+                    if (pkt != null)
+                    {
+                        retVal.Add(pkt);
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         protected void LoadHostDetails()
