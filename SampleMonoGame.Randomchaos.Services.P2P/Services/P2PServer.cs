@@ -202,10 +202,10 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     }
 
                     ICommsPacket pkt = new CommsPacket(Guid.Empty, CommsEnum.Accepted, ExternalIP4vAddress, "Your request has been received.")
-                        {
-                            Protocol = ProtocolTypesEnum.Tcp,
-                            IPAddress = $"{ExternalIP4vAddress}:{Port}"
-                        };
+                    {
+                        Protocol = ProtocolTypesEnum.Tcp,
+                        IPAddress = $"{ExternalIP4vAddress}:{Port}"
+                    };
 
                     SendDataTo(client, pkt);
 

@@ -334,8 +334,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             }
 
             StartGame = status == ThisGamesStateEnum.InGame;
-            if (StartGame && !p2pService.IsServer)
+            if (StartGame && !p2pService.IsServer && State == SceneStateEnum.Loaded)
             {
+                p2pService.PlayerData.RemoveProperty("Message");
                 sceneManager.LoadScene("gameScene");
             }
 

@@ -281,8 +281,12 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             base.Initialize();
 
-            foreach (IGameComponent component in Components.Components)
-                component.Initialize();
+            try
+            {
+                foreach (IGameComponent component in Components.Components)
+                    component.Initialize();
+            }
+            catch { }
         }
 
         ///-------------------------------------------------------------------------------------------------

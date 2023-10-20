@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.Randomchaos.Extensions\MonoGame.Randomchaos.Extensions.csproj" />
+    <ProjectReference Include="..\MonoGame.Randomchaos.Interfaces\MonoGame.Randomchaos.Interfaces.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.Primitives3D\MonoGame.Randomchaos.Primitives3D.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.Services.Camera\MonoGame.Randomchaos.Services.Camera.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.Services.Input\MonoGame.Randomchaos.Services.Input.csproj" />

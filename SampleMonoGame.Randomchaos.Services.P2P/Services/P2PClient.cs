@@ -164,10 +164,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         public void BroadcastTo(ICommsPacket data, List<IClientPacketData> clients)
         {
-            foreach (IClientPacketData client in clients)
+            try
             {
-                SendDataTo(data, client.GetIPEndPoint());
+                foreach (IClientPacketData client in clients)
+                {
+                    SendDataTo(data, client.GetIPEndPoint());
+                }
             }
+            catch { }
         }
 
 

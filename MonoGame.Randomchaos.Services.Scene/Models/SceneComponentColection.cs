@@ -30,7 +30,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             Components.Remove(component);
 
-            if (UIComponentTypes != null && UIComponentTypes.Count > 0)
+            if (UIComponentTypes != null && UIComponentTypes.Count > 0 && UIComponentTypes.Any(a => a.IsAssignableFrom(component.GetType())))
             {
                 UIComponents.Remove(component);
             }

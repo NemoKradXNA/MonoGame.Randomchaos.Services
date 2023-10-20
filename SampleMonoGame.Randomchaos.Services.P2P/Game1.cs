@@ -42,7 +42,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferWidth = 1920/4;
             _graphics.PreferredBackBufferHeight = 1080;
 
             kbState = new KeyboardStateManager(this);
