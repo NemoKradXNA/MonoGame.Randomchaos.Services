@@ -7,16 +7,15 @@ using MonoGame.Randomchaos.Primitives3D.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.UI;
+using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Enums;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SampleMonoGame.Randomchaos.Services.P2P.Enums;
 using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
 using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {
@@ -25,6 +24,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         string NextScene = "mainMenu";
 
         Dictionary<Guid, CapsuleBasicEffect> GameAvatars = new Dictionary<Guid, CapsuleBasicEffect>();
+        Dictionary<Guid, CubeBasicEffect> AvatarGuns = new Dictionary<Guid, CubeBasicEffect>();
+        Dictionary<Guid, UILabel> AvatarTag = new Dictionary<Guid, UILabel>();
         Dictionary<Guid, IPlayerData> PlayersData = new Dictionary<Guid, IPlayerData>();
         List<CubeBasicEffect> Map = new List<CubeBasicEffect>();
 
@@ -36,25 +37,27 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             "Game On!"
         };
 
+        const float Edgge = 19;
         List<Vector3> StartPositions = new List<Vector3>()
         {
             new Vector3(0,0,0),
-            new Vector3(20,0,20),
-            new Vector3(-20,0,20),
-            new Vector3(-20,0,-20),
-            new Vector3(20,0,-20),
-            new Vector3(10,0,20),
-            new Vector3(20,0,10),
-            new Vector3(10,0,-20),
-            new Vector3(-20,0,10),
+            new Vector3(Edgge,0,Edgge),
+            new Vector3(-Edgge,0,Edgge),
+            new Vector3(-Edgge,0,-Edgge),
+            new Vector3(Edgge,0,-Edgge),
+            new Vector3(Edgge/2,0,Edgge),
+            new Vector3(Edgge,0,Edgge/2),
+            new Vector3(Edgge/2,0,-Edgge),
+            new Vector3(-Edgge,0,Edgge/2),
         };
 
-        public GamePlayScene(Game game, string name) : base(game, name) { }
+        public GamePlayScene(Game game, string name) : base(game, name) { UIComponentTypes.Add(typeof(UIBase)); }
 
         Random rnd = new Random(DateTime.UtcNow.Millisecond);
 
         public override void Initialize()
         {
+
             font = Game.Content.Load<SpriteFont>("Fonts/font");
 
             PlaneBasicEffect plane = new PlaneBasicEffect(Game);
@@ -62,11 +65,20 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             plane.Transform.Position = new Vector3(0, -1, -.5f);
             Components.Add(plane);
 
+            foreach (CubeBasicEffect block in Map)
+            {
+                Components.Add(block);
+            }
+
             if (p2pService.IsServer)
             {
                 foreach (Guid id in GameAvatars.Keys)
                 {
+                    Components.Add(AvatarGuns[id]);
                     Components.Add(GameAvatars[id]);
+
+                    AvatarTag[id].Font = font;
+                    Components.Add(AvatarTag[id]);
                 }
             }
 
@@ -85,7 +97,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 Background = txtBg,
                 TextAlingment = TextAlingmentEnum.LeftTop,
                 TextPositionOffset = new Vector2(8, 8),
-                Size = new Point(1024, 200),
+                Size = new Point(1024, 256),
             };
 
             Components.Add(lblStatus);
@@ -99,14 +111,39 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             foreach (Guid id in GameAvatars.Keys)
             {
                 PlayerData pd = (PlayerData)PlayersData[id];
-                LightGeom(GameAvatars[id], (Color)pd.Properties["Color"]);
+
+                Color c;
+
+                if (pd.Properties["Color"] is Color)
+                {
+                    c = (Color)pd.Properties["Color"];
+                }
+                else
+                {
+                    c = JsonConvert.DeserializeObject<Color>(pd.Properties["Color"].ToString());
+                }
+                LightGeom(GameAvatars[id], c);
+                LightGeom(AvatarGuns[id], c);
+                AvatarTag[id].Tint = c;
             }
+
+            foreach (CubeBasicEffect block in Map)
+            {
+                LightGeom(block, Color.SaddleBrown);
+            }
+
         }
 
         protected void LightGeom(CapsuleBasicEffect geom, Color diffuse)
         {
             Vector3 ld = new Vector3(1, -1, -1);
-            geom.SetDirectionalLight(ld, null, diffuse.ToVector3());
+            geom.SetDirectionalLight(ld, Vector3.One * .25f, diffuse.ToVector3()) ;
+        }
+
+        protected void LightGeom(CubeBasicEffect geom, Color diffuse)
+        {
+            Vector3 ld = new Vector3(1, -1, -1);
+            geom.SetDirectionalLight(ld, Vector3.One * .25f, diffuse.ToVector3());
         }
 
         public override void UnloadScene()
@@ -115,8 +152,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             p2pService.OnUdpDataReceived -= P2pService_OnUdpDataReceived;
             p2pService.OnLog -= P2pService_OnLog;
 
+            Map.Clear();
+            AvatarGuns.Clear();
             GameAvatars.Clear();
             PlayersData.Clear();
+            AvatarTag.Clear();
 
             if (p2pService.IsServer)
             {
@@ -138,12 +178,26 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
             var clients = p2pService.Clients; // p2pService.GetClientsPlayerGameData<PlayerData>();
 
-            // Build map.
-            for (int x = 0; x < 10; x++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
+            Texture2D map = Game.Content.Load<Texture2D>("Textures/gameMap");
+            Color[] mpc = new Color[map.Width * map.Height];
+            map.GetData(mpc);
 
+            // Build map.
+            for (int x = 0; x < 40; x++)
+            {
+                for (int y = 0; y < 40; y++)
+                {
+                    Vector3 pos = new Vector3(-20 + x, 1.25f, -20 + y);
+                    Point uv = new Point(x / 2, y / 2);
+
+                    if (mpc[uv.X + (uv.Y * map.Width)].A > 0)
+                    {
+                        CubeBasicEffect block = new CubeBasicEffect(Game);
+                        block.Transform.Scale = new Vector3(1, 5, 1);
+                        block.Transform.Position = pos;
+
+                        //Map.Add(block);
+                    }
                 }
             }
 
@@ -154,14 +208,24 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 foreach (IClientPacketData client in clients)
                 {
                     SetUpAvatar(client.Id, p++);
+
+                    CubeBasicEffect gun = GiveAvatarAGun(GetAvatarById(client.Id));
+                    AvatarGuns[client.Id] = gun;
+                    AvatarTag[client.Id] = AvatarLabel();
                 }
 
                 // Add the server.
                 SetUpAvatar(Guid.Empty, p);
 
-                var avarar = GetAvatarById(Guid.Empty);
-                camera.Transform.Position = (Vector3.Up * .5f) + avarar.Transform.Position;
-                avarar.Transform.Parent = camera.Transform;
+                var avatar = GetAvatarById(Guid.Empty);
+                AvatarGuns[Guid.Empty] = GiveAvatarAGun(avatar);
+                AvatarTag[Guid.Empty] = AvatarLabel();
+
+
+                camera.Transform.Position = (Vector3.Up * .5f) + avatar.Transform.Position;
+                camera.Transform.Rotation = avatar.Transform.Rotation;
+                avatar.Transform.Parent = camera.Transform;
+                avatar.Transform.LocalPosition -= (Vector3.Up * .5f);
             }
             else
             {
@@ -169,6 +233,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             }
 
             base.LoadScene();
+        }
+
+        protected UILabel AvatarLabel()
+        {
+            return new UILabel(Game) { Font = font, Tint = Color.Black, ShadowColor = Color.Black, ShadowOffset = new Vector2(1, 1) };
         }
 
         protected CapsuleBasicEffect GetAvatarById(Guid id)
@@ -181,6 +250,17 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             }
 
             return null;
+        }
+
+        protected CubeBasicEffect GiveAvatarAGun(CapsuleBasicEffect clientAvatar)
+        {
+            CubeBasicEffect gun = new CubeBasicEffect(Game);
+
+            gun.Transform.Parent = clientAvatar.Transform;
+            gun.Transform.LocalScale = new Vector3(.1f, .1f, 1f);
+            gun.Transform.LocalPosition = new Vector3(0, 0, -1f);
+
+            return gun;
         }
 
         protected void SetUpAvatar(Guid id, int p, PlayerData pd = null)
@@ -224,6 +304,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             }           
 
             GameAvatars.Add(id, clientAvatar);
+            AvatarGuns.Add(id, null);
+            AvatarTag.Add(id, null);
             p++;
 
             if (p >= StartPositions.Count)
@@ -278,6 +360,27 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     camera.Transform.Rotate(Vector3.Right, -speedRot);
 
                 camera.Transform.Position = new Vector3(camera.Transform.Position.X, .5f, camera.Transform.Position.Z);
+                camera.Transform.Rotation = camera.Transform.Rotation.LockRotation(new Vector3(1,0,1));
+
+                // Do I bump into the map?
+                BoundingBox myBB = (new BoundingBox(-Vector3.One*.5f, Vector3.One*.5f)).Transformed(camera.Transform);
+
+                // Get nearest blocks
+                // Sort collisiion.
+                //var blocks = Map.Where(w => Vector3.Distance(w.Transform.Position, camera.Transform.Position) <= 2);
+                //foreach (var block in blocks)
+                //{
+                //    BoundingBox blockBB = (new BoundingBox(-Vector3.One*.25f, Vector3.One*.25f)).Transformed(block.Transform);
+                //    if (blockBB.Intersects(myBB))
+                //    {
+                //        Vector3 r = Vector3.Normalize(new Vector3(block.Transform.Position.X, camera.Transform.Position.Y, block.Transform.Position.Y) - camera.Transform.Position);
+                //        Vector3 n = new Vector3((int)block.Transform.Position.X < (int)camera.Transform.Position.X ? -1 : (int)block.Transform.Position.X > (int)camera.Transform.Position.X ? 1 : 0, 0, 
+                //            (int)block.Transform.Position.Z < (int)camera.Transform.Position.Z ? -1 : (int)block.Transform.Position.Z > (int)camera.Transform.Position.Z ? 1 : 0);
+                //        r = Vector3.Normalize(Vector3.Reflect(r, n));
+                //        camera.Transform.Position = lastPos;
+                //        break;
+                //    }
+                //}
 
                 // Tell everyone we are here :D
                 Guid id = Guid.Empty;
@@ -289,25 +392,62 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
                 if (GameAvatars.ContainsKey(id))
                 {
+
                     var avatar = GameAvatars[id];
 
                     if (avatar != null)
                     {
-                        p2pService.PlayerData.SetProperty("Position", avatar.Transform.Position);
-                        p2pService.PlayerData.SetProperty("Rotation", avatar.Transform.Rotation);
+                        p2pService.PlayerData.SetProperty("Position", camera.Transform.Position - (Vector3.One * .5f));
+                        p2pService.PlayerData.SetProperty("Rotation", camera.Transform.Rotation);
                         p2pService.PlayerData.SetProperty("Message", "My transform changed.");
                         p2pService.Broadcast(p2pService.PlayerData);
+
+                        AddToMessages($"Your position - {camera.Transform.Position}");
+                    }
+                }
+
+                foreach (Guid lblId in AvatarTag.Keys)
+                {
+                    if (lblId != id)
+                    {
+                        AvatarTag[lblId].Position = camera.WorldPositionToScreenPosition(GameAvatars[lblId].Transform.Position).ToPoint();
+                        AvatarTag[lblId].Text = PlayersData[lblId].Name;
+                    }
+                    else
+                    {
+                        AvatarTag[lblId].Visible = AvatarTag[lblId].Enabled = false;
                     }
                 }
             }
 
             lblStatus.Text = "";
-            foreach (string msg in MessageFeed)
+            try
             {
-                lblStatus.Text += $"{msg}\n";
+                foreach (string msg in MessageFeed)
+                {
+                    lblStatus.Text += $"{msg}\n";
+                }
             }
+            catch { }
 
             base.Update(gameTime);
+        }
+
+        public Vector2 Get2DCoords(GraphicsDevice GraphicsDevice, Vector3 myPosition, ICameraService Camera)
+        {
+            Matrix ViewProjectionMatrix = Camera.View * Camera.Projection;
+
+            Vector4 result4 = Vector4.Transform(myPosition, ViewProjectionMatrix);
+
+            Viewport vp = GraphicsDevice.Viewport;// Camera.Viewport;
+
+            if (result4.W <= 0)
+                return new Vector2(vp.Width, 0);
+
+            Vector3 result = new Vector3(result4.X / result4.W, result4.Y / result4.W, result4.Z / result4.W);
+
+            Vector2 retVal = new Vector2((int)Math.Round(+result.X * (vp.Width / 2)) + (vp.Width / 2), (int)Math.Round(-result.Y * (vp.Height / 2)) + (vp.Height / 2));
+            return retVal;
         }
 
         protected Vector3 GenerateRandomPosition()
@@ -352,10 +492,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                                 avatar = InstanciatePlayerAvatar(p2pService.ClientId, p2pService.PlayerData);
 
                                 camera.Transform.Position = (Vector3.Up * .5f) + avatar.Transform.Position;
+                                camera.Transform.Rotation = avatar.Transform.Rotation;
                                 avatar.Transform.Parent = camera.Transform;
+                                avatar.Transform.LocalPosition -= (Vector3.Up * .5f);
 
                                 // Tell caller I am set.
-                                
+                                AddToMessages($"You have joined the game.");
                             }
                             break;
                         case ThisGamesStateEnum.InGame: // Position update
@@ -364,6 +506,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                             if (!GameAvatars.ContainsKey(pkt.Id))
                             {
                                 avatar = InstanciatePlayerAvatar(pkt.Id,pd);
+                                AddToMessages($"[{pd.Name}] has joined the game.");
                             }
 
                             if (avatar == null)
@@ -373,6 +516,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
                             avatar.Transform.Position = (new Vector3()).FromString(pd.Properties["Position"].ToString());
                             avatar.Transform.Rotation = JsonConvert.DeserializeObject<Quaternion>(pd.Properties["Rotation"].ToString());
+
+                            AddToMessages($"[{pd.Name}] - {avatar.Transform.Position}");
 
                             break;
                     }
@@ -388,6 +533,16 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             avatar.Initialize();
             LightGeom(avatar, JsonConvert.DeserializeObject<Color>(pd.Properties["Color"].ToString()));
             Components.Add(avatar);
+
+            CubeBasicEffect gun = GiveAvatarAGun(avatar);
+            gun.Initialize();
+            LightGeom(gun, JsonConvert.DeserializeObject<Color>(pd.Properties["Color"].ToString()));
+            Components.Add(gun);
+
+            AvatarTag[id] = AvatarLabel();
+            AvatarTag[id].Tint = JsonConvert.DeserializeObject<Color>(pd.Properties["Color"].ToString());
+            AvatarTag[id].Initialize();
+            Components.Add(AvatarTag[id]);
 
             return avatar;
         }

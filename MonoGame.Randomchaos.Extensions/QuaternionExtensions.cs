@@ -60,7 +60,7 @@ namespace MonoGame.Randomchaos.Extensions
         /// <param name="lockedRots">   The locked rots. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public static void LockRotation(this Quaternion rotation, Vector3 lockedRots)
+        public static Quaternion LockRotation(this Quaternion rotation, Vector3 lockedRots)
         {
             lockedRots -= Vector3.One;
 
@@ -73,6 +73,8 @@ namespace MonoGame.Randomchaos.Extensions
                 Matrix.CreateFromAxisAngle(Vector3.Down, rots.Y) *
                 Matrix.CreateFromAxisAngle(Vector3.Backward, rots.Z)
                 );
+
+            return rotation;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -84,11 +86,13 @@ namespace MonoGame.Randomchaos.Extensions
         /// <param name="quaternionString"> The quaternion string. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public static void FromString(this Quaternion q, string quaternionString)
+        public static Quaternion FromString(this Quaternion quaternion, string quaternionString)
         {
             string[] xyxw = quaternionString.Split(",");
 
-            q = new Quaternion(float.Parse(xyxw[0]), float.Parse(xyxw[1]), float.Parse(xyxw[2]), float.Parse(xyxw[3]));
+            quaternion = new Quaternion(float.Parse(xyxw[0]), float.Parse(xyxw[1]), float.Parse(xyxw[2]), float.Parse(xyxw[3]));
+
+            return quaternion;
         }
     }
 }

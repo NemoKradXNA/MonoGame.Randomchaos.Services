@@ -402,6 +402,8 @@ namespace MonoGame.Randomchaos.UI
             _spriteBatch.Draw(Border, new Rectangle(Position.X, Position.Y, Size.X, Size.Y), tint);
 
             _spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }

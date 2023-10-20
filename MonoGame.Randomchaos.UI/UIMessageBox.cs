@@ -397,6 +397,8 @@ namespace MonoGame.Randomchaos.UI
                 btnNegative.Draw(gameTime);
             if (btnRetry.Visible)
                 btnRetry.Draw(gameTime);
+
+            base.Draw(gameTime);
         }
     }
 }

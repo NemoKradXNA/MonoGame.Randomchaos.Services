@@ -303,6 +303,8 @@ namespace MonoGame.Randomchaos.UI
             if (!string.IsNullOrEmpty(Text))
                 _spriteBatch.DrawString(Font, Text, TextPosition, colorTx);
             _spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }

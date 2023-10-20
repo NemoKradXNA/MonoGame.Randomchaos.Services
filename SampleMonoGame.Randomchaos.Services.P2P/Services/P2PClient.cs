@@ -11,6 +11,7 @@ using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using SampleMonoGame.Randomchaos.Services.P2P.Enums;
 using Newtonsoft.Json;
 using System.Net.NetworkInformation;
+using MonoGame.Randomchaos.UI.Enums;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 {
@@ -149,7 +150,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     }
                     break;
                 case ProtocolTypesEnum.Udp:
-                    _udpClient.Send(pktData, pktData.Length, endpoint != null ? endpoint : _serverEndpoint);
+                    try
+                    {
+                        _udpClient.Send(pktData, pktData.Length, endpoint != null ? endpoint : _serverEndpoint);
+                    }
+                    catch { } // Bad send.
                     break;
                 default:
 
@@ -226,7 +231,11 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             {
                 if (_tcpClient != null && _tcpClient.Connected)
                 {
-                    _udpClient.BeginReceive(UdpReceiveData, new { listener = listener, endPoint = endpoint });
+                    try
+                    {
+                        _udpClient.BeginReceive(UdpReceiveData, new { listener = listener, endPoint = endpoint });
+                    }
+                    catch { }
                 }
             }
 

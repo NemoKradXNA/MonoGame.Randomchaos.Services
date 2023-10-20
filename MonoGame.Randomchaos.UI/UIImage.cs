@@ -72,6 +72,8 @@ namespace MonoGame.Randomchaos.UI
                 _spriteBatch.Draw(Texture, Rectangle, tint);
 
             _spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }
