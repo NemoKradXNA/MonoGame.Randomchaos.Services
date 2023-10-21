@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
+namespace MonoGame.Randomchaos.Services.P2P.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Interface for client data. </summary>

@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
-using MonoGame.Randomchaos.Services.Interfaces.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
 using MonoGame.Randomchaos.Services.Scene.Models;
 using MonoGame.Randomchaos.UI;
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {

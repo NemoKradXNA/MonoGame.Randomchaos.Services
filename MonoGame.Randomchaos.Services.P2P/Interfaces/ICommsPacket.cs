@@ -1,17 +1,19 @@
-﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Enums;
+﻿using MonoGame.Randomchaos.Services.P2P.Enums;
 using System;
-using System.Net;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
+namespace MonoGame.Randomchaos.Services.P2P.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Interface for client packet data. </summary>
+    /// <summary>   Interface for communications packet. </summary>
     ///
     /// <remarks>   Charles Humphrey, 17/10/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface IClientPacketData
+    public interface ICommsPacket
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the identifier. </summary>
@@ -22,43 +24,51 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         Guid Id { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the UDP address. </summary>
+        /// <summary>   Gets or sets the communications. </summary>
         ///
-        /// <value> The UDP address. </value>
+        /// <value> The communications. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        string UdpAddress { get; set; }
+        CommsEnum Comms { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the ud p port. </summary>
+        /// <summary>   Gets or sets the protocol. </summary>
         ///
-        /// <value> The ud p port. </value>
+        /// <value> The protocol. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        int UdPPort { get; set; }
+        ProtocolTypesEnum Protocol { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the type of the connection. </summary>
+        /// <summary>   Gets or sets the IP address. </summary>
         ///
-        /// <value> The type of the connection. </value>
+        /// <value> The IP address. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        ConnectionTypesEnum ConnectionType { get; set; }
+        string IPAddress { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets information describing the player game. </summary>
+        /// <summary>   Gets or sets the port. </summary>
         ///
-        /// <value> Information describing the player game. </value>
+        /// <value> The port. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        object? PlayerGameData { get; set; }
+        int Port { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets IP end point. </summary>
+        /// <summary>   Gets or sets the Date/Time of the sent. </summary>
         ///
-        /// <returns>   The IP end point. </returns>
+        /// <value> The sent. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        IPEndPoint GetIPEndPoint();
+        DateTime Sent { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the data. </summary>
+        ///
+        /// <value> The data. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        object? Data { get; set; }
     }
 }

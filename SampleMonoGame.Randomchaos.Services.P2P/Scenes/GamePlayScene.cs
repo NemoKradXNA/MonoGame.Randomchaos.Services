@@ -11,11 +11,12 @@ using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Enums;
 using Newtonsoft.Json;
 using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
-using SampleMonoGame.Randomchaos.Services.P2P.Models;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
+using MonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonoGame.Randomchaos.Services.P2P.Enums;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {
@@ -291,7 +292,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             return gun;
         }
 
-        protected void SetUpAvatar(Guid id, int p, PlayerData pd = null)
+        protected void SetUpAvatar(Guid id, int p, IPlayerData pd = null)
         {
             CapsuleBasicEffect clientAvatar = new CapsuleBasicEffect(Game);
             
@@ -568,7 +569,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             return new Vector3(x, y, z);
         }
 
-        private void P2pService_OnLog(Enums.LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
+        private void P2pService_OnLog(LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
         {
             // log it.
         }
@@ -662,7 +663,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             playerData.SetProperty("Score", score);
         }
 
-        protected CapsuleBasicEffect InstanciatePlayerAvatar(Guid id, PlayerData pd)
+        protected CapsuleBasicEffect InstanciatePlayerAvatar(Guid id, IPlayerData pd)
         {
             CapsuleBasicEffect avatar = null;
             SetUpAvatar(id, 0, pd);
@@ -688,7 +689,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         {
             MessageFeed.Add(msg);
 
-            if (MessageFeed.Count > 12)
+            if (MessageFeed.Count > 11)
             {
                 MessageFeed.RemoveRange(0, MessageFeed.Count - 13);
             }

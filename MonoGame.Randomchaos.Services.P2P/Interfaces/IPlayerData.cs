@@ -1,8 +1,6 @@
-﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
+namespace MonoGame.Randomchaos.Services.P2P.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Interface for player data. </summary>

@@ -1,10 +1,9 @@
-﻿
+﻿using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
 using Newtonsoft.Json;
-using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
 using System;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Models
+namespace MonoGame.Randomchaos.Services.P2P.Models
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   The communications packet. </summary>

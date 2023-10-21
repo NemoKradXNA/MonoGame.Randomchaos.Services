@@ -1,12 +1,5 @@
-﻿
-namespace SampleMonoGame.Randomchaos.Services.P2P.Enums
+﻿namespace MonoGame.Randomchaos.Services.P2P.Enums
 {
-    ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Values that represent log level enums. </summary>
-    ///
-    /// <remarks>   Charles Humphrey, 17/10/2023. </remarks>
-    ///-------------------------------------------------------------------------------------------------
-
     public enum LogLevelEnum
     {
         /// <summary>   An enum constant representing the trace option. </summary>

@@ -8,7 +8,7 @@ using MonoGame.Randomchaos.Services.Input.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Scene.Services;
 using SampleMonoGame.Randomchaos.Services.P2P.Scenes;
-using SampleMonoGame.Randomchaos.Services.P2P.Services;
+using MonoGame.Randomchaos.Services.P2P.Services;
 using System.Globalization;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P
@@ -42,7 +42,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            _graphics.PreferredBackBufferWidth = 1920/4;
+            _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
 
             kbState = new KeyboardStateManager(this);

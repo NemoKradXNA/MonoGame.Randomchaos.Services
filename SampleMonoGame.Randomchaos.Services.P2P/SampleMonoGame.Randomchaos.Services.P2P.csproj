@@ -11,6 +11,24 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Models\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Delegates\P2PDelegates.cs" />
+    <Compile Remove="Enums\CommsEnum.cs" />
+    <Compile Remove="Enums\ConnectionTypesEnum.cs" />
+    <Compile Remove="Enums\LogLevelEnum.cs" />
+    <Compile Remove="Enums\ProtocolTypesEnum.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -35,8 +53,12 @@
     <ProjectReference Include="..\MonoGame.Randomchaos.Primitives3D\MonoGame.Randomchaos.Primitives3D.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.Services.Camera\MonoGame.Randomchaos.Services.Camera.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.Services.Input\MonoGame.Randomchaos.Services.Input.csproj" />
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.P2P\MonoGame.Randomchaos.Services.P2P.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.Services.Scene\MonoGame.Randomchaos.Services.Scene.csproj" />
     <ProjectReference Include="..\MonoGame.Randomchaos.UI\MonoGame.Randomchaos.UI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Delegates\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

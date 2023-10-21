@@ -61,7 +61,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MonoGame.Randomchaos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Jwt", "MonoGame.Randomchaos.Jwt\MonoGame.Randomchaos.Jwt.csproj", "{6F743DB0-56DD-44C7-8A39-34FE7ED516F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleMonoGame.Randomchaos.Services.P2P", "SampleMonoGame.Randomchaos.Services.P2P\SampleMonoGame.Randomchaos.Services.P2P.csproj", "{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleMonoGame.Randomchaos.Services.P2P", "SampleMonoGame.Randomchaos.Services.P2P\SampleMonoGame.Randomchaos.Services.P2P.csproj", "{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Services.P2P", "MonoGame.Randomchaos.Services.P2P\MonoGame.Randomchaos.Services.P2P.csproj", "{064BB81F-2E4B-46B0-8387-60C8E6765CC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +183,10 @@ Global
 		{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

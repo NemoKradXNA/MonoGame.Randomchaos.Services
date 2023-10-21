@@ -1,10 +1,9 @@
-﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
+﻿using MonoGame.Randomchaos.Services.P2P.Interfaces;
 using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Models
+namespace MonoGame.Randomchaos.Services.P2P.Models
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   A client data. </summary>

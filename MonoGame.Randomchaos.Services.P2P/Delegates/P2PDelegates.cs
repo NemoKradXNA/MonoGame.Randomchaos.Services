@@ -1,10 +1,8 @@
-﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
-using SampleMonoGame.Randomchaos.Services.P2P.Models;
+﻿using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
 using System;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Delegates
+namespace MonoGame.Randomchaos.Services.P2P.Delegates
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Server start event. </summary>

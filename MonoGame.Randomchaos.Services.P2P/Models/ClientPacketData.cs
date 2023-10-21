@@ -1,16 +1,21 @@
-﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Enums;
+﻿using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
+namespace MonoGame.Randomchaos.Services.P2P.Models
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Interface for communications packet. </summary>
+    /// <summary>   A client packet data. </summary>
     ///
     /// <remarks>   Charles Humphrey, 17/10/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface ICommsPacket
+    public class ClientPacketData : IClientPacketData
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the identifier. </summary>
@@ -18,54 +23,67 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Interfaces
         /// <value> The identifier. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the communications. </summary>
+        /// <summary>   Gets or sets the UDP address. </summary>
         ///
-        /// <value> The communications. </value>
+        /// <value> The UDP address. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        CommsEnum Comms { get; set; }
+        public string UdpAddress { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the protocol. </summary>
+        /// <summary>   Gets or sets the ud p port. </summary>
         ///
-        /// <value> The protocol. </value>
+        /// <value> The ud p port. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        ProtocolTypesEnum Protocol { get; set; }
+        public int UdPPort { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the IP address. </summary>
+        /// <summary>   Gets or sets the type of the connection. </summary>
         ///
-        /// <value> The IP address. </value>
+        /// <value> The type of the connection. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        string IPAddress { get; set; }
+        public ConnectionTypesEnum ConnectionType { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the port. </summary>
+        /// <summary>   Gets or sets information describing the player game. </summary>
         ///
-        /// <value> The port. </value>
+        /// <value> Information describing the player game. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        int Port { get; set; }
+        public object? PlayerGameData { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the Date/Time of the sent. </summary>
+        /// <summary>   Returns a string that represents the current object. </summary>
         ///
-        /// <value> The sent. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        DateTime Sent { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the data. </summary>
+        /// <remarks>   Charles Humphrey, 17/10/2023. </remarks>
         ///
-        /// <value> The data. </value>
+        /// <returns>   A string that represents the current object. </returns>
         ///-------------------------------------------------------------------------------------------------
 
-        object? Data { get; set; }
+        public override string ToString()
+        {
+            if (!string.IsNullOrEmpty(UdpAddress))
+                return $"{UdpAddress}:{UdPPort}";
+            else
+                return $"UDP Endpoint Unknown";
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets IP end point. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 17/10/2023. </remarks>
+        ///
+        /// <returns>   The IP end point. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public virtual IPEndPoint GetIPEndPoint()
+        {
+            return new IPEndPoint(IPAddress.Parse(UdpAddress), UdPPort);
+        }
     }
 }

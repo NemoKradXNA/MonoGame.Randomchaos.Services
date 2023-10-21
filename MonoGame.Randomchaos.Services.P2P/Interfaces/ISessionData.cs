@@ -1,15 +1,12 @@
-﻿
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
-
-namespace SampleMonoGame.Randomchaos.Services.P2P.Models
+﻿namespace MonoGame.Randomchaos.Services.P2P.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A session data. </summary>
+    /// <summary>   Interface for session data. </summary>
     ///
     /// <remarks>   Charles Humphrey, 18/10/2023. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SessionData : ISessionData
+    public interface ISessionData
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the name. </summary>
@@ -17,7 +14,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
         /// <value> The name. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public string Name { get; set; }
+        string Name { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the token. </summary>
@@ -25,6 +22,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Models
         /// <value> The token. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public string Token { get; set; }
+        string Token { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using SampleMonoGame.Randomchaos.Services.P2P.Delegates;
-using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
-using SampleMonoGame.Randomchaos.Services.P2P.Models;
+﻿
+using MonoGame.Randomchaos.Services.P2P.Delegates;
+using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,41 +11,126 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Services
+namespace MonoGame.Randomchaos.Services.P2P.Models
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A Peer 2 Peer  server. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class P2PServer : IP2PServer
     {
+        /// <summary>   Event queue for all listeners interested in OnServerStart events. </summary>
         public event ServerStartEvent OnServerStart;
+        /// <summary>   Event queue for all listeners interested in OnServerStop events. </summary>
         public event ServerStopEvent OnServerStop;
+        /// <summary>   Event queue for all listeners interested in OnConnectionAttempt events. </summary>
         public event ConnectionAttemptEvent OnConnectionAttempt;
+        /// <summary>   Event queue for all listeners interested in OnNewClientAdded events. </summary>
         public event ConnectionAttemptEvent OnNewClientAdded;
+        /// <summary>   Event queue for all listeners interested in OnConnectionDropped events. </summary>
         public event ConnectionDroppedEvent OnConnectionDropped;
+        /// <summary>   Event queue for all listeners interested in OnTcpDataReceived events. </summary>
         public event DataReceivedEvent OnTcpDataReceived;
+        /// <summary>   Event queue for all listeners interested in OnUdpDataReceived events. </summary>
         public event DataReceivedEvent OnUdpDataReceived;
+        /// <summary>   Event queue for all listeners interested in OnError events. </summary>
         public event ErrorEvent OnError;
+        /// <summary>   Event queue for all listeners interested in OnClientCommsError events. </summary>
         public event ClientCommsError OnClientCommsError;
+        /// <summary>   Event queue for all listeners interested in OnLog events. </summary>
         public event LogEvent OnLog;
 
-        public PlayerData PlayerData { get; set; }
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets information describing the player. </summary>
+        ///
+        /// <value> Information describing the player. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public IPlayerData PlayerData { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the accepting connections. </summary>
+        ///
+        /// <value> True if accepting connections, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public bool AcceptingConnections { get; set; } = false;
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the local IPv4 address. </summary>
+        ///
+        /// <value> The local IPv4 address. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string LocalIPv4Address { get; protected set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the external IP 4v address. </summary>
+        ///
+        /// <value> The external IP 4v address. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string ExternalIP4vAddress { get; protected set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the name of the machine. </summary>
+        ///
+        /// <value> The name of the machine. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string MachineName { get; protected set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the port. </summary>
+        ///
+        /// <value> The port. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public int Port { get; protected set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether this object is running. </summary>
+        ///
+        /// <value> True if this object is running, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public bool IsRunning { get; protected set; } = false;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the clients. </summary>
+        ///
+        /// <value> The clients. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public List<IClientData> Clients { get; protected set; } = new List<IClientData>();
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the clear inactive connection timeout. </summary>
+        ///
+        /// <value> The clear inactive connection timeout. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public TimeSpan ClearInactiveConnectionTimeout { get; set; } = new TimeSpan(0, 0, 10);
+        /// <summary>   (Immutable) the UDP client. </summary>
         protected readonly UdpClient _udpClient;
+        /// <summary>   (Immutable) the TCP listener. </summary>
         protected readonly TcpListener _tcpListener;
 
+        /// <summary>   (Immutable) the UDP end point. </summary>
         protected readonly IPEndPoint _udpEndPoint;
+        /// <summary>   (Immutable) the TCP end point. </summary>
         protected readonly IPEndPoint _tcpEndPoint;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="port">                 The port. </param>
+        /// <param name="externalIPv4Address">  (Optional) The external IPv4 address. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public P2PServer(int port, string externalIPv4Address = null)
         {
@@ -58,6 +143,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             _tcpEndPoint = new IPEndPoint(IPAddress.Any, Port);
             _tcpListener = new TcpListener(_tcpEndPoint);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Starts this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         public virtual void Start()
         {
@@ -76,7 +167,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
             _tcpListener.BeginAcceptTcpClient(AcceptTcpClient, _tcpListener);
 
-            _udpClient.BeginReceive(ReceiveUDPCallback, new {
+            _udpClient.BeginReceive(ReceiveUDPCallback, new
+            {
                 listener = _udpClient,
                 endPoint = _udpEndPoint,
             });
@@ -108,6 +200,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Async callback, called on completion of receive UDP callback. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="result">   The result of the asynchronous operation. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         protected void ReceiveUDPCallback(IAsyncResult result)
         {
             dynamic state = (dynamic)result.AsyncState;
@@ -130,7 +230,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                 string receiveString = Encoding.ASCII.GetString(receiveBytes);
 
-                CommsPacket pkt = JsonConvert.DeserializeObject<CommsPacket>(receiveString);
+                ICommsPacket pkt = JsonConvert.DeserializeObject<CommsPacket>(receiveString);
 
                 IClientData client = Clients.SingleOrDefault(w => $"{w.UdpEndPoint}" == $"{pkt.IPAddress}:{pkt.Port}");
 
@@ -159,6 +259,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 }
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Async callback, called on completion of accept TCP client. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="result">   The result of the asynchronous operation. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected void AcceptTcpClient(IAsyncResult result)
         {
@@ -224,6 +332,17 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sends a data to. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="client">   The client. </param>
+        /// <param name="data">     The data. </param>
+        ///
+        /// <returns>   An Exception. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual Exception SendDataTo(IClientData client, ICommsPacket data)
         {
             try
@@ -269,11 +388,22 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sends a data to. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="clients">  The clients. </param>
+        /// <param name="data">     The data. </param>
+        ///
+        /// <returns>   An Exception. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public Dictionary<IClientData, Exception> SendDataTo(List<IClientData> clients, ICommsPacket data)
         {
             Dictionary<IClientData, Exception> deadClients = new Dictionary<IClientData, Exception>();
 
-            foreach (ClientData client in clients)
+            foreach (IClientData client in clients)
             {
                 Exception ex = SendDataTo(client, data);
 
@@ -286,12 +416,29 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             return deadClients;
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sends a data to all. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="data"> The data. </param>
+        ///
+        /// <returns>   A Dictionary&lt;IClientData,Exception&gt; </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual Dictionary<IClientData, Exception> SendDataToAll(ICommsPacket data)
         {
             return SendDataTo(Clients, data);
         }
 
-       
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Poll TCP asynchronous. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <returns>   A Task. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
         protected virtual async Task PollTcpAsync()
         {
             DateTime now = DateTime.UtcNow;
@@ -361,7 +508,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     }
                     else
                     {
-                        CommsPacket pkt = JsonConvert.DeserializeObject<CommsPacket>(pktString);
+                        ICommsPacket pkt = JsonConvert.DeserializeObject<CommsPacket>(pktString);
                         ProcessPacket(client, pkt);
 
                         if (OnTcpDataReceived != null)
@@ -387,6 +534,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Denies client. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="client">   The client. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public void DenyClient(IClientData client)
         {
             SendDataTo(client, new CommsPacket()
@@ -399,9 +554,17 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             DisconnectClient(client);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Disconnects the client described by client. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="client">   The client. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public void DisconnectClient(IClientData client)
         {
-            CommsPacket bcPkt = new CommsPacket()
+            ICommsPacket bcPkt = new CommsPacket()
             {
                 Id = Guid.Empty,
                 Comms = CommsEnum.ClientDisconnected,
@@ -425,6 +588,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Process the packet. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="client">   The client. </param>
+        /// <param name="pkt">      The packet. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         protected void ProcessPacket(IClientData client, ICommsPacket pkt)
         {
             ICommsPacket bcPkt = null;
@@ -437,12 +609,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     break;
                 case CommsEnum.RequestUdpDataResponse:
                     string[] pktData = pkt.IPAddress.Split(":");
-                    
+
                     client.UdpEndPoint = new IPEndPoint(IPAddress.Parse(pktData[0]), int.Parse(pktData[1]));
                     client.PacketData.PlayerGameData = pkt.Data;
 
                     // This is a new client, add them to the list, and tell everyone they have a new friend :)
-                    
+
                     bcPkt = new CommsPacket()
                     {
                         Id = Guid.Empty,
@@ -466,7 +638,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                     DisconnectClient(client);
 
                     break;
-
                 case CommsEnum.RequestClientList:
 
                     List<IClientPacketData> dataList = Clients.Select(s => s.PacketData).ToList();
@@ -513,6 +684,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Stops this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         public virtual void Stop()
         {
             if (IsRunning)
@@ -520,7 +697,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 IsRunning = false;
 
                 // Terminate all client sockets.
-                CommsPacket pkt = new CommsPacket()
+                ICommsPacket pkt = new CommsPacket()
                 {
                     Id = Guid.Empty,
                     Protocol = ProtocolTypesEnum.Tcp,

@@ -7,8 +7,6 @@ using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.Enums;
-using SampleMonoGame.Randomchaos.Services.P2P.Services;
-using System;
 using System.Collections.Generic;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes

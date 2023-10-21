@@ -1,4 +1,4 @@
-﻿namespace SampleMonoGame.Randomchaos.Services.P2P.Enums
+﻿namespace MonoGame.Randomchaos.Services.P2P.Enums
 {
     public enum CommsEnum : int
     {

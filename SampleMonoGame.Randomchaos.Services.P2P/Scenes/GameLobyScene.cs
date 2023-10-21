@@ -9,8 +9,9 @@ using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Enums;
 using Newtonsoft.Json;
 using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
-using SampleMonoGame.Randomchaos.Services.P2P.Models;
+using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
+using MonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -308,7 +309,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         }       
 
         
-        private void P2pService_OnLog(Enums.LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
+        private void P2pService_OnLog(LogLevelEnum lvl, string message, Exception ex = null, params object[] args)
         {
             AddToMessages($"[{DateTime.UtcNow: dd-MM-yyyy hh:mm:ss}] - {lvl}: {message}");
         }

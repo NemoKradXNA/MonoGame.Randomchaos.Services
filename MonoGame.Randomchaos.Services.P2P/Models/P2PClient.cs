@@ -1,48 +1,137 @@
-﻿using SampleMonoGame.Randomchaos.Services.P2P.Interfaces;
+﻿
+using MonoGame.Randomchaos.Services.P2P.Delegates;
+using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using SampleMonoGame.Randomchaos.Services.P2P.Delegates;
-using SampleMonoGame.Randomchaos.Services.P2P.Models;
-using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using Newtonsoft.Json;
-using System.Net.NetworkInformation;
-using MonoGame.Randomchaos.UI.Enums;
 
-namespace SampleMonoGame.Randomchaos.Services.P2P.Services
+namespace MonoGame.Randomchaos.Services.P2P.Models
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A peer 2 peer client. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class P2PClient : IP2PClient
     {
+        /// <summary>   (Immutable) the server endpoint. </summary>
         protected readonly IPEndPoint _serverEndpoint;
+        /// <summary>   The client endpoint. </summary>
         protected IPEndPoint _clientEndpoint;
 
+        /// <summary>   The TCP client. </summary>
         protected TcpClient _tcpClient;
+        /// <summary>   The UDP client. </summary>
         protected UdpClient _udpClient;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the clients. </summary>
+        ///
+        /// <value> The clients. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public List<IClientPacketData> Clients { get; protected set; } = new List<IClientPacketData>();
 
+        /// <summary>   Event queue for all listeners interested in OnTcpDataReceived events. </summary>
         public event DataReceivedEvent OnTcpDataReceived;
+        /// <summary>   Event queue for all listeners interested in OnUdpDataReceived events. </summary>
         public event DataReceivedEvent OnUdpDataReceived;
+        /// <summary>   Event queue for all listeners interested in OnConnectionDropped events. </summary>
         public event ConnectionDroppedEvent OnConnectionDropped;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Event queue for all listeners interested in OnClientConnectionDropped events.
+        /// </summary>
+        ///-------------------------------------------------------------------------------------------------
+
         public event ConnectionDroppedEvent OnClientConnectionDropped;
+        /// <summary>   Event queue for all listeners interested in OnNewClientAdded events. </summary>
         public event ConnectionAttemptEvent OnNewClientAdded;
+        /// <summary>   Event queue for all listeners interested in OnLog events. </summary>
         public event LogEvent OnLog;
 
-        public PlayerData PlayerData { get; set; }
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets information describing the player. </summary>
+        ///
+        /// <value> Information describing the player. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public IPlayerData PlayerData { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the IPv4 address. </summary>
+        ///
+        /// <value> The IPv4 address. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string IPv4Address { get { return $"{_clientEndpoint.Address}:{_clientEndpoint.Port}"; } }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the server IPv4 address. </summary>
+        ///
+        /// <value> The server IPv4 address. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public string ServerIPv4Address { get { return $"{_serverEndpoint.Address}:{_serverEndpoint.Port}"; } }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the identifier. </summary>
+        ///
+        /// <value> The identifier. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public Guid? Id { get; protected set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the port. </summary>
+        ///
+        /// <value> The port. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public int Port { get; protected set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets a value indicating whether this object is connected. </summary>
+        ///
+        /// <value> True if this object is connected, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public bool IsConnected { get { return _tcpClient.Connected; } }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the Date/Time of the server last active. </summary>
+        ///
+        /// <value> The server last active. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public DateTime ServerLastActive { get; protected set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the server inactive timeout. </summary>
+        ///
+        /// <value> The server inactive timeout. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         public TimeSpan ServerInactiveTimeout { get; set; } = new TimeSpan(0, 0, 10);
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="serverIPv4Address">    The server IPv4 address. </param>
+        /// <param name="serverPort">           The server port. </param>
+        /// <param name="clientIPv4Address">    The client IPv4 address. </param>
+        /// <param name="clientPort">           The client port. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public P2PClient(string serverIPv4Address, int serverPort, string clientIPv4Address, int clientPort)
         {
@@ -56,6 +145,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             _udpClient = new UdpClient(Port);
             _udpClient.AllowNatTraversal(true);
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Disconnects the given informServer. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="informServer"> (Optional) The inform server to disconnect. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void Disconnect(bool informServer = true)
         {
@@ -92,6 +189,12 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Connects this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
         public void Connect()
         {
             if (OnLog != null)
@@ -124,6 +227,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
             ServerLastActive = DateTime.UtcNow;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Sends a data to. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="data">     The data. </param>
+        /// <param name="endpoint"> (Optional) The endpoint. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public void SendDataTo(ICommsPacket data, IPEndPoint endpoint = null)
         {
@@ -162,6 +274,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Broadcasts to. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="data">     The data. </param>
+        /// <param name="clients">  The clients. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public void BroadcastTo(ICommsPacket data, List<IClientPacketData> clients)
         {
             try
@@ -174,6 +295,15 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             catch { }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Async callback, called on completion of connect to server Asynchronous.
+        /// </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="result">   The result of the asynchronous operation. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected void ConnectToServerAsync(IAsyncResult result)
         {
@@ -202,6 +332,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 OnLog(LogLevelEnum.Information, "Connected to Server...");
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Async callback, called on completion of UDP receive data. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="result">   The result of the asynchronous operation. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected void UdpReceiveData(IAsyncResult result)
         {
@@ -244,6 +382,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
 
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Process the packet described by pkt. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="pkt">  The packet. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         protected async void ProcessPacket(ICommsPacket pkt)
         {
@@ -303,8 +449,8 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
 
                     // request client list.
                     pkt = new CommsPacket()
-                    {   
-                        Id = Id.Value, 
+                    {
+                        Id = Id.Value,
                         Comms = CommsEnum.RequestClientList,
                         IPAddress = IPv4Address,
                         Protocol = pkt.Protocol,
@@ -363,7 +509,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                             }
                         }
                     }
-                    
+
                     break;
                 case CommsEnum.Closed:
                     // Either the server or another client has closed.
@@ -408,6 +554,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
             }
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Adds a client. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="clientPacket"> Message describing the client. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         protected void AddClient(IClientPacketData clientPacket)
         {
             if (clientPacket.ToString() != IPv4Address)
@@ -429,6 +583,14 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 OnNewClientAdded(clientPacket);
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Poll TCP asynchronous. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <returns>   A Task. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         protected async Task PollTcpAsync()
         {
@@ -486,6 +648,16 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Services
                 }
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets client by identifier and address. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="pktData">  Information describing the packet. </param>
+        ///
+        /// <returns>   The client by identifier and address. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         protected virtual IClientPacketData GetClientByIdAndAddress(IClientPacketData pktData)
         {
