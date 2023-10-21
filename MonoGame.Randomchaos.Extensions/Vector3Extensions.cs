@@ -55,15 +55,32 @@ namespace MonoGame.Randomchaos.Extensions
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   A Vector3 extension method that  from vector 2. </summary>
         ///
-        /// <remarks>   Charles Humphrey, 19/10/2023. </remarks>
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
         ///
         /// <param name="v3">   The v3 to act on. </param>
         /// <param name="v2">   The second value. </param>
+        ///
+        /// <returns>   A Vector3. </returns>
         ///-------------------------------------------------------------------------------------------------
 
-        public static void FromVector2(this Vector3 v3, Vector2 v2)
+        public static Vector3 FromVector2(this Vector3 v3, Vector2 v2)
         {
-            v3 = new Vector3(v2.X, v2.Y, v3.Z);
+            return new Vector3(v2.X, v2.Y, v3.Z);
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   A Vector3 extension method that converts a vector 3 to a vector 2. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/10/2023. </remarks>
+        ///
+        /// <param name="v3">   The v3 to act on. </param>
+        ///
+        /// <returns>   V3 as a Vector2. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static Vector2 ToVector2(this Vector3 v3)
+        {
+            return new Vector2(v3.X, v3.Y);
         }
     }
 }

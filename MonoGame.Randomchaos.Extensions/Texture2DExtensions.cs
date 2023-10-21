@@ -134,6 +134,7 @@ namespace MonoGame.Randomchaos.Extensions
             for (int i = 0; i < colorData.Length; i++) 
             {
                 Color c = Color.Lerp(Color.Black, Color.White, rnd.NextFloat());
+                colorData[i] = c;
             }
 
             texture.SetData(colorData);
@@ -169,6 +170,7 @@ namespace MonoGame.Randomchaos.Extensions
                 float a = rnd.NextFloat();
 
                 Color c = new Color(r,g,b,a);
+                colorData[i] = c;
             }
 
             texture.SetData(colorData);

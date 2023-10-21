@@ -39,23 +39,15 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.4" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.2" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.8" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.5" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.3" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.P2P" Version="1.0.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.9" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MonoGame.Randomchaos.Extensions\MonoGame.Randomchaos.Extensions.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Interfaces\MonoGame.Randomchaos.Interfaces.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Primitives3D\MonoGame.Randomchaos.Primitives3D.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Camera\MonoGame.Randomchaos.Services.Camera.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Input\MonoGame.Randomchaos.Services.Input.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.P2P\MonoGame.Randomchaos.Services.P2P.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Scene\MonoGame.Randomchaos.Services.Scene.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.UI\MonoGame.Randomchaos.UI.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Delegates\" />

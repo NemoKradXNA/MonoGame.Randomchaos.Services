@@ -10,6 +10,7 @@ using MonoGame.Randomchaos.Services.Scene.Services;
 using SampleMonoGame.Randomchaos.Services.P2P.Scenes;
 using MonoGame.Randomchaos.Services.P2P.Services;
 using System.Globalization;
+using MonoGame.Randomchaos.Extensions;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P
 {
@@ -100,7 +101,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
 
