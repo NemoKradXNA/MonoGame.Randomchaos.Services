@@ -281,8 +281,12 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             base.Initialize();
 
-            foreach (IGameComponent component in Components.Components)
-                component.Initialize();
+            try
+            {
+                foreach (IGameComponent component in Components.Components)
+                    component.Initialize();
+            }
+            catch { }
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -316,12 +320,19 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
             base.Update(gameTime);
 
-            foreach (IGameComponent component in Components.Components)
+            try
             {
-                if (component is IUpdateable && ((IUpdateable)component).Enabled)
-                    ((IUpdateable)component).Update(gameTime);
+                foreach (IGameComponent component in Components.Components)
+                {
+                    if (component is IUpdateable && ((IUpdateable)component).Enabled)
+                        ((IUpdateable)component).Update(gameTime);
+                }
             }
-        }
+            catch (Exception ex)
+            {
+                // need to log this. This could be due to runtime changes in the list.
+            }
+}
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Draws the given game time. </summary>
@@ -343,10 +354,18 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 GraphicsDevice.Clear(camera != null ? camera.ClearColor : ClearColor);
             }
 
-            foreach (IGameComponent component in Components.SceneComponents)
+            try
             {
-                if (component is IDrawable && ((IDrawable)component).Visible)
-                    ((IDrawable)component).Draw(gameTime);
+                foreach (IGameComponent component in Components.SceneComponents)
+                {
+                    if (component is IDrawable && ((IDrawable)component).Visible)
+                        ((IDrawable)component).Draw(gameTime);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // need to log this. This could be due to runtime changes in the list.
             }
 
             if (postProcess != null)
@@ -360,10 +379,17 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 postProcessUI.StartPostProcess(gameTime);
             }
 
+            try{
             foreach (IGameComponent component in Components.UIComponents)
             {
-                if (component is IDrawable && ((IDrawable)component).Visible)
-                    ((IDrawable)component).Draw(gameTime);
+                    if (component is IDrawable && ((IDrawable)component).Visible)
+                        ((IDrawable)component).Draw(gameTime);
+                
+            }
+            }
+            catch (Exception ex)
+            {
+                // need to log this. This could be due to runtime changes in the list.
             }
 
             if (postProcessUI != null)

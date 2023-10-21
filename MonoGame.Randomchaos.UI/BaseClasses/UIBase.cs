@@ -199,5 +199,12 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
             int c = ((color.R + color.G + color.B) / 6);
             return new Color(c, c, c, color.A);
         }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+        }
     }
 }

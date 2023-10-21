@@ -2,6 +2,7 @@
 using MonoGame.Randomchaos.Interfaces.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoGame.Randomchaos.Services.Scene.Models
 {
@@ -15,13 +16,27 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         {
             Components.Add(component);
 
-            if (UIComponentTypes != null && UIComponentTypes.Count > 0)
+            if (UIComponentTypes != null && UIComponentTypes.Count > 0 && UIComponentTypes.Any(a => a.IsAssignableFrom(component.GetType())))// UIComponentTypes.Contains(component.GetType()))
             {
                 UIComponents.Add(component);
             }
             else
             {
                 SceneComponents.Add(component);
+            }
+        }
+
+        public void Remove(IGameComponent component)
+        {
+            Components.Remove(component);
+
+            if (UIComponentTypes != null && UIComponentTypes.Count > 0 && UIComponentTypes.Any(a => a.IsAssignableFrom(component.GetType())))
+            {
+                UIComponents.Remove(component);
+            }
+            else
+            {
+                SceneComponents.Remove(component);
             }
         }
 

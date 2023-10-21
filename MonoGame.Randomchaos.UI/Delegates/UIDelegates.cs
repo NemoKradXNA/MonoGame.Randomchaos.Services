@@ -14,4 +14,14 @@ namespace MonoGame.Randomchaos.UI.Delegates
     ///-------------------------------------------------------------------------------------------------
 
     public delegate void UIMouseEvent(IUIBase sender, IMouseStateManager mouseState);
+
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   Input complete event. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 17/10/2023. </remarks>
+    ///
+    /// <param name="sender">   The sender. </param>
+    ///-------------------------------------------------------------------------------------------------
+
+    public delegate void UIInputCompleteEvent(IUIBase sender);
 }

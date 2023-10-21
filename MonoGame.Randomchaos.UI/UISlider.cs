@@ -256,11 +256,12 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
 
             lblLabel.Draw(gameTime);
             imgBar.Draw(gameTime);
             btnButton.Draw(gameTime);
+
+            base.Draw(gameTime);
         }
     }
 }

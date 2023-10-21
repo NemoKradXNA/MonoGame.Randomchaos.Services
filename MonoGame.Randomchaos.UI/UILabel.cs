@@ -197,6 +197,8 @@ namespace MonoGame.Randomchaos.UI
             }
 
             _spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }
