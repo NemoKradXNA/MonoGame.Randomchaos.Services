@@ -27,18 +27,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/font.spritefont
 
-#begin Textures/gameMap.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/gameMap.png
-
 #begin Textures/UI/Button.png
 /importer:TextureImporter
 /processor:TextureProcessor
