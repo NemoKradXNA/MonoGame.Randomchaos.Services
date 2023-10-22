@@ -13,15 +13,12 @@
   <ItemGroup>
     <Compile Remove="Delegates\**" />
     <Compile Remove="Interfaces\**" />
-    <Compile Remove="Models\**" />
     <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Delegates\**" />
     <EmbeddedResource Remove="Interfaces\**" />
-    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Services\**" />
     <None Remove="Delegates\**" />
     <None Remove="Interfaces\**" />
-    <None Remove="Models\**" />
     <None Remove="Services\**" />
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +38,7 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.5" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.6" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0.1" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.3" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0.1" />
