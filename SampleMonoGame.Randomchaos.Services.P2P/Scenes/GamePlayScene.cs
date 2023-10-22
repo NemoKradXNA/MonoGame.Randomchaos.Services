@@ -3,54 +3,25 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.Extensions;
 using MonoGame.Randomchaos.Interfaces;
+using MonoGame.Randomchaos.Models;
 using MonoGame.Randomchaos.Primitives3D.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
+using MonoGame.Randomchaos.Services.P2P.Enums;
+using MonoGame.Randomchaos.Services.P2P.Interfaces;
+using MonoGame.Randomchaos.Services.P2P.Models;
 using MonoGame.Randomchaos.UI;
 using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Enums;
 using Newtonsoft.Json;
 using SampleMonoGame.Randomchaos.Services.P2P.Enums;
-using MonoGame.Randomchaos.Services.P2P.Interfaces;
-using MonoGame.Randomchaos.Services.P2P.Models;
+using SampleMonoGame.Randomchaos.Services.P2P.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoGame.Randomchaos.Services.P2P.Enums;
 
 namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 {
-    public class BulletData
-    {
-        public Guid Owner { get; set; }
-        public int Id { get; set; }
-
-        public Vector3 SourcePosition { get; set; }
-        public Vector3 Velocity { get; set; }
-        public Color Color { get; set; }
-
-        public BulletData(Guid owner, int id, Vector3 from, Vector3 velocity, Color color)
-        {
-            Owner = owner;
-            Id  = id; 
-            Velocity = velocity;
-            SourcePosition = from;
-            Color = color;
-        }
-    }
-
-    public class PointsData
-    {
-        public Guid Id { get; set; }
-        public long Points { get; set; }
-
-        public PointsData(Guid id, long points)
-        {
-            Id = id;
-            Points = points;
-        }
-    }
-
     public class GamePlayScene : P2PBaseScene
     {
         string NextScene = "mainMenu";
@@ -66,18 +37,18 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
         List<string> MessageFeed = new List<string>();
 
-        const float Edgge = 19;
+        const float Edge = 22;
         List<Vector3> StartPositions = new List<Vector3>()
         {
             new Vector3(0,0,0),
-            new Vector3(Edgge,0,Edgge),
-            new Vector3(-Edgge,0,Edgge),
-            new Vector3(-Edgge,0,-Edgge),
-            new Vector3(Edgge,0,-Edgge),
-            new Vector3(Edgge/2,0,Edgge),
-            new Vector3(Edgge,0,Edgge/2),
-            new Vector3(Edgge/2,0,-Edgge),
-            new Vector3(-Edgge,0,Edgge/2),
+            new Vector3(Edge,0,Edge),
+            new Vector3(-Edge,0,Edge),
+            new Vector3(-Edge,0,-Edge),
+            new Vector3(Edge,0,-Edge),
+            new Vector3(Edge/2,0,Edge),
+            new Vector3(Edge,0,Edge/2),
+            new Vector3(Edge/2,0,-Edge),
+            new Vector3(-Edge,0,Edge/2),
         };
 
         public GamePlayScene(Game game, string name) : base(game, name) { UIComponentTypes.Add(typeof(UIBase)); }
@@ -155,19 +126,19 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         protected void LightGeom(CapsuleBasicEffect geom, Color diffuse)
         {
             Vector3 ld = new Vector3(1, -1, -1);
-            geom.SetDirectionalLight(ld, Vector3.One * .25f, diffuse.ToVector3()) ;
+            geom.SetDirectionalLight(ld, Vector3.One * .125f, diffuse.ToVector3()) ;
         }
 
         protected void LightGeom(CubeBasicEffect geom, Color diffuse)
         {
             Vector3 ld = new Vector3(1, -1, -1);
-            geom.SetDirectionalLight(ld, Vector3.One * .25f, diffuse.ToVector3());
+            geom.SetDirectionalLight(ld, Vector3.One * .125f, diffuse.ToVector3());
         }
 
         protected void LightGeom(SphereBasicEfect geom, Color diffuse)
         {
             Vector3 ld = new Vector3(1, -1, -1);
-            geom.SetDirectionalLight(ld, Vector3.One * .25f, diffuse.ToVector3());
+            geom.SetDirectionalLight(ld, Vector3.One * .125f, diffuse.ToVector3());
         }
 
         public override void UnloadScene()
@@ -177,10 +148,13 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             p2pService.OnLog -= P2pService_OnLog;
 
             MessageFeed.Clear();
+
             AvatarGuns.Clear();
             GameAvatars.Clear();
             PlayersData.Clear();
             AvatarTag.Clear();
+            Bullets.Clear();
+            BulletData.Clear();
 
             if (p2pService.IsServer)
             {
@@ -201,7 +175,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             p2pService.OnLog += P2pService_OnLog;
 
             var clients = p2pService.Clients; // p2pService.GetClientsPlayerGameData<PlayerData>();
-                        
 
             if (p2pService.IsServer)
             {
@@ -347,6 +320,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
 
         public override void Update(GameTime gameTime)
         {
+
             if (State == SceneStateEnum.Loaded)
             {
 
@@ -391,7 +365,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 if (kbManager.KeyPress(Keys.Space))
                 {
                     Color col = Color.White;
-                    
+
                     if (p2pService.PlayerData.Properties["Color"] is Color)
                     {
                         col = (Color)p2pService.PlayerData.Properties["Color"];
@@ -401,34 +375,36 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                         col = JsonConvert.DeserializeObject<Color>(p2pService.PlayerData.Properties["Color"].ToString());
                     }
 
-                    var BulletData = ShootBullet(p2pService.ClientId, camera.Transform.Position - Vector3.Up * .5f,camera.Transform.World.Forward, col);
+                    var BulletData = ShootBullet(p2pService.ClientId, camera.Transform.Position - Vector3.Up * .5f, camera.Transform.World.Forward * .25f, col);
 
                     p2pService.PlayerData.SetProperty("Bullet", BulletData);
                     //p2pService.Broadcast(new { });
                 }
 
-                camera.Transform.Position = new Vector3(camera.Transform.Position.X, .5f, camera.Transform.Position.Z);
-                camera.Transform.Rotation = camera.Transform.Rotation.LockRotation(new Vector3(1,0,1));
+                // Keep the player in the map area.
+                camera.Transform.Position = new Vector3(
+                    Math.Max(-Edge, Math.Min(Edge, camera.Transform.Position.X)),
+                    camera.Transform.Position.Y,
+                    Math.Max(-Edge, Math.Min(Edge, camera.Transform.Position.Z))
+                    );
 
-                // Do I bump into the map?
-                BoundingBox myBB = (new BoundingBox(-Vector3.One*.5f, Vector3.One*.5f)).Transformed(camera.Transform);
+                camera.Transform.Position = new Vector3(camera.Transform.Position.X, .5f, camera.Transform.Position.Z);
+                camera.Transform.Rotation = camera.Transform.Rotation.LockRotation(new Vector3(1, 0, 1));
 
                 
-
                 // Tell everyone we are here :D
                 Guid id = Guid.Empty;
+
 
                 if (!p2pService.IsServer)
                 {
                     id = p2pService.ClientId;
                 }
 
-                if (GameAvatars.ContainsKey(id))
+                if (GameAvatars != null && GameAvatars.ContainsKey(id))
                 {
 
                     var avatar = GameAvatars[id];
-
-                    Game.Window.Title = $"CameraPos: {camera.Transform.Position} AvatarPos: {avatar.Transform.Position}";
 
                     if (avatar != null)
                     {
@@ -444,119 +420,114 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                     }
                 }
 
-                foreach (Guid lblId in AvatarTag.Keys)
+                if (AvatarTag != null)
                 {
-                    if (lblId != id)
+                    try
                     {
-                        AvatarTag[lblId].Position = camera.WorldPositionToScreenPosition(GameAvatars[lblId].Transform.Position).ToPoint();
-                        AvatarTag[lblId].Text = PlayersData[lblId].Name;
-                    }
-                    else
-                    {
-                        AvatarTag[lblId].Visible = AvatarTag[lblId].Enabled = false;
-                    }
-                }
-
-                foreach (Guid bid in Bullets.Keys)
-                {
-                    List<SphereBasicEfect> deadBullets = Bullets[bid].Where(b => Vector3.Distance(b.Transform.Position, Vector3.Zero) > 60).ToList();
-                    List<int> deadDataIndex = deadBullets.Select(s => Bullets[bid].IndexOf(s)).ToList();
-
-                    var notBulletOwner = GameAvatars.Where(w => w.Key != bid).Select(s => s.Key).ToList();
-
-                    int idx = 0;
-                    foreach (SphereBasicEfect bullet in Bullets[bid])
-                    {
-                        Vector3 v = BulletData[bid][idx].Velocity;
-
-                        bullet.Transform.Position += v;
-
-                        if (p2pService.IsServer) 
+                        foreach (Guid lblId in AvatarTag.Keys)
                         {
-                            // Check for collision.
-                            BoundingSphere bulletBounds = new BoundingSphere(bullet.Transform.Position, bullet.Transform.Scale.X);
-
-                            foreach (Guid avid in notBulletOwner)
+                            if (AvatarTag[lblId] != null) // may be mid setup.
                             {
-                                CapsuleBasicEffect avatar = GameAvatars[avid];
-
-                                float d = Vector3.Distance(bullet.Transform.Position, avatar.Transform.Position);
-                                if (d < 10)
+                                if (lblId != id)
                                 {
-                                    
+                                    AvatarTag[lblId].Position = camera.WorldPositionToScreenPosition(GameAvatars[lblId].Transform.Position).ToPoint();
+                                    AvatarTag[lblId].Text = PlayersData[lblId].Name;
                                 }
-
-                                BoundingBox bb = (new BoundingBox(Vector3.One * -.5f, Vector3.One * .5f)).TransformedAA(avatar.Transform);
-
-                                if (bb.Intersects(bulletBounds))
+                                else
                                 {
-                                    deadBullets.Add(bullet);
-                                    deadDataIndex.Add(Bullets[bid].IndexOf(bullet));
-
-                                    var shooter = PlayersData[bid];
-                                    var target = PlayersData[avid];
-
-                                    AddToMessages($"[{target.Name}] was shot by [{shooter.Name}]");
-
-                                    p2pService.PlayerData.SetProperty("Message", $"[{target.Name}] was shot by [{shooter.Name}]");
-                                    PointsData points = new PointsData(bid, 10);
-
-                                    p2pService.PlayerData.SetProperty("Points", points);
-                                    SetPlayerScore(points);
-                                    p2pService.Broadcast(p2pService.PlayerData);
-                                    p2pService.PlayerData.RemoveProperty("Message");
-                                    p2pService.PlayerData.RemoveProperty("Points");
+                                    AvatarTag[lblId].Visible = AvatarTag[lblId].Enabled = false;
                                 }
                             }
                         }
-
-                        idx++;
                     }
+                    catch { } // Exception thrown if the list is altered (client leaves)
+                }
 
-                    for (int del = 0; del < deadBullets.Count; del++)
+                if (Bullets != null)
+                {
+                    try
                     {
-                        Bullets[bid].Remove(deadBullets[del]);
-                        BulletData[bid].RemoveAt(deadDataIndex[del]);
+                        foreach (Guid bid in Bullets.Keys)
+                        {
+                            List<SphereBasicEfect> deadBullets = Bullets[bid].Where(b => Vector3.Distance(b.Transform.Position, Vector3.Zero) > 60).ToList();
+                            List<int> deadDataIndex = deadBullets.Select(s => Bullets[bid].IndexOf(s)).ToList();
 
-                        Components.Remove(deadBullets[del]);
+                            var notBulletOwner = GameAvatars.Where(w => w.Key != bid).Select(s => s.Key).ToList();
+
+                            int idx = 0;
+                            foreach (SphereBasicEfect bullet in Bullets[bid])
+                            {
+                                Vector3 v = BulletData[bid][idx].Velocity;
+
+                                bullet.Transform.Position += v;
+
+                                if (p2pService.IsServer)
+                                {
+                                    // Check for collision.
+                                    BoundingSphere bulletBounds = new BoundingSphere(bullet.Transform.Position, bullet.Transform.Scale.X);
+
+                                    foreach (Guid avid in notBulletOwner)
+                                    {
+                                        CapsuleBasicEffect avatar = GameAvatars[avid];
+
+                                        float d = Vector3.Distance(bullet.Transform.Position, avatar.Transform.Position);
+
+                                        BoundingBox bb = GatAvatarAABoundingBox(avatar.Transform);
+
+                                        if (bb.Intersects(bulletBounds))
+                                        {
+                                            deadBullets.Add(bullet);
+                                            deadDataIndex.Add(Bullets[bid].IndexOf(bullet));
+
+                                            var shooter = PlayersData[bid];
+                                            var target = PlayersData[avid];
+
+                                            AddToMessages($"[{target.Name}] was shot by [{shooter.Name}]");
+
+                                            p2pService.PlayerData.SetProperty("Message", $"[{target.Name}] was shot by [{shooter.Name}]");
+                                            PointsData points = new PointsData(bid, 10);
+
+                                            p2pService.PlayerData.SetProperty("Points", points);
+                                            p2pService.PlayerData.SetProperty("Hit", BulletData[bid][idx]);
+                                            SetPlayerScore(points);
+                                            p2pService.Broadcast(p2pService.PlayerData);
+                                            p2pService.PlayerData.RemoveProperty("Message");
+                                            p2pService.PlayerData.RemoveProperty("Points");
+                                        }
+                                    }
+                                }
+
+                                idx++;
+                            }
+
+                            for (int del = 0; del < deadBullets.Count; del++)
+                            {
+                                Bullets[bid].Remove(deadBullets[del]);
+                                BulletData[bid].RemoveAt(deadDataIndex[del]);
+
+                                Components.Remove(deadBullets[del]);
+                            }
+                        }
                     }
+                    catch { } // exceptions thrown if list is changed (client leaves so their bullets are removed during this loop)
                 }
             }
 
-            lblStatus.Text = "";
+            lblStatus.Text = "Scores:-";
             try
             {
-                // WRite Scores
+                // Write Scores
                 foreach (IPlayerData playerData in PlayersData.Values)
                 {
-                    lblStatus.Text += $"Scores:- [{playerData.Name} - {playerData.Properties["Score"]}]";
+                    lblStatus.Text += $" [{playerData.Name} - {playerData.Properties["Score"]}] ";
                 }
-                
+
                 foreach (string msg in MessageFeed)
                 {
                     lblStatus.Text += $"\n{msg}";
                 }
             }
             catch { }
-
-            base.Update(gameTime);
-        }
-
-        public Vector2 Get2DCoords(GraphicsDevice GraphicsDevice, Vector3 myPosition, ICameraService Camera)
-        {
-            Matrix ViewProjectionMatrix = Camera.View * Camera.Projection;
-
-            Vector4 result4 = Vector4.Transform(myPosition, ViewProjectionMatrix);
-
-            Viewport vp = GraphicsDevice.Viewport;// Camera.Viewport;
-
-            if (result4.W <= 0)
-                return new Vector2(vp.Width, 0);
-
-            Vector3 result = new Vector3(result4.X / result4.W, result4.Y / result4.W, result4.Z / result4.W);
-
-            Vector2 retVal = new Vector2((int)Math.Round(+result.X * (vp.Width / 2)) + (vp.Width / 2), (int)Math.Round(-result.Y * (vp.Height / 2)) + (vp.Height / 2));
-            return retVal;
         }
 
         protected Vector3 GenerateRandomPosition()
@@ -599,6 +570,9 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                                 p2pService.PlayerData = pd;
                                 p2pService.PlayerData.SetProperty("Status", ThisGamesStateEnum.InGame);
                                 avatar = InstanciatePlayerAvatar(p2pService.ClientId, p2pService.PlayerData);
+
+                                avatar.Transform.Position = (new Vector3()).FromString(pd.Properties["Position"].ToString());
+                                avatar.Transform.Rotation = JsonConvert.DeserializeObject<Quaternion>(pd.Properties["Rotation"].ToString());
 
                                 camera.Transform.Position = (Vector3.Up * .5f) + avatar.Transform.Position;
                                 camera.Transform.Rotation = avatar.Transform.Rotation;
@@ -644,6 +618,21 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                             {
                                 PointsData points = JsonConvert.DeserializeObject<PointsData>(pd.Properties["Points"].ToString());
                                 SetPlayerScore(points);
+
+                                // Remove the bullet that caused the points to change..
+                                if (pd.Properties.ContainsKey("Hit"))
+                                {
+                                    BulletData hit = JsonConvert.DeserializeObject<BulletData>(pd.Properties["Hit"].ToString());
+                                    if (BulletData.ContainsKey(hit.Owner) )
+                                    {
+                                        var bd = BulletData[hit.Owner].SingleOrDefault(s => s.Id == hit.Id);
+                                        int idx = BulletData[hit.Owner].IndexOf(bd);
+
+                                        BulletData[hit.Owner].Remove(bd);
+                                        Components.Remove(Bullets[hit.Owner][idx]);
+                                        Bullets[hit.Owner].RemoveAt(idx);
+                                    }
+                                }
                             }
 
                             break;
@@ -673,6 +662,7 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             Components.Add(avatar);
 
             CubeBasicEffect gun = GiveAvatarAGun(avatar);
+            AvatarGuns[id] = gun;
             gun.Initialize();
             LightGeom(gun, JsonConvert.DeserializeObject<Color>(pd.Properties["Color"].ToString()));
             Components.Add(gun);
@@ -689,9 +679,10 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         {
             MessageFeed.Add(msg);
 
-            if (MessageFeed.Count > 11)
+            int maxMessages = 11;
+            if (MessageFeed.Count > maxMessages)
             {
-                MessageFeed.RemoveRange(0, MessageFeed.Count - 13);
+                MessageFeed.RemoveRange(0, MessageFeed.Count - maxMessages);
             }
         }
 
@@ -704,19 +695,101 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 data = JsonConvert.DeserializeObject<PlayerData>(client.PlayerGameData.ToString());
             }
 
+            if (client.Id != p2pService.ClientId) // It me, I have been disconnected...
+            {
+                AddToMessages($"[{data.Name}] has disconnected...");
+            }
+            else
+            {
+                AddToMessages("You have been disconnected from by the server.");
+            }
+
             if (client.Id == Guid.Empty)
             {
                 sceneManager.LoadScene(NextScene);
+            }
+            else
+            {
+                // Remove the player from my list
+                Components.Remove(AvatarGuns[client.Id]);
+                Components.Remove(GameAvatars[client.Id]);
+
+                // remove all their bullets too
+                if (Bullets.ContainsKey(client.Id))
+                {
+                    foreach (var bullet in Bullets[client.Id])
+                    {
+                        Components.Remove(bullet);
+                    }
+                }
+
+                // remove tags
+                if (AvatarTag.ContainsKey(client.Id))
+                {
+                    Components.Remove(AvatarTag[client.Id]);
+                }
+
+                AvatarGuns.Remove(client.Id);
+
+                GameAvatars.Remove(client.Id);
+                PlayersData.Remove(client.Id);
+                AvatarTag.Remove(client.Id);
+                Bullets.Remove(client.Id);
+                BulletData.Remove(client.Id);
             }
         }
 
 
         protected override void Btn_OnMouseClick(IUIBase sender, IMouseStateManager mouseState) { }
 
+        protected BoundingBox GatAvatarAABoundingBox(ITransform transform)
+        {
+            Vector3 dim = new Vector3(.9f, 2, .9f);
+            return (new BoundingBox(dim * -.5f, dim * .5f)).TransformedAA(transform);
+        }
+
+        GeometryLines box;
+
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             base.Draw(gameTime);
+
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            if (box == null)
+            {
+                box = new GeometryLines(Game);
+            }
+
+            List<BoundingBox> boxes = new List<BoundingBox>();
+            List<BoundingSphere> spheres = new List<BoundingSphere>();
+
+            foreach (var key in Bullets.Keys)
+            {
+                foreach (var bullet in Bullets[key])
+                {
+                    if (spheres.Count < 2)
+                    {
+                        spheres.Add(new BoundingSphere(bullet.Transform.Position, bullet.Transform.Scale.X));
+                    }
+                }
+            }
+
+            foreach (var av in GameAvatars.Values) 
+            {
+                boxes.Add(GatAvatarAABoundingBox(av.Transform));
+            }
+
+
+            if (boxes.Count > 0)
+            {
+                box.DrawBoundsBoxs(boxes, Transform.Identity);
+            }
+
+            if (spheres.Count > 0) 
+            {
+                box.DrawBoundsSpheres(spheres, Transform.Identity);
+            }
         }
     }
 }

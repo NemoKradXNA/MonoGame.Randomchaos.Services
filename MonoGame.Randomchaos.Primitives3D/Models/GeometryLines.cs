@@ -68,13 +68,10 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             DrawPoints(points, index, boxs.Count * 12, transform);
         }
 
-        public void DrawBoundsSpheres(List<BoundingSphere> spheres, ITransform transform)
+        public void DrawBoundsSpheres(List<BoundingSphere> spheres, ITransform transform, int segments = 64)
         {
             VertexPositionColor[] points;
             short[] index;
-
-
-            int segments = 64;
 
             BuildSphere(spheres, segments, Color.Red, out points, out index, true);
             DrawPoints(points, index, segments * 3, transform);
@@ -220,6 +217,7 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
             foreach (BoundingSphere sphere in spheres)
             {
                 float radius = sphere.Radius;
+                Vector3 center = sphere.Center;
                 Matrix rotMat = Matrix.Identity;
 
                 for (int axis = 0; axis < 3; axis++)
@@ -249,14 +247,14 @@ namespace MonoGame.Randomchaos.Primitives3D.Models
                         float x = radius * (float)Math.Cos(angle);
                         float y = radius * (float)Math.Sin(angle);
 
-                        p = Vector3.Transform(new Vector3(x, y, 0), rotMat);
+                        p = center +  Vector3.Transform(new Vector3(x, y, 0), rotMat);
                         pointsList.Add(new VertexPositionColor(p, color));
                         inds.Add((short)inds.Count);
 
                         x = radius * (float)Math.Cos(angle + step);
                         y = radius * (float)Math.Sin(angle + step);
 
-                        p = Vector3.Transform(new Vector3(x, y, 0), rotMat);
+                        p = center + Vector3.Transform(new Vector3(x, y, 0), rotMat);
                         pointsList.Add(new VertexPositionColor(p, color));
                         inds.Add((short)inds.Count);
                     }
