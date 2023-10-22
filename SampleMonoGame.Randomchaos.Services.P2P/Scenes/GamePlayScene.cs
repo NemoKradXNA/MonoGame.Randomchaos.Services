@@ -318,6 +318,189 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
             PlayersData.Add(id, pd);
         }
 
+        protected void ControlMyAvatar(GameTime gameTime)
+        {
+            // Camera controls..
+            float speedTran = .1f;
+            float speedRot = .01f;
+
+            Vector3 lastPos = camera.Transform.Position;
+            Quaternion rot = camera.Transform.Rotation;
+
+            // Translate
+            if (kbManager.KeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0)
+                camera.Transform.Translate(Vector3.Forward * speedTran);
+            if (kbManager.KeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0)
+                camera.Transform.Translate(Vector3.Backward * speedTran);
+            if (kbManager.KeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0)
+                camera.Transform.Translate(Vector3.Left * speedTran);
+            if (kbManager.KeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0)
+                camera.Transform.Translate(Vector3.Right * speedTran);
+
+            // Rotate
+            if (kbManager.KeyDown(Keys.Left) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0)
+                camera.Transform.Rotate(Vector3.Up, speedRot);
+            if (kbManager.KeyDown(Keys.Right) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0)
+                camera.Transform.Rotate(Vector3.Up, -speedRot);
+            if (kbManager.KeyDown(Keys.Up) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0)
+                camera.Transform.Rotate(Vector3.Right, speedRot);
+            if (kbManager.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
+                camera.Transform.Rotate(Vector3.Right, -speedRot);
+
+            if (kbManager.KeyPress(Keys.Space)) // Shoot
+            {
+                Color col = Color.White;
+
+                if (p2pService.PlayerData.Properties["Color"] is Color)
+                {
+                    col = (Color)p2pService.PlayerData.Properties["Color"];
+                }
+                else
+                {
+                    col = JsonConvert.DeserializeObject<Color>(p2pService.PlayerData.Properties["Color"].ToString());
+                }
+
+                var BulletData = ShootBullet(p2pService.ClientId, camera.Transform.Position - Vector3.Up * .5f, camera.Transform.World.Forward * .25f, col);
+
+                p2pService.PlayerData.SetProperty("Bullet", BulletData);
+                //p2pService.Broadcast(new { });
+            }
+
+            // Keep the player in the map area.
+            camera.Transform.Position = new Vector3(
+                Math.Max(-Edge, Math.Min(Edge, camera.Transform.Position.X)),
+                camera.Transform.Position.Y,
+                Math.Max(-Edge, Math.Min(Edge, camera.Transform.Position.Z))
+                );
+
+            camera.Transform.Position = new Vector3(camera.Transform.Position.X, .5f, camera.Transform.Position.Z);
+            camera.Transform.Rotation = camera.Transform.Rotation.LockRotation(new Vector3(1, 0, 1));
+        }
+
+        protected void ManageGameAvatars(GameTime gameTime)
+        {
+            Guid id = Guid.Empty;
+
+            if (!p2pService.IsServer)
+            {
+                id = p2pService.ClientId;
+            }
+
+            if (GameAvatars != null && GameAvatars.ContainsKey(id))
+            {
+
+                var avatar = GameAvatars[id];
+
+                if (avatar != null)
+                {
+                    p2pService.PlayerData.SetProperty("Position", camera.Transform.Position - (Vector3.One * .5f));
+                    p2pService.PlayerData.SetProperty("Rotation", camera.Transform.Rotation);
+                    //p2pService.PlayerData.SetProperty("Message", "My transform changed.");
+                    p2pService.Broadcast(p2pService.PlayerData);
+
+                    p2pService.PlayerData.RemoveProperty("Message");
+                    p2pService.PlayerData.RemoveProperty("Bullet");
+
+                    //AddToMessages($"Your position - {camera.Transform.Position}");
+                }
+            }
+
+            if (AvatarTag != null)
+            {
+                try
+                {
+                    foreach (Guid lblId in AvatarTag.Keys)
+                    {
+                        if (AvatarTag[lblId] != null) // may be mid setup.
+                        {
+                            if (lblId != id)
+                            {
+                                AvatarTag[lblId].Position = camera.WorldPositionToScreenPosition(GameAvatars[lblId].Transform.Position).ToPoint();
+                                AvatarTag[lblId].Text = PlayersData[lblId].Name;
+                            }
+                            else
+                            {
+                                AvatarTag[lblId].Visible = AvatarTag[lblId].Enabled = false;
+                            }
+                        }
+                    }
+                }
+                catch { } // Exception thrown if the list is altered (client leaves)
+            }
+        }
+
+        protected void ManageBullets(GameTime gameTime)
+        {
+            if (Bullets != null)
+            {
+                try
+                {
+                    foreach (Guid bid in Bullets.Keys)
+                    {
+                        List<SphereBasicEfect> deadBullets = Bullets[bid].Where(b => Vector3.Distance(b.Transform.Position, Vector3.Zero) > 60).ToList();
+                        List<int> deadDataIndex = deadBullets.Select(s => Bullets[bid].IndexOf(s)).ToList();
+
+                        var notBulletOwner = GameAvatars.Where(w => w.Key != bid).Select(s => s.Key).ToList();
+
+                        int idx = 0;
+                        foreach (SphereBasicEfect bullet in Bullets[bid])
+                        {
+                            Vector3 v = BulletData[bid][idx].Velocity;
+
+                            bullet.Transform.Position += v;
+
+                            if (p2pService.IsServer)
+                            {
+                                // Check for collision.
+                                BoundingSphere bulletBounds = new BoundingSphere(bullet.Transform.Position, bullet.Transform.Scale.X);
+
+                                foreach (Guid avid in notBulletOwner)
+                                {
+                                    CapsuleBasicEffect avatar = GameAvatars[avid];
+
+                                    float d = Vector3.Distance(bullet.Transform.Position, avatar.Transform.Position);
+
+                                    BoundingBox bb = GatAvatarAABoundingBox(avatar.Transform);
+
+                                    if (bb.Intersects(bulletBounds))
+                                    {
+                                        deadBullets.Add(bullet);
+                                        deadDataIndex.Add(Bullets[bid].IndexOf(bullet));
+
+                                        var shooter = PlayersData[bid];
+                                        var target = PlayersData[avid];
+
+                                        AddToMessages($"[{target.Name}] was shot by [{shooter.Name}]");
+
+                                        p2pService.PlayerData.SetProperty("Message", $"[{target.Name}] was shot by [{shooter.Name}]");
+                                        PointsData points = new PointsData(bid, 10);
+
+                                        p2pService.PlayerData.SetProperty("Points", points);
+                                        p2pService.PlayerData.SetProperty("Hit", BulletData[bid][idx]);
+                                        SetPlayerScore(points);
+                                        p2pService.Broadcast(p2pService.PlayerData);
+                                        p2pService.PlayerData.RemoveProperty("Message");
+                                        p2pService.PlayerData.RemoveProperty("Points");
+                                    }
+                                }
+                            }
+
+                            idx++;
+                        }
+
+                        for (int del = 0; del < deadBullets.Count; del++)
+                        {
+                            Bullets[bid].Remove(deadBullets[del]);
+                            BulletData[bid].RemoveAt(deadDataIndex[del]);
+
+                            Components.Remove(deadBullets[del]);
+                        }
+                    }
+                }
+                catch { } // exceptions thrown if list is changed (client leaves so their bullets are removed during this loop)
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
 
@@ -337,180 +520,16 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
                 {
                     sceneManager.LoadScene(NextScene);
                 }
-                // Camera controls..
-                float speedTran = .1f;
-                float speedRot = .01f;
 
-                Vector3 lastPos = camera.Transform.Position;
-                Quaternion rot = camera.Transform.Rotation;
+                ControlMyAvatar(gameTime);
 
-                if (kbManager.KeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0)
-                    camera.Transform.Translate(Vector3.Forward * speedTran);
-                if (kbManager.KeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0)
-                    camera.Transform.Translate(Vector3.Backward * speedTran);
-                if (kbManager.KeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0)
-                    camera.Transform.Translate(Vector3.Left * speedTran);
-                if (kbManager.KeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0)
-                    camera.Transform.Translate(Vector3.Right * speedTran);
 
-                if (kbManager.KeyDown(Keys.Left) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0)
-                    camera.Transform.Rotate(Vector3.Up, speedRot);
-                if (kbManager.KeyDown(Keys.Right) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0)
-                    camera.Transform.Rotate(Vector3.Up, -speedRot);
-                if (kbManager.KeyDown(Keys.Up) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y > 0)
-                    camera.Transform.Rotate(Vector3.Right, speedRot);
-                if (kbManager.KeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < 0)
-                    camera.Transform.Rotate(Vector3.Right, -speedRot);
-
-                if (kbManager.KeyPress(Keys.Space))
-                {
-                    Color col = Color.White;
-
-                    if (p2pService.PlayerData.Properties["Color"] is Color)
-                    {
-                        col = (Color)p2pService.PlayerData.Properties["Color"];
-                    }
-                    else
-                    {
-                        col = JsonConvert.DeserializeObject<Color>(p2pService.PlayerData.Properties["Color"].ToString());
-                    }
-
-                    var BulletData = ShootBullet(p2pService.ClientId, camera.Transform.Position - Vector3.Up * .5f, camera.Transform.World.Forward * .25f, col);
-
-                    p2pService.PlayerData.SetProperty("Bullet", BulletData);
-                    //p2pService.Broadcast(new { });
-                }
-
-                // Keep the player in the map area.
-                camera.Transform.Position = new Vector3(
-                    Math.Max(-Edge, Math.Min(Edge, camera.Transform.Position.X)),
-                    camera.Transform.Position.Y,
-                    Math.Max(-Edge, Math.Min(Edge, camera.Transform.Position.Z))
-                    );
-
-                camera.Transform.Position = new Vector3(camera.Transform.Position.X, .5f, camera.Transform.Position.Z);
-                camera.Transform.Rotation = camera.Transform.Rotation.LockRotation(new Vector3(1, 0, 1));
-
-                
                 // Tell everyone we are here :D
-                Guid id = Guid.Empty;
+                ManageGameAvatars(gameTime);
 
+                // Manage bullets
+                ManageBullets(gameTime);
 
-                if (!p2pService.IsServer)
-                {
-                    id = p2pService.ClientId;
-                }
-
-                if (GameAvatars != null && GameAvatars.ContainsKey(id))
-                {
-
-                    var avatar = GameAvatars[id];
-
-                    if (avatar != null)
-                    {
-                        p2pService.PlayerData.SetProperty("Position", camera.Transform.Position - (Vector3.One * .5f));
-                        p2pService.PlayerData.SetProperty("Rotation", camera.Transform.Rotation);
-                        //p2pService.PlayerData.SetProperty("Message", "My transform changed.");
-                        p2pService.Broadcast(p2pService.PlayerData);
-
-                        p2pService.PlayerData.RemoveProperty("Message");
-                        p2pService.PlayerData.RemoveProperty("Bullet");
-
-                        //AddToMessages($"Your position - {camera.Transform.Position}");
-                    }
-                }
-
-                if (AvatarTag != null)
-                {
-                    try
-                    {
-                        foreach (Guid lblId in AvatarTag.Keys)
-                        {
-                            if (AvatarTag[lblId] != null) // may be mid setup.
-                            {
-                                if (lblId != id)
-                                {
-                                    AvatarTag[lblId].Position = camera.WorldPositionToScreenPosition(GameAvatars[lblId].Transform.Position).ToPoint();
-                                    AvatarTag[lblId].Text = PlayersData[lblId].Name;
-                                }
-                                else
-                                {
-                                    AvatarTag[lblId].Visible = AvatarTag[lblId].Enabled = false;
-                                }
-                            }
-                        }
-                    }
-                    catch { } // Exception thrown if the list is altered (client leaves)
-                }
-
-                if (Bullets != null)
-                {
-                    try
-                    {
-                        foreach (Guid bid in Bullets.Keys)
-                        {
-                            List<SphereBasicEfect> deadBullets = Bullets[bid].Where(b => Vector3.Distance(b.Transform.Position, Vector3.Zero) > 60).ToList();
-                            List<int> deadDataIndex = deadBullets.Select(s => Bullets[bid].IndexOf(s)).ToList();
-
-                            var notBulletOwner = GameAvatars.Where(w => w.Key != bid).Select(s => s.Key).ToList();
-
-                            int idx = 0;
-                            foreach (SphereBasicEfect bullet in Bullets[bid])
-                            {
-                                Vector3 v = BulletData[bid][idx].Velocity;
-
-                                bullet.Transform.Position += v;
-
-                                if (p2pService.IsServer)
-                                {
-                                    // Check for collision.
-                                    BoundingSphere bulletBounds = new BoundingSphere(bullet.Transform.Position, bullet.Transform.Scale.X);
-
-                                    foreach (Guid avid in notBulletOwner)
-                                    {
-                                        CapsuleBasicEffect avatar = GameAvatars[avid];
-
-                                        float d = Vector3.Distance(bullet.Transform.Position, avatar.Transform.Position);
-
-                                        BoundingBox bb = GatAvatarAABoundingBox(avatar.Transform);
-
-                                        if (bb.Intersects(bulletBounds))
-                                        {
-                                            deadBullets.Add(bullet);
-                                            deadDataIndex.Add(Bullets[bid].IndexOf(bullet));
-
-                                            var shooter = PlayersData[bid];
-                                            var target = PlayersData[avid];
-
-                                            AddToMessages($"[{target.Name}] was shot by [{shooter.Name}]");
-
-                                            p2pService.PlayerData.SetProperty("Message", $"[{target.Name}] was shot by [{shooter.Name}]");
-                                            PointsData points = new PointsData(bid, 10);
-
-                                            p2pService.PlayerData.SetProperty("Points", points);
-                                            p2pService.PlayerData.SetProperty("Hit", BulletData[bid][idx]);
-                                            SetPlayerScore(points);
-                                            p2pService.Broadcast(p2pService.PlayerData);
-                                            p2pService.PlayerData.RemoveProperty("Message");
-                                            p2pService.PlayerData.RemoveProperty("Points");
-                                        }
-                                    }
-                                }
-
-                                idx++;
-                            }
-
-                            for (int del = 0; del < deadBullets.Count; del++)
-                            {
-                                Bullets[bid].Remove(deadBullets[del]);
-                                BulletData[bid].RemoveAt(deadDataIndex[del]);
-
-                                Components.Remove(deadBullets[del]);
-                            }
-                        }
-                    }
-                    catch { } // exceptions thrown if list is changed (client leaves so their bullets are removed during this loop)
-                }
             }
 
             lblStatus.Text = "Scores:-";
@@ -754,42 +773,6 @@ namespace SampleMonoGame.Randomchaos.Services.P2P.Scenes
         {
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             base.Draw(gameTime);
-
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            if (box == null)
-            {
-                box = new GeometryLines(Game);
-            }
-
-            List<BoundingBox> boxes = new List<BoundingBox>();
-            List<BoundingSphere> spheres = new List<BoundingSphere>();
-
-            foreach (var key in Bullets.Keys)
-            {
-                foreach (var bullet in Bullets[key])
-                {
-                    if (spheres.Count < 2)
-                    {
-                        spheres.Add(new BoundingSphere(bullet.Transform.Position, bullet.Transform.Scale.X));
-                    }
-                }
-            }
-
-            foreach (var av in GameAvatars.Values) 
-            {
-                boxes.Add(GatAvatarAABoundingBox(av.Transform));
-            }
-
-
-            if (boxes.Count > 0)
-            {
-                box.DrawBoundsBoxs(boxes, Transform.Identity);
-            }
-
-            if (spheres.Count > 0) 
-            {
-                box.DrawBoundsSpheres(spheres, Transform.Identity);
-            }
         }
     }
 }
