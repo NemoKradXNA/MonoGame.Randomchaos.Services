@@ -1,0 +1,41 @@
+{
+  "Name": "Fighter Animation 1",
+  "SpriteSheetAsset": "Textures/SpriteSheets/FigherSheet1",
+  "CellsXY": "2, 4",
+  "CellSize": {
+    "X": 16,
+    "Y": 20
+  },
+  "Clips": {
+    "Idle": {
+      "Start": "1, 0",
+      "End": "1, 0",
+      "Duration": "00:00:00.5000000",
+      "Looped": true
+    },
+    "WalkDown": {
+      "Start": "0, 0",
+      "End": "1, 0",
+      "Duration": "00:00:00.5000000",
+      "Looped": true
+    },
+    "WalkLeft": {
+      "Start": "0, 1",
+      "End": "1, 1",
+      "Duration": "00:00:00.5000000",
+      "Looped": true
+    },
+    "WalkRight": {
+      "Start": "0, 2",
+      "End": "1, 2",
+      "Duration": "00:00:00.5000000",
+      "Looped": true
+    },
+    "WalkUp": {
+      "Start": "0, 3",
+      "End": "1, 3",
+      "Duration": "00:00:00.5000000",
+      "Looped": true
+    }
+  }
+}

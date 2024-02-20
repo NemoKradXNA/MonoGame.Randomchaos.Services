@@ -63,7 +63,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Jwt", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleMonoGame.Randomchaos.Services.P2P", "SampleMonoGame.Randomchaos.Services.P2P\SampleMonoGame.Randomchaos.Services.P2P.csproj", "{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Services.P2P", "MonoGame.Randomchaos.Services.P2P\MonoGame.Randomchaos.Services.P2P.csproj", "{064BB81F-2E4B-46B0-8387-60C8E6765CC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Services.P2P", "MonoGame.Randomchaos.Services.P2P\MonoGame.Randomchaos.Services.P2P.csproj", "{064BB81F-2E4B-46B0-8387-60C8E6765CC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MonoGme.Randomchaos.Animation2D", "Sample.MonoGme.Randomchaos.Animation2D\Sample.MonoGme.Randomchaos.Animation2D.csproj", "{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContentPipelineExtensions", "ContentPipelineExtensions", "{F15847CC-4E20-4A33-B112-E2300ECD61D3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.ContentPipelineExtensions", "MonoGame.Randomchaos.ContentPipelineExtensions\MonoGame.Randomchaos.ContentPipelineExtensions.csproj", "{9B336FAF-D780-4A3E-80A1-826E95471AD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Animation", "MonoGame.Randomchaos.Animation\MonoGame.Randomchaos.Animation.csproj", "{1459FDDC-B1B7-49C8-8FD5-3DC0DB4E4C3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -187,6 +195,18 @@ Global
 		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{064BB81F-2E4B-46B0-8387-60C8E6765CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B336FAF-D780-4A3E-80A1-826E95471AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B336FAF-D780-4A3E-80A1-826E95471AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B336FAF-D780-4A3E-80A1-826E95471AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B336FAF-D780-4A3E-80A1-826E95471AD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1459FDDC-B1B7-49C8-8FD5-3DC0DB4E4C3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1459FDDC-B1B7-49C8-8FD5-3DC0DB4E4C3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1459FDDC-B1B7-49C8-8FD5-3DC0DB4E4C3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1459FDDC-B1B7-49C8-8FD5-3DC0DB4E4C3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -203,6 +223,8 @@ Global
 		{9AE1A764-E200-4F0F-9D67-18E8C2A81D7F} = {364C5727-124A-4E1D-8E9D-2558ED27C0E8}
 		{A49F667F-1B5A-4743-958F-9C03467BB954} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{9BE13BA8-AD6A-456C-9A84-8D8AD4E5C1FB} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
+		{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
+		{9B336FAF-D780-4A3E-80A1-826E95471AD3} = {F15847CC-4E20-4A33-B112-E2300ECD61D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3874550-0DE2-457B-BB59-69565E508597}
