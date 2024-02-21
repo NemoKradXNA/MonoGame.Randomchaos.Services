@@ -1,31 +1,39 @@
 ﻿
-using System;
 using Microsoft.Xna.Framework;
+using System;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D.Interfaces
+namespace MonoGame.Randomchaos.Animation.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Interface for sprite sheet key frame. </summary>
+    /// <summary>   Interface for keyframe. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface ISpriteSheetKeyFrame
+    public interface IKeyframe
     {
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the cell. </summary>
+        /// <summary>   Gets the bone. </summary>
         ///
-        /// <value> The cell. </value>
+        /// <value> The bone. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public Vector2 Cell { get; set; }
+        int Bone { get; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the time. </summary>
+        /// <summary>   Gets the time. </summary>
         ///
         /// <value> The time. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public TimeSpan Time { get; set; }
+        TimeSpan Time { get; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the transform. </summary>
+        ///
+        /// <value> The transform. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        Matrix Transform { get; }
     }
 }

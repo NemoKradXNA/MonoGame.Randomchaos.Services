@@ -1,41 +1,24 @@
 ﻿
 using System;
-using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Animation.Animation2D.Interfaces;
+using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D
+namespace MonoGame.Randomchaos.Animation.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A sprit animator data clip. </summary>
+    /// <summary>   Interface for keyframe animation clip. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SpritAnimatorDataClip : ISpritAnimatorDataClip
+    public interface IKeyframeAnimationClip
     {
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the start. </summary>
+        /// <summary>   Gets or sets the name. </summary>
         ///
-        /// <value> The start. </value>
+        /// <value> The name. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public Vector2 Start { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the end. </summary>
-        ///
-        /// <value> The end. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public Vector2 End { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the duration. </summary>
-        ///
-        /// <value> The duration. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public TimeSpan Duration { get; set; }
+        string Name { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets a value indicating whether the looped. </summary>
@@ -43,6 +26,22 @@ namespace MonoGame.Randomchaos.Animation.Animation2D
         /// <value> True if looped, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool Looped { get; set; }
+        bool Looped { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the duration. </summary>
+        ///
+        /// <value> The duration. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        TimeSpan Duration { get; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets the keyframes. </summary>
+        ///
+        /// <value> The keyframes. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        List<IKeyframe> Keyframes { get; }
     }
 }

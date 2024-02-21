@@ -1,48 +1,55 @@
 ﻿
-using System;
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Animation.Animation2D.Interfaces;
+using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D
+namespace MonoGame.Randomchaos.Animation.Interfaces
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A sprit animator data clip. </summary>
+    /// <summary>   Interface for skinning data. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SpritAnimatorDataClip : ISpritAnimatorDataClip
+    public interface ISkinningData
     {
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the start. </summary>
+        /// <summary>   Gets the animation clips. </summary>
         ///
-        /// <value> The start. </value>
+        /// <value> The animation clips. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public Vector2 Start { get; set; }
+        Dictionary<string, IKeyframeAnimationClip> AnimationClips { get; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the end. </summary>
+        /// <summary>   Gets the bind pose. </summary>
         ///
-        /// <value> The end. </value>
+        /// <value> The bind pose. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public Vector2 End { get; set; }
+        List<Matrix> BindPose { get; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the duration. </summary>
+        /// <summary>   Gets the inverse bind pose. </summary>
         ///
-        /// <value> The duration. </value>
+        /// <value> The inverse bind pose. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public TimeSpan Duration { get; set; }
+        List<Matrix> InverseBindPose { get; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets a value indicating whether the looped. </summary>
+        /// <summary>   Gets the skeleton hierarchy. </summary>
         ///
-        /// <value> True if looped, false if not. </value>
+        /// <value> The skeleton hierarchy. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool Looped { get; set; }
+        List<int> SkeletonHierarchy { get; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Adds the clips. </summary>
+        ///
+        /// <param name="clips">    The clips. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        void AddClips(Dictionary<string, IKeyframeAnimationClip> clips);
     }
 }

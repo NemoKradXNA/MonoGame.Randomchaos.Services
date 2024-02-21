@@ -1,18 +1,34 @@
 ﻿
-using MonoGame.Randomchaos.Animation.Animation2D.Interfaces;
-using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D
+namespace MonoGame.Randomchaos.Animation.Animation3D
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A sprite sheet animation clip. </summary>
+    /// <summary>   Analogue for ModelMesh. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SpriteSheetAnimationClip : ISpriteSheetAnimationClip
+    public class BaseModelMesh
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the bounding sphere. </summary>
+        ///
+        /// <value> The bounding sphere. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public BoundingSphere BoundingSphere { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the mesh parts. </summary>
+        ///
+        /// <value> The mesh parts. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public BaseModelMeshPartCollection MeshParts { get; set; }
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the name. </summary>
         ///
@@ -22,36 +38,20 @@ namespace MonoGame.Randomchaos.Animation.Animation2D
         public string Name { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets a value indicating whether the looped. </summary>
+        /// <summary>   Gets or sets the parent bone. </summary>
         ///
-        /// <value> True if looped, false if not. </value>
+        /// <value> The parent bone. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool Looped { get; set; }
+        public ModelBone ParentBone { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the duration. </summary>
+        /// <summary>   Gets or sets the tag. </summary>
         ///
-        /// <value> The duration. </value>
+        /// <value> The tag. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public TimeSpan Duration { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the keyframes. </summary>
-        ///
-        /// <value> The keyframes. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public List<ISpriteSheetKeyFrame> Keyframes { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Default constructor. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
-        ///-------------------------------------------------------------------------------------------------
-
-        public SpriteSheetAnimationClip() { }
+        public object Tag { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
@@ -59,39 +59,38 @@ namespace MonoGame.Randomchaos.Animation.Animation2D
         /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
         ///
         /// <param name="name">         The name. </param>
-        /// <param name="duration">     The duration. </param>
-        /// <param name="keyframes">    The keyframes. </param>
-        /// <param name="looped">       (Optional) True if looped. </param>
+        /// <param name="parts">        The parts. </param>
+        /// <param name="parentBone">   (Optional) The parent bone. </param>
+        /// <param name="tag">          (Optional) The tag. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SpriteSheetAnimationClip(string name, TimeSpan duration, List<ISpriteSheetKeyFrame> keyframes, bool looped = true)
+        public BaseModelMesh(string name, List<BaseModelMeshPart> parts, ModelBone parentBone = null, object tag = null)
         {
             Name = name;
-            Duration = duration;
-            Keyframes = keyframes;
-            Looped = looped;
+            ParentBone = parentBone;
+            Tag = tag;
+            MeshParts = new BaseModelMeshPartCollection(parts);
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Copy constructor. </summary>
+        /// <summary>   Constructor. </summary>
         ///
         /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
         ///
-        /// <param name="clip"> The clip. </param>
+        /// <param name="modelMesh">    The model mesh. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SpriteSheetAnimationClip(SpriteSheetAnimationClip clip)
+        public BaseModelMesh(ModelMesh modelMesh)
         {
-            Name = clip.Name;
-            Duration = clip.Duration;
+            List<BaseModelMeshPart> lst = new List<BaseModelMeshPart>();
 
-            SpriteSheetKeyFrame[] frames = new SpriteSheetKeyFrame[clip.Keyframes.Count];
-            clip.Keyframes.CopyTo(frames, 0);
+            foreach (ModelMeshPart part in modelMesh.MeshParts)
+            {
+                lst.Add(new BaseModelMeshPart(part));
+            }
+            MeshParts = new BaseModelMeshPartCollection(lst);
 
-            Keyframes = new List<ISpriteSheetKeyFrame>();
-            Keyframes.AddRange(frames);
-
-            Looped = clip.Looped;
+            ParentBone = modelMesh.ParentBone;
         }
     }
 }

@@ -1,0 +1,94 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\MonoGame.Randomchaos.ContentPipelineExtensions\bin\Debug\net6.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Models/Female Tough Walk.fbx
+/importer:FbxImporter
+/processor:SkinnedMeshProcessor
+/processorParam:Scale=0.01
+/processorParam:RotationZ=0
+/processorParam:RotationY=0
+/processorParam:RotationX=0
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:PremultiplyVertexColors=True
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:SwapWindingOrder=False
+/processorParam:DefaultEffect=SkinnedEffect
+/processorParam:ColorKeyEnabled=True
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:GenerateMipmaps=True
+/processorParam:TextureFormat=Compressed
+/processorParam:EnableLogging=False
+/processorParam:SkinnedMesh=True
+/processorParam:AnimationClipName=Walking
+/processorParam:GenerateTangentFrames=True
+/build:Models/Female Tough Walk.fbx
+
+#begin Models/Idle.fbx
+/importer:FbxImporter
+/processor:SkinnedMeshProcessor
+/processorParam:Scale=0.01
+/processorParam:RotationZ=0
+/processorParam:RotationY=0
+/processorParam:RotationX=0
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:PremultiplyVertexColors=True
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:SwapWindingOrder=False
+/processorParam:DefaultEffect=SkinnedEffect
+/processorParam:ColorKeyEnabled=True
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:GenerateMipmaps=True
+/processorParam:TextureFormat=Compressed
+/processorParam:EnableLogging=False
+/processorParam:SkinnedMesh=True
+/processorParam:AnimationClipName=Idle
+/processorParam:GenerateTangentFrames=True
+/build:Models/Idle.fbx
+
+#begin Models/Running.fbx
+/importer:FbxImporter
+/processor:SkinnedMeshProcessor
+/processorParam:Scale=0.01
+/processorParam:RotationZ=0
+/processorParam:RotationY=0
+/processorParam:RotationX=0
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:PremultiplyVertexColors=True
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:SwapWindingOrder=False
+/processorParam:DefaultEffect=SkinnedEffect
+/processorParam:ColorKeyEnabled=True
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:GenerateMipmaps=True
+/processorParam:TextureFormat=Compressed
+/processorParam:EnableLogging=False
+/processorParam:SkinnedMesh=True
+/processorParam:AnimationClipName=Running
+/processorParam:GenerateTangentFrames=True
+/build:Models/Running.fbx
+
+#begin Textures/MG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/MG.png
+

@@ -5,7 +5,7 @@ using TOutput = MonoGame.Randomchaos.ContentPipelineExtensions.Models.JsonString
 
 namespace MonoGame.Randomchaos.ContentPipelineExtensions.Processors
 {
-    [ContentProcessor(DisplayName = "JSON Processor")]
+    [ContentProcessor(DisplayName = "MonoGame.Randomchaos - JSON Processor")]
     public class JsonProcessor : ContentProcessor<TImport, TOutput>
     {
         public string GameAssemblyName { get; set; } = "JSON Data";

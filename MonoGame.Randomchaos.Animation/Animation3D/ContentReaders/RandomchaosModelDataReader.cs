@@ -1,16 +1,16 @@
 ﻿
 using Microsoft.Xna.Framework.Content;
-using Newtonsoft.Json;
+using MonoGame.Randomchaos.Animation.Interfaces;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D.ContentReaders
+namespace MonoGame.Randomchaos.Animation.Animation3D.ContentReaders
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A sprite animator reader. </summary>
+    /// <summary>   The randomchaos model data reader. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SpriteAnimatorReader : ContentTypeReader<SpriteAnimatorData>
+    internal class RandomchaosModelDataReader : ContentTypeReader<IRandomchaosModelData>
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Reads. </summary>
@@ -20,13 +20,13 @@ namespace MonoGame.Randomchaos.Animation.Animation2D.ContentReaders
         /// <param name="input">            The input. </param>
         /// <param name="existingInstance"> The existing instance. </param>
         ///
-        /// <returns>   A SpriteAnimatorData. </returns>
+        /// <returns>   An IRandomchaosModelData. </returns>
         ///-------------------------------------------------------------------------------------------------
 
-        protected override SpriteAnimatorData Read(ContentReader input, SpriteAnimatorData existingInstance)
+        protected override IRandomchaosModelData Read(ContentReader input, IRandomchaosModelData existingInstance)
         {
-            string json = input.ReadString();
-            return JsonConvert.DeserializeObject<SpriteAnimatorData>(json);
+            return input.ReadExternalReference<IRandomchaosModelData>();
         }
+
     }
 }

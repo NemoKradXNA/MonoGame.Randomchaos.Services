@@ -1,17 +1,23 @@
 ﻿
-using MonoGame.Randomchaos.Animation.Animation2D.Interfaces;
+using Microsoft.Xna.Framework.Content;
+using MonoGame.Randomchaos.Animation.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D
+namespace MonoGame.Randomchaos.Animation.Animation3D
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   A sprite sheet animation clip. </summary>
+    /// <summary>
+    /// An animation clip is the runtime equivalent of the
+    /// Microsoft.Xna.Framework.Content.Pipeline.Graphics.AnimationContent type. It holds all the
+    /// keyframes needed to describe a single animation.
+    /// </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SpriteSheetAnimationClip : ISpriteSheetAnimationClip
+    public class KeyFrameAnimationClip : IKeyframeAnimationClip
+
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the name. </summary>
@@ -30,68 +36,72 @@ namespace MonoGame.Randomchaos.Animation.Animation2D
         public bool Looped { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the duration. </summary>
-        ///
-        /// <value> The duration. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public TimeSpan Duration { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the keyframes. </summary>
-        ///
-        /// <value> The keyframes. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public List<ISpriteSheetKeyFrame> Keyframes { get; set; }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Default constructor. </summary>
-        ///
-        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
-        ///-------------------------------------------------------------------------------------------------
-
-        public SpriteSheetAnimationClip() { }
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Constructor. </summary>
+        /// <summary>   Constructs a new animation clip object. </summary>
         ///
         /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
         ///
-        /// <param name="name">         The name. </param>
         /// <param name="duration">     The duration. </param>
         /// <param name="keyframes">    The keyframes. </param>
         /// <param name="looped">       (Optional) True if looped. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SpriteSheetAnimationClip(string name, TimeSpan duration, List<ISpriteSheetKeyFrame> keyframes, bool looped = true)
+        public KeyFrameAnimationClip(TimeSpan duration, List<IKeyframe> keyframes, bool looped = true)
         {
-            Name = name;
             Duration = duration;
             Keyframes = keyframes;
             Looped = looped;
         }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Copy constructor. </summary>
+        /// <summary>   Private constructor for use by the XNB deserializer. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
+        private KeyFrameAnimationClip()
+        {
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Private constructor for use by the XNB deserializer. </summary>
         ///
         /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
         ///
         /// <param name="clip"> The clip. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SpriteSheetAnimationClip(SpriteSheetAnimationClip clip)
+        public KeyFrameAnimationClip(IKeyframeAnimationClip clip)
         {
             Name = clip.Name;
             Duration = clip.Duration;
 
-            SpriteSheetKeyFrame[] frames = new SpriteSheetKeyFrame[clip.Keyframes.Count];
+            IKeyframe[] frames = new IKeyframe[clip.Keyframes.Count];
             clip.Keyframes.CopyTo(frames, 0);
 
-            Keyframes = new List<ISpriteSheetKeyFrame>();
+            Keyframes = new List<IKeyframe>();
             Keyframes.AddRange(frames);
 
             Looped = clip.Looped;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the total length of the animation. </summary>
+        ///
+        /// <value> The duration. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        [ContentSerializer]
+        public TimeSpan Duration { get; private set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets or sets a combined list containing all the keyframes for all bones, sorted by time.
+        /// </summary>
+        ///
+        /// <value> The keyframes. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        [ContentSerializer]
+        public List<IKeyframe> Keyframes { get; private set; }
     }
 }

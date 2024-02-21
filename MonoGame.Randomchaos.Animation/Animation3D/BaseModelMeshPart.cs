@@ -1,128 +1,131 @@
 ﻿
 using Microsoft.Xna.Framework;
-using MonoGame.Randomchaos.Animation.Animation2D.Delegates;
-using System;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoGame.Randomchaos.Animation.Animation2D.Interfaces
+namespace MonoGame.Randomchaos.Animation.Animation3D
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Interface for sprite sheet animation player. </summary>
+    /// <summary>   This is the analogue to ModelMeshPart. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface ISpriteSheetAnimationPlayer
+    public class BaseModelMeshPart
     {
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets the current animation. </summary>
+        /// <summary>   Gets or sets the name. </summary>
         ///
-        /// <value> The current animation. </value>
+        /// <value> The name. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public string CurrentAnimation { get; }
+        public string Name { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the set the animation off belongs to. </summary>
+        /// <summary>   Gets or sets the color. </summary>
         ///
-        /// <value> The animation off set. </value>
+        /// <value> The color. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public TimeSpan AnimationOffSet { get; set; }
+        public Color Color { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets a value indicating whether this object is playing. </summary>
+        /// <summary>   Gets or sets the effect. </summary>
         ///
-        /// <value> True if this object is playing, false if not. </value>
+        /// <value> The effect. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool IsPlaying { get; }
+        public Effect Effect { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the current cell. </summary>
+        /// <summary>   Gets or sets the buffer for index data. </summary>
         ///
-        /// <value> The current cell. </value>
+        /// <value> A buffer for index data. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        Vector2 CurrentCell { get; set; }
+        public IndexBuffer IndexBuffer { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the current keyframe. </summary>
+        /// <summary>   Gets or sets the number of vertices. </summary>
         ///
-        /// <value> The current keyframe. </value>
+        /// <value> The total number of vertices. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public int CurrentKeyframe { get; set; }
-
-        /// <summary>   Event queue for all listeners interested in OnAnimationStopped events. </summary>
-        public event AnimationStopped OnAnimationStopped;
+        public int NumVertices { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets the clip linearly interpolate value. </summary>
+        /// <summary>   Gets or sets the number of primitives. </summary>
         ///
-        /// <value> The clip linearly interpolate value. </value>
+        /// <value> The number of primitives. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public float ClipLerpValue { get; }
+        public int PrimitiveCount { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets the current clip. </summary>
+        /// <summary>   Gets or sets the zero-based index of the start. </summary>
         ///
-        /// <value> The current clip. </value>
+        /// <value> The start index. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        ISpriteSheetAnimationClip CurrentClip { get; }
+        public int StartIndex { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets the current time. </summary>
+        /// <summary>   Gets or sets the tag. </summary>
         ///
-        /// <value> The current time. </value>
+        /// <value> The tag. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        TimeSpan CurrentTime { get; }
+        public object Tag { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets the clips. </summary>
+        /// <summary>   Gets or sets the buffer for vertex data. </summary>
         ///
-        /// <value> The clips. </value>
+        /// <value> A buffer for vertex data. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        Dictionary<string, ISpriteSheetAnimationClip> Clips { get; set; }
+        public VertexBuffer VertexBuffer { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Starts a clip. </summary>
+        /// <summary>   Gets or sets the vertex offset. </summary>
         ///
-        /// <param name="name">     The name. </param>
-        /// <param name="frame">    (Optional) The frame. </param>
+        /// <value> The vertex offset. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        void StartClip(string name, int frame = 0);
+        public int VertexOffset { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Starts a clip. </summary>
+        /// <summary>   Gets or sets the texture. </summary>
         ///
-        /// <param name="clip">     The clip. </param>
-        /// <param name="frame">    (Optional) The frame. </param>
+        /// <value> The texture. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        void StartClip(ISpriteSheetAnimationClip clip, int frame = 0);
-        /// <summary>   Stops a clip. </summary>
-        void StopClip();
+        public string TextureAsset { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Updates the given lerp. </summary>
+        /// <summary>   Default constructor. </summary>
         ///
-        /// <param name="time"> The time. </param>
+        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
         ///-------------------------------------------------------------------------------------------------
 
-        void Update(TimeSpan time);
+        public BaseModelMeshPart() { }
 
         ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Updates the given lerp. </summary>
+        /// <summary>   Constructor. </summary>
         ///
-        /// <param name="lerp"> The linearly interpolate. </param>
+        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
+        ///
+        /// <param name="part"> The part. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        void Update(float lerp);
+        public BaseModelMeshPart(ModelMeshPart part)
+        {
+            Effect = part.Effect;
+            IndexBuffer = part.IndexBuffer;
+            NumVertices = part.NumVertices;
+            PrimitiveCount = part.PrimitiveCount;
+            StartIndex = part.StartIndex;
+            Tag = part.Tag;
+            VertexBuffer = part.VertexBuffer;
+            VertexOffset = part.VertexOffset;
+        }
     }
 }

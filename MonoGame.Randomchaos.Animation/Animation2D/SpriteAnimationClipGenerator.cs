@@ -1,22 +1,58 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using MonoGame.Randomchaos.Animation.Animation2D.Interfaces;
 using Microsoft.Xna.Framework;
 
 namespace MonoGame.Randomchaos.Animation.Animation2D
 {
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary>   A sprite animation clip generator. </summary>
+    ///
+    /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
+    ///-------------------------------------------------------------------------------------------------
+
     public class SpriteAnimationClipGenerator
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the sprite sheet dimensions. </summary>
+        ///
+        /// <value> The sprite sheet dimensions. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         protected Vector2 SpriteSheetDimensions { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the slices. </summary>
+        ///
+        /// <value> The slices. </value>
+        ///-------------------------------------------------------------------------------------------------
+
         protected Vector2 Slices { get; set; }
 
+        /// <summary>   The master frames. </summary>
         SpriteSheetKeyFrame[,] masterFrames;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
+        ///
+        /// <param name="spriteSheetDimensions">    The sprite sheet dimensions. </param>
+        /// <param name="slices">                   The slices. </param>
+        ///-------------------------------------------------------------------------------------------------
 
         public SpriteAnimationClipGenerator(Vector2 spriteSheetDimensions, Vector2 slices)
         {
             SpriteSheetDimensions = spriteSheetDimensions;
             Slices = slices;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Generates a master frames. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
+        ///-------------------------------------------------------------------------------------------------
 
         protected void GenerateMasterFrames()
         {
@@ -30,6 +66,20 @@ namespace MonoGame.Randomchaos.Animation.Animation2D
                 }
             }
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Generates. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
+        ///
+        /// <param name="name">     The name. </param>
+        /// <param name="start">    The start. </param>
+        /// <param name="end">      The end. </param>
+        /// <param name="duration"> The duration. </param>
+        /// <param name="looped">   True if looped. </param>
+        ///
+        /// <returns>   An ISpriteSheetAnimationClip. </returns>
+        ///-------------------------------------------------------------------------------------------------
 
         public ISpriteSheetAnimationClip Generate(string name, Vector2 start, Vector2 end, TimeSpan duration, bool looped)
         {

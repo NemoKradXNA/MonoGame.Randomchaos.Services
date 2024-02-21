@@ -30,4 +30,7 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame.Randomchaos.Animation\MonoGame.Randomchaos.Animation.csproj" />
+  </ItemGroup>
 </Project>
