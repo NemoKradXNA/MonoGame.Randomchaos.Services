@@ -16,6 +16,8 @@ namespace Sample.MonoGme.Randomchaos.Animation2D
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private SpriteFont _font;
+
         protected Sprite playerAvatar;
         SpriteAnimator figherAnimator;
 
@@ -42,6 +44,7 @@ namespace Sample.MonoGme.Randomchaos.Animation2D
         protected override void Initialize()
         {
             figherAnimator = new SpriteAnimator(this, "FighterAnimator", "Animators/FighterSheet1Animator");
+            _font = Content.Load<SpriteFont>("Fonts/font");
 
             figherAnimator.StartAnimation("Idle");
 
@@ -128,7 +131,24 @@ namespace Sample.MonoGme.Randomchaos.Animation2D
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            Vector2 s = Vector2.One * -1;
+            Vector2 p = new Vector2(8, 8);
+            _spriteBatch.DrawString(_font, "Esc - Exit", p, Color.Black);
+            _spriteBatch.DrawString(_font, "Esc - Exit", p + s, Color.Gold);
+
+            p.Y += _font.LineSpacing;
+            _spriteBatch.DrawString(_font, "WASD - Translate Dude", p, Color.Black);
+            _spriteBatch.DrawString(_font, "WASD - Translate Dude", p + s, Color.Gold);
+
+            string animNam = playerAvatar.CurrentAnimation;
+
+            p = playerAvatar.Position + new Vector2(16 + _font.MeasureString(animNam).X / -2, -_font.LineSpacing);
+            _spriteBatch.DrawString(_font, animNam, p, Color.Black);
+            _spriteBatch.DrawString(_font, animNam, p + s, Color.Red);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

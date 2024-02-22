@@ -17,7 +17,7 @@ namespace Sample.MonoGme.Randomchaos.Animation3D.Models
 
         protected Texture2D texture;
         public string ModelAsset { get; set; }
-        public IRandomchaosModelData _modelData { get; set; }
+        public ISkinnedMesh _modelData { get; set; }
         public SkinnedModelData Model { get; set; }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Sample.MonoGme.Randomchaos.Animation3D.Models
 
         public Dictionary<string, SkinnedEffect> MeshEffects { get; set; } = new Dictionary<string, SkinnedEffect>();
 
-        public ISkinningData SkinningData { get; set; }
+        public ISkinnedData SkinningData { get; set; }
         public IKeyframeAnimationPlayer AnimationPlayer { get; set; }
 
         public SkinnedModel(Game game, string modelToLoad) : base(game)
@@ -51,7 +51,7 @@ namespace Sample.MonoGme.Randomchaos.Animation3D.Models
 
             if (ModelAsset != null)
             {
-                _modelData = Game.Content.Load<IRandomchaosModelData>(ModelAsset);
+                _modelData = Game.Content.Load<ISkinnedMesh>(ModelAsset);
 
                 if (_modelData != null)
                 {

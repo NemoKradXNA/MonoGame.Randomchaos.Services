@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace MonoGame.Randomchaos.Animation.Animation3D
+namespace MonoGame.Randomchaos.Mesh
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Analogue for ModelMesh. </summary>

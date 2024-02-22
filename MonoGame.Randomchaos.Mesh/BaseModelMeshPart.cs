@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoGame.Randomchaos.Animation.Animation3D
+namespace MonoGame.Randomchaos.Mesh
 {
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   This is the analogue to ModelMeshPart. </summary>

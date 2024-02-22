@@ -10,7 +10,7 @@ namespace MonoGame.Randomchaos.Animation.Interfaces
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface ISkinningData
+    public interface ISkinnedData
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the animation clips. </summary>

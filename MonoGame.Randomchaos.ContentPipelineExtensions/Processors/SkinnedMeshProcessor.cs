@@ -22,7 +22,7 @@ namespace MonoGame.Randomchaos.ContentPipelineExtensions.Processors
     ///-------------------------------------------------------------------------------------------------
 
     [ContentProcessor(DisplayName = "MonoGame.Randomchaos - Skinned Mesh Processor")]
-    public class SkinnedMeshProcessor : ContentProcessor<NodeContent, IRandomchaosModelData>
+    public class SkinnedMeshProcessor : ContentProcessor<NodeContent, ISkinnedMesh>
     {
         #region Data
         /// <summary>   The vertices. </summary>
@@ -290,7 +290,7 @@ namespace MonoGame.Randomchaos.ContentPipelineExtensions.Processors
         /// <returns>   An IRandomchaosModelData. </returns>
         ///-------------------------------------------------------------------------------------------------
 
-        public override IRandomchaosModelData Process(NodeContent input, ContentProcessorContext context)
+        public override ISkinnedMesh Process(NodeContent input, ContentProcessorContext context)
         {
             string modelName = input.Identity.SourceFilename.Substring(input.Identity.SourceFilename.LastIndexOf("\\") + 1);
 
@@ -413,7 +413,7 @@ namespace MonoGame.Randomchaos.ContentPipelineExtensions.Processors
 
             }
 
-            IRandomchaosModelData ModelData = new RandomchaosModelData()
+            ISkinnedMesh ModelData = new RandomchaosModelData()
             {
                 Vertices = vertices,
                 Indicies = indicies,
@@ -436,7 +436,7 @@ namespace MonoGame.Randomchaos.ContentPipelineExtensions.Processors
                 if (EnableLogging)
                     Logger.WriteToLog("About to store SkinningData...");
 
-                ISkinningData skinningData = new SkinningData(animationClips, bindPose, inverseBindPose, skeletonHierarchy);
+                ISkinnedData skinningData = new SkinnedData(animationClips, bindPose, inverseBindPose, skeletonHierarchy);
                 
                 if (EnableLogging)
                     Logger.WriteToLog($"Storing SkinningData: Clips: {animationClips.Keys.Count} , Poses: {inverseBindPose.Count}, Skel: {skeletonHierarchy.Count}");

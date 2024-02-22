@@ -13,7 +13,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class RandomchaosModelData : IRandomchaosModelData
+    public class RandomchaosModelData : ISkinnedMesh
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the vertices. </summary>
@@ -117,7 +117,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <value> Information describing the skinning. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public ISkinningData SkinningData { get; set; } = null;
+        public ISkinnedData SkinningData { get; set; } = null;
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the names. </summary>

@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Conten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Animation", "MonoGame.Randomchaos.Animation\MonoGame.Randomchaos.Animation.csproj", "{1459FDDC-B1B7-49C8-8FD5-3DC0DB4E4C3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.MonoGme.Randomchaos.Animation3D", "Sample.MonoGme.Randomchaos.Animation3D\Sample.MonoGme.Randomchaos.Animation3D.csproj", "{6471B04B-8290-438C-AFA4-7F138E53918B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MonoGme.Randomchaos.Animation3D", "Sample.MonoGme.Randomchaos.Animation3D\Sample.MonoGme.Randomchaos.Animation3D.csproj", "{6471B04B-8290-438C-AFA4-7F138E53918B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Randomchaos.Mesh", "MonoGame.Randomchaos.Mesh\MonoGame.Randomchaos.Mesh.csproj", "{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,6 +215,10 @@ Global
 		{6471B04B-8290-438C-AFA4-7F138E53918B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6471B04B-8290-438C-AFA4-7F138E53918B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6471B04B-8290-438C-AFA4-7F138E53918B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

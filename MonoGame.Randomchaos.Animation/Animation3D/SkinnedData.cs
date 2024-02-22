@@ -16,7 +16,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class SkinningData : ISkinningData
+    public class SkinnedData : ISkinnedData
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructs a new skinning data object. </summary>
@@ -29,7 +29,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <param name="skeletonHierarchy">    The skeleton hierarchy. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SkinningData(Dictionary<string, IKeyframeAnimationClip> animationClips,
+        public SkinnedData(Dictionary<string, IKeyframeAnimationClip> animationClips,
                             List<Matrix> bindPose, List<Matrix> inverseBindPose,
                             List<int> skeletonHierarchy)
         {
@@ -45,7 +45,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
         ///-------------------------------------------------------------------------------------------------
 
-        public SkinningData()
+        public SkinnedData()
         {
         }
 

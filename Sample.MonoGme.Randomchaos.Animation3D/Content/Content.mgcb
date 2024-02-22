@@ -14,6 +14,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/font.spritefont
+
 #begin Models/Female Tough Walk.fbx
 /importer:FbxImporter
 /processor:SkinnedMeshProcessor
@@ -38,46 +45,26 @@
 
 #begin Models/Idle.fbx
 /importer:FbxImporter
-/processor:SkinnedMeshProcessor
+/processor:SkinnedAnimationProcessor
+/processorParam:AnimationClipName=Idle
+/processorParam:EnableLogging=False
 /processorParam:Scale=0.01
 /processorParam:RotationZ=0
 /processorParam:RotationY=0
 /processorParam:RotationX=0
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:PremultiplyVertexColors=True
-/processorParam:PremultiplyTextureAlpha=True
 /processorParam:SwapWindingOrder=False
-/processorParam:DefaultEffect=SkinnedEffect
-/processorParam:ColorKeyEnabled=True
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:GenerateMipmaps=True
-/processorParam:TextureFormat=Compressed
-/processorParam:EnableLogging=False
-/processorParam:SkinnedMesh=True
-/processorParam:AnimationClipName=Idle
-/processorParam:GenerateTangentFrames=True
 /build:Models/Idle.fbx
 
 #begin Models/Running.fbx
 /importer:FbxImporter
-/processor:SkinnedMeshProcessor
+/processor:SkinnedAnimationProcessor
+/processorParam:AnimationClipName=Running
+/processorParam:EnableLogging=False
 /processorParam:Scale=0.01
 /processorParam:RotationZ=0
 /processorParam:RotationY=0
 /processorParam:RotationX=0
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:PremultiplyVertexColors=True
-/processorParam:PremultiplyTextureAlpha=True
 /processorParam:SwapWindingOrder=False
-/processorParam:DefaultEffect=SkinnedEffect
-/processorParam:ColorKeyEnabled=True
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:GenerateMipmaps=True
-/processorParam:TextureFormat=Compressed
-/processorParam:EnableLogging=False
-/processorParam:SkinnedMesh=True
-/processorParam:AnimationClipName=Running
-/processorParam:GenerateTangentFrames=True
 /build:Models/Running.fbx
 
 #begin Textures/MG.png

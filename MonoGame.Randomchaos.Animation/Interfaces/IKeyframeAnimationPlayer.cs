@@ -27,7 +27,7 @@ namespace MonoGame.Randomchaos.Animation.Interfaces
         /// <value> The skinning data value. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        ISkinningData SkinningDataValue { get; set; }
+        ISkinnedData SkinningDataValue { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the current clip. </summary>
@@ -127,5 +127,13 @@ namespace MonoGame.Randomchaos.Animation.Interfaces
 
         /// <summary>   Event queue for all listeners interested in animationClipEnd events. </summary>
         event OnAnimationClipEnd AnimationClipEndEvent;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether this object is paused. </summary>
+        ///
+        /// <value> True if this object is paused, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        bool IsPaused { get; set; }
     }
 }

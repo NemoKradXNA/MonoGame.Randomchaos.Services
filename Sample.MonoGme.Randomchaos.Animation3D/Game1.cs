@@ -17,6 +17,7 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteFont _font;
 
         IInputStateService _inputService { get { return (IInputStateService)Services.GetService<IInputStateService>(); } }
         IKeyboardStateManager _kbInput { get { return _inputService.KeyboardManager; } }
@@ -48,7 +49,7 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
             plane.Transform.Position = new Vector3(0, 0, 0);
             Components.Add(plane);
 
-            skinnedModel = new SkinnedModel(this, "Models/Idle");
+            skinnedModel = new SkinnedModel(this, "Models/Female Tough Walk");
             skinnedModel.Transform.Position = new Vector3(3, 0, 0);
             Components.Add(skinnedModel);
 
@@ -58,6 +59,8 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _font = Content.Load<SpriteFont>("Fonts/font");
 
             // TODO: use this.Content to load your game content here
 
@@ -104,12 +107,12 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
             // Load other animations and stack them in animator.
             // Need to be able to change this so we can just load in a stack of animations.
             var animationData = skinnedModel._modelData.SkinningData.AnimationClips;
-            
-            IRandomchaosModelData anim = Content.Load<IRandomchaosModelData>("Models/Female Tough Walk");
-            skinnedModel.SkinningData.AddClips(anim.SkinningData.AnimationClips);
 
-            anim = Content.Load<IRandomchaosModelData>("Models/Running");
-            skinnedModel.SkinningData.AddClips(anim.SkinningData.AnimationClips);
+            ISkinnedData anim = Content.Load<ISkinnedData>("Models/Idle");
+            skinnedModel.SkinningData.AddClips(anim.AnimationClips);
+
+            anim = Content.Load<ISkinnedData>("Models/Running");
+            skinnedModel.SkinningData.AddClips(anim.AnimationClips);
 
             var json = JsonConvert.SerializeObject(skinnedModel._modelData.SkinningData.AnimationClips);
 
@@ -123,12 +126,12 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
 
             float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (skinnedModel.AnimationPlayer.IsPlaying && skinnedModel.AnimationPlayer.CurrentClip.Name == "Walking0")
+            if (!skinnedModel.AnimationPlayer.IsPaused && skinnedModel.AnimationPlayer.IsPlaying && skinnedModel.AnimationPlayer.CurrentClip.Name == "Walking0")
             {
                 skinnedModel.Transform.Translate(Vector3.Backward * .02f);
                 skinnedModel.Transform.Rotate(Vector3.Down, (float)(Math.Sin(gameTime.ElapsedGameTime.TotalSeconds * .125f) * Math.PI));
             }
-            else if (skinnedModel.AnimationPlayer.IsPlaying && skinnedModel.AnimationPlayer.CurrentClip.Name == "Running0")
+            else if (!skinnedModel.AnimationPlayer.IsPaused && skinnedModel.AnimationPlayer.IsPlaying && skinnedModel.AnimationPlayer.CurrentClip.Name == "Running0")
             {
                 skinnedModel.Transform.Translate(Vector3.Backward * .05f);
                 skinnedModel.Transform.Rotate(Vector3.Down, (float)(Math.Sin(gameTime.ElapsedGameTime.TotalSeconds * .3125f) * Math.PI));
@@ -169,7 +172,7 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
                 _camera.Transform.Rotate(Vector3.Down, camRotationSpeed * t);
             }
 
-            if (_kbInput.KeyPress(Keys.F2))
+            if (_kbInput.KeyPress(Keys.F1))
             {
                 switch (skinnedModel.AnimationPlayer.CurrentClip.Name)
                 {
@@ -189,7 +192,13 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
                 }
             }
 
-            _inputService.PreUpdate(gameTime);
+
+            if (_kbInput.KeyPress(Keys.P)) 
+            {
+                skinnedModel.AnimationPlayer.IsPaused = !skinnedModel.AnimationPlayer.IsPaused;
+            }
+
+                _inputService.PreUpdate(gameTime);
             base.Update(gameTime);
         }
 
@@ -200,6 +209,38 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+
+            RasterizerState rasterizerState = GraphicsDevice.RasterizerState;
+            BlendState blendState = GraphicsDevice.BlendState;
+            DepthStencilState depthStencilState = GraphicsDevice.DepthStencilState;
+
+            _spriteBatch.Begin();
+
+            Vector2 s = Vector2.One * -1;
+            Vector2 p = new Vector2(8, 8);
+            _spriteBatch.DrawString(_font, "Esc - Exit", p, Color.Black);
+            _spriteBatch.DrawString(_font, "Esc - Exit", p + s, Color.Gold);
+
+            p.Y += _font.LineSpacing;
+            _spriteBatch.DrawString(_font, "F1 - Move to next Animation", p, Color.Black);
+            _spriteBatch.DrawString(_font, "F1 - Move to next Animation", p + s, Color.Gold);
+
+            p.Y += _font.LineSpacing;
+            _spriteBatch.DrawString(_font, "P - Pause animation", p, Color.Black);
+            _spriteBatch.DrawString(_font, "P - Pause animation", p + s, Color.Gold);
+
+            string animNam = skinnedModel.AnimationPlayer.CurrentClip.Name;
+
+            float r = skinnedModel.AABoundingSpheres[0].Radius * 1.5f;
+            p = _camera.WorldPositionToScreenPosition(skinnedModel.Transform.Position + (Vector3.Up * r)) + new Vector2(16 + _font.MeasureString(animNam).X / -2, -_font.LineSpacing);
+            _spriteBatch.DrawString(_font, animNam, p, Color.Black);
+            _spriteBatch.DrawString(_font, animNam, p + s, Color.Red);
+
+            _spriteBatch.End();
+
+            GraphicsDevice.RasterizerState = rasterizerState;
+            GraphicsDevice.BlendState = blendState;
+            GraphicsDevice.DepthStencilState = depthStencilState;
         }
     }
 }

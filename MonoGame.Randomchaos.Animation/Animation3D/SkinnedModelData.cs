@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Animation.Interfaces;
 using MonoGame.Randomchaos.Extensions;
+using MonoGame.Randomchaos.Mesh;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -72,7 +73,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <param name="meshData">         Information describing the mesh. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public SkinnedModelData(GraphicsDevice GraphicsDevice, IRandomchaosModelData meshData)
+        public SkinnedModelData(GraphicsDevice GraphicsDevice, ISkinnedMesh meshData)
         {
             List<ModelBone> bones = new List<ModelBone>();
             List<BaseModelMesh> meshes = new List<BaseModelMesh>();

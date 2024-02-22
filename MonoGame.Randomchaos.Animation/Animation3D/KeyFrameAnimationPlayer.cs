@@ -33,6 +33,8 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
 
         public bool IsPlaying { get { return _IsPlaying; } }
 
+        public bool IsPaused { get; set; }
+
         /// <summary>   Event queue for all listeners interested in animationClipEnd events. </summary>
         public event OnAnimationClipEnd AnimationClipEndEvent;
 
@@ -67,7 +69,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
 
 
         /// <summary>   The skinning data value. </summary>
-        ISkinningData _skinningDataValue;
+        ISkinnedData _skinningDataValue;
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Back link to the bind pose and skeleton hierarchy data. </summary>
@@ -75,7 +77,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <value> The skinning data value. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public ISkinningData SkinningDataValue
+        public ISkinnedData SkinningDataValue
         {
             get { return _skinningDataValue; }
             set
@@ -103,7 +105,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <param name="animationOffSet">  (Optional) Set the animation off belongs to. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public KeyFrameAnimationPlayer(ISkinningData skinningData = null, TimeSpan animationOffSet = new TimeSpan())
+        public KeyFrameAnimationPlayer(ISkinnedData skinningData = null, TimeSpan animationOffSet = new TimeSpan())
         {
             AnimationOffSet = animationOffSet;
             SkinningDataValue = skinningData;
@@ -175,7 +177,7 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         public void Update(TimeSpan time, bool relativeToCurrentTime,
                            Matrix rootTransform)
         {
-            if (IsPlaying)
+            if (IsPlaying && !IsPaused)
                 UpdateBoneTransforms(time, relativeToCurrentTime);
 
             UpdateWorldTransforms(rootTransform);

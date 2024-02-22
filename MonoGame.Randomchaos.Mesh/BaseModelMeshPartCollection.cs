@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace MonoGame.Randomchaos.Animation.Animation3D
+namespace MonoGame.Randomchaos.Mesh
 {
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Analogue for ModelMeshCollection. </summary>
+    /// <summary>   Analogue of ModelMeshPartCollection. </summary>
     ///
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public class BaseModelMeshCollection : ReadOnlyCollection<BaseModelMesh>
+    public class BaseModelMeshPartCollection : ReadOnlyCollection<BaseModelMeshPart>
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
@@ -19,6 +20,6 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         /// <param name="list"> The list. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public BaseModelMeshCollection(List<BaseModelMesh> list) : base(list) { }
+        public BaseModelMeshPartCollection(List<BaseModelMeshPart> list) : base(list) { }
     }
 }

@@ -12,7 +12,7 @@ namespace MonoGame.Randomchaos.Animation.Interfaces
     /// <remarks>   Charles Humphrey, 21/02/2024. </remarks>
     ///-------------------------------------------------------------------------------------------------
 
-    public interface IRandomchaosModelData
+    public interface ISkinnedMesh
     {
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the vertices. </summary>
@@ -116,7 +116,7 @@ namespace MonoGame.Randomchaos.Animation.Interfaces
         /// <value> Information describing the skinning. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        ISkinningData SkinningData { get; set; }
+        ISkinnedData SkinningData { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the names. </summary>
