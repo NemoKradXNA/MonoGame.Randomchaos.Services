@@ -7,6 +7,7 @@ using MonoGame.Randomchaos.Services.Camera;
 using MonoGame.Randomchaos.Services.Input;
 using MonoGame.Randomchaos.Services.Input.Models;
 using MonoGame.Randomchaos.Services.Interfaces;
+using Newtonsoft.Json;
 using Sample.MonoGme.Randomchaos.Animation3D.Models;
 using System;
 
@@ -60,13 +61,12 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
 
             // TODO: use this.Content to load your game content here
 
-
             plane.Texture = Content.Load<Texture2D>("Textures/MG");
 
             Color AmbientLightColor = Color.Gray;
             Vector3 light0Dir = new Vector3(-1, -1, -.5f);
             Color light0DiffuseColor = Color.White;
-            Color light0SpecualrColor = Color.White;
+            Color light0SpecualrColor = Color.DarkGray;
             byte light0SpecularPower = 255;
 
             skinnedModel.MeshEffects = new System.Collections.Generic.Dictionary<string, SkinnedEffect>()
@@ -75,49 +75,43 @@ namespace Sample.MonoGme.Randomchaos.Animation3D
                 new SkinnedEffect(GraphicsDevice)
                 {
                     AmbientLightColor = AmbientLightColor.ToVector3(),
-                    DiffuseColor = Color.Gold.ToVector3(),
-                    //EmissiveColor = EmissiveColor.ToVector3(),
-                    //FogColor = FogColor.ToVector3(),
-                    //FogEnabled = FogEnabled,
-                    //FogEnd = FogEnd,
-                    //FogStart = FogStart,
-                    SpecularColor = light0SpecualrColor.ToVector3(),
-                    SpecularPower = 1000,
-                    PreferPerPixelLighting = true
+                    DiffuseColor = new Vector3(1,.5f,0),
+                    SpecularColor = Color.Gold.ToVector3(),
+                    SpecularPower = 255,
+                    PreferPerPixelLighting = true,
+                    
                 } },
                 {"Beta_Joints",
                 new SkinnedEffect(GraphicsDevice)
                 {
                     AmbientLightColor = AmbientLightColor.ToVector3(),
                     DiffuseColor = new Vector3(.2f,.2f,.2f),
-                    //EmissiveColor = EmissiveColor.ToVector3(),
-                    //FogColor = FogColor.ToVector3(),
-                    //FogEnabled = FogEnabled,
-                    //FogEnd = FogEnd,
-                    //FogStart = FogStart,
-                    SpecularColor = light0SpecualrColor.ToVector3(),
-                    SpecularPower = 1,
-                    PreferPerPixelLighting = true
+                    SpecularColor = Color.Silver.ToVector3(),
+                    SpecularPower = 255,
+                    PreferPerPixelLighting = true,
+                    
                 } }
             };
 
             skinnedModel.MeshEffects["Beta_Surface"].DirectionalLight0.Direction = light0Dir;
             skinnedModel.MeshEffects["Beta_Surface"].DirectionalLight0.DiffuseColor = light0DiffuseColor.ToVector3();
-            skinnedModel.MeshEffects["Beta_Surface"].SpecularColor = light0SpecualrColor.ToVector3();
-            skinnedModel.MeshEffects["Beta_Surface"].SpecularPower = 1;
+            skinnedModel.MeshEffects["Beta_Surface"].DirectionalLight0.SpecularColor = light0SpecualrColor.ToVector3();
 
             skinnedModel.MeshEffects["Beta_Joints"].DirectionalLight0.Direction = light0Dir;
             skinnedModel.MeshEffects["Beta_Joints"].DirectionalLight0.DiffuseColor = light0DiffuseColor.ToVector3();
-            skinnedModel.MeshEffects["Beta_Joints"].SpecularColor = light0SpecualrColor.ToVector3();
-            skinnedModel.MeshEffects["Beta_Joints"].SpecularPower = 1;
+            skinnedModel.MeshEffects["Beta_Joints"].DirectionalLight0.SpecularColor = light0SpecualrColor.ToVector3();
 
             // Load other animations and stack them in animator.
+            // Need to be able to change this so we can just load in a stack of animations.
             var animationData = skinnedModel._modelData.SkinningData.AnimationClips;
             
             IRandomchaosModelData anim = Content.Load<IRandomchaosModelData>("Models/Female Tough Walk");
             skinnedModel.SkinningData.AddClips(anim.SkinningData.AnimationClips);
+
             anim = Content.Load<IRandomchaosModelData>("Models/Running");
             skinnedModel.SkinningData.AddClips(anim.SkinningData.AnimationClips);
+
+            var json = JsonConvert.SerializeObject(skinnedModel._modelData.SkinningData.AnimationClips);
 
             skinnedModel.StartAnimation("Idle0");
         }

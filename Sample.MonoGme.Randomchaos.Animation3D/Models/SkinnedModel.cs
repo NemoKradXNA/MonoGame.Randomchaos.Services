@@ -114,7 +114,8 @@ namespace Sample.MonoGme.Randomchaos.Animation3D.Models
                     // See if we can get a named material
                     SkinnedEffect effect = MeshEffects[Model.Meshes[m].MeshParts[mp].Name];
 
-                    //effect.DiffuseColor = Model.Meshes[m].MeshParts[mp].Color.ToVector3();
+                    //Vector3 meshColor = Model.Meshes[m].MeshParts[mp].Color.ToVector3();
+                    //effect.DiffuseColor = meshColor;// effect.DiffuseColor + meshColor;
                     SetEffect(effect, _meshWorld, AnimationPlayer);
 
                     int pCnt = effect.CurrentTechnique.Passes.Count;

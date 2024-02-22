@@ -102,8 +102,11 @@ namespace MonoGame.Randomchaos.Animation.Animation3D
         {
             foreach (string clipName in clips.Keys)
             {
-                IKeyframeAnimationClip clip = new KeyFrameAnimationClip(clips[clipName]);
-                AnimationClips.Add(clipName, clip);
+                if (!AnimationClips.ContainsKey(clipName))
+                {
+                    IKeyframeAnimationClip clip = new KeyFrameAnimationClip(clips[clipName]);
+                    AnimationClips.Add(clipName, clip);
+                }
             }
         }
 
