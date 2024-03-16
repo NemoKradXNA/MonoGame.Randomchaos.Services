@@ -13,28 +13,21 @@
   <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
-    <None Remove="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
-    <EmbeddedResource Include="Views\Home\Index.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.KestrelServer" Version="1.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Animation" Version="1.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.ContentPipelineExtensions" Version="1.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Mesh" Version="1.0.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.6" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.3" />
     <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="rndchs.pfx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

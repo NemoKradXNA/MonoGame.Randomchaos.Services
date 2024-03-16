@@ -1,0 +1,42 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\bin\Release\net6.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Animators/FighterSheet1Animator.json
+/importer:JsonFileImporter
+/processor:JsonProcessor
+/processorParam:GameAssemblyName=MonoGame.Randomchaos.Animation
+/processorParam:TypeReader=MonoGame.Randomchaos.Animation.Animation2D.ContentReaders.SpriteAnimatorReader
+/build:Animators/FighterSheet1Animator.json
+
+#begin Fonts/font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/font.spritefont
+
+#begin Textures/SpriteSheets/FigherSheet1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/SpriteSheets/FigherSheet1.png
+
