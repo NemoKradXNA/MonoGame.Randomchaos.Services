@@ -79,6 +79,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.Mesh",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D487C4A9-96B7-48EF-8B41-3F4187562310}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.MonoGame.Randomchaos.UI", "Samples.MonoGame.Randomchaos.UI\Samples.MonoGame.Randomchaos.UI.csproj", "{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,10 @@ Global
 		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA554BBF-6FB6-4DA1-A4C6-B38CDFDDC989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,6 +255,7 @@ Global
 		{66C9B1EF-7FBD-4504-96AC-B8F1CA5485CE} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{9B336FAF-D780-4A3E-80A1-826E95471AD3} = {F15847CC-4E20-4A33-B112-E2300ECD61D3}
 		{6471B04B-8290-438C-AFA4-7F138E53918B} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
+		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3874550-0DE2-457B-BB59-69565E508597}

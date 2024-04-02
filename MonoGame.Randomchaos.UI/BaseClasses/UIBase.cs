@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.UI.BaseClasses
@@ -176,11 +177,12 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
             if (IsMouseOver)
             {
-                AddTopMost();
+                inputManager.MouseManager.Handled = true;
+                //AddTopMost();
             }
             else
             {
-                TopMostMouseOver.Remove(this);
+                //TopMostMouseOver.Remove(this);
             }
         }
 
@@ -200,11 +202,104 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
             return new Color(c, c, c, color.A);
         }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Draws the given game time. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 02/04/2024. </remarks>
+        ///
+        /// <param name="gameTime"> The game time. </param>
+        ///-------------------------------------------------------------------------------------------------
+
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+        }
+
+        protected virtual void DrawSegmentedBackground(Texture2D backgroundTexture, Rectangle? segments, Color colorBG, Point offset)
+        {
+            Rectangle seg = segments.Value;
+
+            // Top Left
+            float tlWidth = seg.Left;
+            float tlHeight = seg.Top;
+
+            Rectangle srect = new Rectangle(0, 0, seg.Left, seg.Top);
+            Rectangle dest = new Rectangle(Rectangle.Left + offset.X, Rectangle.Top + offset.Y, (int)Math.Round(tlWidth), (int)Math.Round(tlHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+            // Top
+            float tWidth = Rectangle.Width - (tlWidth * 2);
+
+            srect = new Rectangle(seg.Left, 0, backgroundTexture.Width - seg.Right, seg.Top);
+            dest = new Rectangle(Rectangle.Left + (int)Math.Round(tlWidth) + offset.X, Rectangle.Top + offset.Y, (int)Math.Round(tWidth), (int)Math.Round(tlHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+            // Top right
+            float trWidth = seg.Left;
+            float trHeight = seg.Top;
+
+            srect = new Rectangle(backgroundTexture.Width - (seg.Right - seg.Left), 0, (seg.Right - seg.Left), seg.Top);
+            dest = new Rectangle(Rectangle.Right - (int)Math.Round(trWidth) + offset.X, Rectangle.Top + offset.Y, (int)Math.Round(trWidth), (int)Math.Round(trHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+            // Left
+            float lHeight = Rectangle.Height - (tlHeight * 2);
+            srect = new Rectangle(0, seg.Top, seg.Left, backgroundTexture.Height - seg.Bottom);
+            dest = new Rectangle(Rectangle.Left + offset.X, Rectangle.Top + (int)Math.Round(tlHeight) + offset.Y, (int)Math.Round(tlWidth), (int)Math.Round(lHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+
+            // Middle
+            srect = new Rectangle(seg.Left, seg.Top, backgroundTexture.Width - seg.Right, backgroundTexture.Height - seg.Bottom);
+            dest = new Rectangle(Rectangle.Left + (int)Math.Round(tlWidth) + offset.X, Rectangle.Top + (int)Math.Round(tlHeight) + offset.Y, (int)Math.Round(tWidth), (int)Math.Round(lHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+            // Right
+            float rHeight = Rectangle.Height - (trHeight * 2);
+
+            srect = new Rectangle(backgroundTexture.Width - (seg.Right - seg.Left), seg.Top, (seg.Right - seg.Left), backgroundTexture.Height - seg.Bottom);
+            dest = new Rectangle(Rectangle.Right - (int)Math.Round(trWidth) + offset.X, Rectangle.Top + (int)Math.Round(trHeight) + offset.Y, (int)Math.Round(trWidth), (int)Math.Round(rHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+
+            // Bottom Left
+            float blWidth = seg.Left;
+            float blHeight = (seg.Bottom - seg.Top);
+
+            srect = new Rectangle(0, backgroundTexture.Height - (seg.Bottom - seg.Top), seg.Left, (seg.Bottom - seg.Top));
+            dest = new Rectangle(Rectangle.Left + offset.X, Rectangle.Bottom - (int)Math.Round(blHeight) + offset.Y, (int)Math.Round(blWidth), (int)Math.Round(blHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+            // Bottom 
+            float bWidth = Rectangle.Width - (trWidth * 2);
+
+            srect = new Rectangle(seg.Left, backgroundTexture.Height - (seg.Bottom - seg.Top), backgroundTexture.Width - seg.Right, seg.Bottom - seg.Top);
+            dest = new Rectangle(Rectangle.Left + (int)Math.Round(blWidth) + offset.X, Rectangle.Bottom - (int)Math.Round(blHeight) + offset.Y, (int)Math.Round(bWidth), (int)Math.Round(blHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+
+            // Bottom Right
+            float brWidth = (seg.Right - seg.Left);
+            float brHeight = (seg.Bottom - seg.Top);
+
+            srect = new Rectangle(backgroundTexture.Width - (seg.Right - seg.Left), backgroundTexture.Height - (seg.Bottom - seg.Top), seg.Right - seg.Left, (seg.Bottom - seg.Top));
+            dest = new Rectangle(Rectangle.Right - (int)Math.Round(brWidth) + offset.X, Rectangle.Bottom - (int)Math.Round(brHeight) + offset.Y, (int)Math.Round(brWidth), (int)Math.Round(brHeight));
+
+            DrawBackgroundElement(backgroundTexture, dest, srect, colorBG);
+        }
+
+        protected virtual void DrawBackgroundElement(Texture2D backgroundTexture, Rectangle dest, Rectangle? srect, Color colorBG)
+        {
+            if (srect != null)
+            {
+                _spriteBatch.Draw(backgroundTexture, dest, srect, colorBG);
+            }
+            else
+            {
+                _spriteBatch.Draw(backgroundTexture, dest, colorBG);
+            }
         }
     }
 }

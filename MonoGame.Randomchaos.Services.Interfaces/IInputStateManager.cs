@@ -10,5 +10,6 @@ namespace MonoGame.Randomchaos.Services.Interfaces
 
     public interface IInputStateManager : IGameComponent, IPreUpdatable, IUpdateable
     {
+        public bool Handled { get; set; }
     }
 }

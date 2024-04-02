@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-	  <AssemblyVersion>2.0.0.1</AssemblyVersion>
-	  <FileVersion>2.0.0.1</FileVersion>
-	  <Version>2.0.0.1</Version>
+	  <AssemblyVersion>2.0.0.2</AssemblyVersion>
+	  <FileVersion>2.0.0.2</FileVersion>
+	  <Version>2.0.0.2</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds services that are used to manage user input.</Description>
@@ -14,5 +14,8 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.0.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Interfaces\MonoGame.Randomchaos.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

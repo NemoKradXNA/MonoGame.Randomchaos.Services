@@ -14,6 +14,14 @@ namespace MonoGame.Randomchaos.Services.Input
     public class InputHandlerService : ServiceBase<IInputStateService>, IInputStateService
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the handled. </summary>
+        ///
+        /// <value> True if handled, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool Handled { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the manager for keyboard. </summary>
         ///
         /// <value> The keyboard manager. </value>
@@ -115,19 +123,29 @@ namespace MonoGame.Randomchaos.Services.Input
             if (Game.IsActive)
             {
                 if (KeyboardManager != null)
+                {
                     KeyboardManager.Update(gameTime);
+                }
 
                 if (GamePadManager != null)
+                {
                     GamePadManager.Update(gameTime);
+                }
 
                 if (MouseManager != null)
+                {
                     MouseManager.Update(gameTime);
+                }
 
                 if (AccelerometerHandler != null)
+                {
                     AccelerometerHandler.Update(gameTime);
+                }
 
                 if (TouchCollectionManager != null)
+                {
                     TouchCollectionManager.Update(gameTime);
+                }
 
                 base.Update(gameTime);
             }
@@ -146,19 +164,29 @@ namespace MonoGame.Randomchaos.Services.Input
             if (Game.IsActive)
             {
                 if (KeyboardManager != null)
+                {
                     KeyboardManager.PreUpdate(gameTime);
+                }
 
                 if (GamePadManager != null)
+                {
                     GamePadManager.PreUpdate(gameTime);
+                }
 
                 if (MouseManager != null)
+                {
                     MouseManager.PreUpdate(gameTime);
+                }
 
                 if (AccelerometerHandler != null)
+                {
                     AccelerometerHandler.PreUpdate(gameTime);
+                }
 
                 if (TouchCollectionManager != null)
+                {
                     TouchCollectionManager.PreUpdate(gameTime);
+                }
             }
         }
     }
