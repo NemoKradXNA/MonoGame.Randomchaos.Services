@@ -322,8 +322,17 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
             try
             {
-                foreach (IGameComponent component in Components.Components)
+                foreach (IGameComponent component in Components.SceneComponents)
                 {
+                    if (component is IUpdateable && ((IUpdateable)component).Enabled)
+                        ((IUpdateable)component).Update(gameTime);
+                }
+
+                // update ui in reverse order
+                for (int ui = Components.UIComponents.Count; ui >= 0; ui--)
+                {
+                    IGameComponent component = Components.UIComponents[ui];
+
                     if (component is IUpdateable && ((IUpdateable)component).Enabled)
                         ((IUpdateable)component).Update(gameTime);
                 }

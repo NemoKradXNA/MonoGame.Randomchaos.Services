@@ -15,6 +15,14 @@ namespace MonoGame.Randomchaos.Services.Input.Models
     public class MouseStateManager : GameComponent, IMouseStateManager
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the handled. </summary>
+        ///
+        /// <value> True if handled, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool Handled { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the state. </summary>
         ///
         /// <value> The state. </value>
@@ -85,7 +93,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> The position rectangle. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public Rectangle PositionRect { get { return new Rectangle((int)Position.X, (int)Position.Y, 1, 1); } }
+        public Rectangle PositionRect { get { return !Handled ?  new Rectangle((int)Position.X, (int)Position.Y, 1, 1) : Rectangle.Empty; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Constructor. </summary>
@@ -103,7 +111,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if left clicked, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool LeftClicked { get { return (LeftButtonState == ButtonState.Released && LastState.LeftButton == ButtonState.Pressed); } }
+        public bool LeftClicked { get { return LeftButtonState == ButtonState.Released && LastState.LeftButton == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the right clicked. </summary>
@@ -111,7 +119,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if right clicked, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool RightClicked { get { return (RighttButtonState == ButtonState.Released && LastState.RightButton == ButtonState.Pressed); } }
+        public bool RightClicked { get { return RighttButtonState == ButtonState.Released && LastState.RightButton == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the middle clicked. </summary>
@@ -119,7 +127,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if middle clicked, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool MiddleClicked { get { return (MiddleButtonState == ButtonState.Released && LastState.MiddleButton == ButtonState.Pressed); } }
+        public bool MiddleClicked { get { return MiddleButtonState == ButtonState.Released && LastState.MiddleButton == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the button 1 clicked. </summary>
@@ -127,7 +135,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if button 1 clicked, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool XButton1Clicked { get { return (State.XButton1 == ButtonState.Released && LastState.XButton1 == ButtonState.Pressed); } }
+        public bool XButton1Clicked { get { return State.XButton1 == ButtonState.Released && LastState.XButton1 == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the button 2 clicked. </summary>
@@ -135,7 +143,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if button 2 clicked, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool XButton2Clicked { get { return (State.XButton2 == ButtonState.Released && LastState.XButton2 == ButtonState.Pressed); } }
+        public bool XButton2Clicked { get { return State.XButton2 == ButtonState.Released && LastState.XButton2 == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the initial left button down. </summary>
@@ -151,7 +159,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if initial right button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool InitialRightButtonDown { get { return RighttButtonState == ButtonState.Pressed && LastState.RightButton != ButtonState.Pressed; } }
+        public bool InitialRightButtonDown { get { return RighttButtonState == ButtonState.Pressed && LastState.RightButton != ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the initial middle button down. </summary>
@@ -159,7 +167,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if initial middle button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool InitialMiddleButtonDown { get { return MiddleButtonState == ButtonState.Pressed && LastState.MiddleButton != ButtonState.Pressed; } }
+        public bool InitialMiddleButtonDown { get { return MiddleButtonState == ButtonState.Pressed && LastState.MiddleButton != ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the state of the left button. </summary>
@@ -167,7 +175,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> The left button state. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public ButtonState LeftButtonState { get { return State.LeftButton; } }
+        public ButtonState LeftButtonState { get { return !Handled ? State.LeftButton : ButtonState.Released; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the state of the rightt button. </summary>
@@ -175,7 +183,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> The rightt button state. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public ButtonState RighttButtonState { get { return State.RightButton; } }
+        public ButtonState RighttButtonState { get { return !Handled ?  State.RightButton : ButtonState.Released; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the state of the middle button. </summary>
@@ -183,7 +191,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> The middle button state. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public ButtonState MiddleButtonState { get { return State.MiddleButton; } }
+        public ButtonState MiddleButtonState { get { return !Handled ? State.MiddleButton : ButtonState.Released; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the left button down. </summary>
@@ -191,7 +199,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if left button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool LeftButtonDown { get { return LeftButtonState == ButtonState.Pressed; } }
+        public bool LeftButtonDown { get { return LeftButtonState == ButtonState.Pressed && ! Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the right button down. </summary>
@@ -199,7 +207,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if right button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool RightButtonDown { get { return RighttButtonState == ButtonState.Pressed; } }
+        public bool RightButtonDown { get { return RighttButtonState == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the middle button down. </summary>
@@ -207,7 +215,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if middle button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool MiddleButtonDown { get { return MiddleButtonState == ButtonState.Pressed; } }
+        public bool MiddleButtonDown { get { return MiddleButtonState == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the button 1 button down. </summary>
@@ -215,7 +223,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if button 1 button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool XButton1ButtonDown { get { return State.XButton1 == ButtonState.Pressed; } }
+        public bool XButton1ButtonDown { get { return State.XButton1 == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets a value indicating whether the button 2 button down. </summary>
@@ -223,7 +231,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> True if button 2 button down, false if not. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public bool XButton2ButtonDown { get { return State.XButton2 == ButtonState.Pressed; } }
+        public bool XButton2ButtonDown { get { return State.XButton2 == ButtonState.Pressed && !Handled; } }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the scroll wheel value. </summary>
@@ -231,7 +239,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         /// <value> The scroll wheel value. </value>
         ///-------------------------------------------------------------------------------------------------
 
-        public int ScrollWheelValue { get { return State.ScrollWheelValue; } }
+        public int ScrollWheelValue { get { return !Handled ? State.ScrollWheelValue : 0; } }
 
         /// <summary>   The last scroll value. </summary>
         private int lastScrollVal = 0;
@@ -278,6 +286,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public void PreUpdate(GameTime gameTime)
         {
+            Handled = false;
             LastState = State;
             lastScrollVal = LastState.ScrollWheelValue;
 

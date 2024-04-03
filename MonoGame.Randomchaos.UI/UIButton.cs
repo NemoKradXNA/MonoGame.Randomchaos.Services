@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Delegates;
 using System;
-using System.ComponentModel.Design;
-using System.Threading;
 
 namespace MonoGame.Randomchaos.UI
 {
@@ -42,6 +40,38 @@ namespace MonoGame.Randomchaos.UI
         public string Text { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the text shadow. </summary>
+        ///
+        /// <value> The text shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector2 TextShadow { get; set; } = Vector2.Zero;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the text shadow. </summary>
+        ///
+        /// <value> The color of the text shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color TextShadowColor { get; set; } = Color.Black;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the button shadow. </summary>
+        ///
+        /// <value> The button shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Vector2 ButtonShadow { get; set; } = Vector2.Zero;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the button shadow. </summary>
+        ///
+        /// <value> The color of the button shadow. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color ButtonShadowColor { get; set; } = Color.Black;
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the text position offset. </summary>
         ///
         /// <value> The text position offset. </value>
@@ -73,6 +103,14 @@ namespace MonoGame.Randomchaos.UI
 
         public Color HighlightColor { get; set; }
 
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the text highlight. </summary>
+        ///
+        /// <value> The color of the text highlight. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color TextHighlightColor { get; set; }
+
         /// <summary>   The background color. </summary>
         protected Color bgColor;
         /// <summary>   The text color. </summary>
@@ -84,14 +122,6 @@ namespace MonoGame.Randomchaos.UI
         public event UIMouseEvent OnMouseClick;
         /// <summary>   Event queue for all listeners interested in OnMouseDown events. </summary>
         public event UIMouseEvent OnMouseDown;
-
-        ///-------------------------------------------------------------------------------------------------
-        /// <summary>   Gets or sets a value indicating whether the scaled segments. </summary>
-        ///
-        /// <value> True if scaled segments, false if not. </value>
-        ///-------------------------------------------------------------------------------------------------
-
-        public bool ScaledSegments { get; set; } = true;
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the tag. </summary>
@@ -139,6 +169,7 @@ namespace MonoGame.Randomchaos.UI
         {
             TextColor = Color.White;
             HighlightColor = Color.White;
+            TextHighlightColor = Color.White;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -151,11 +182,12 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Update(GameTime gameTime)
         {
-            if (IsMouseOver && IsTopMost)
+            if (IsMouseOver)// && IsTopMost)
             {
                 // Mouse over, highlight
                 bgColor = HighlightColor;
-                txtColor = HighlightColor;
+                txtColor = TextHighlightColor;
+                
 
                 if (inputManager.MouseManager.LeftClicked)
                 {
@@ -181,6 +213,7 @@ namespace MonoGame.Randomchaos.UI
             base.Update(gameTime);
 
         }
+
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Draws the given game time. </summary>
@@ -208,100 +241,37 @@ namespace MonoGame.Randomchaos.UI
             // This is really messy, need to have a clean up, but it seems to work, for now :P
             if (Segments != null)
             {
-
-                // texture is 64x64, we are rendering it 32x16, the segments are 8,8,8,8
-                // ratio = (32,16) / (64,64) = (.5,.25)
-                // TL src = 0,0,8,8 dest = 0,0, 8 * ration.X, 8 * ratio.Y = 4,2
-                // *---------------------*
-                // |                     |
-                // |                     |
-                // |                     |
-                // |                     |
-                // |                     |
-                // *---------------------*
-                Rectangle seg = Segments.Value;
-                Vector2 ratio = Vector2.One;
-
-                if (ScaledSegments)
+                if (ButtonShadow != Vector2.Zero)
                 {
-                    ratio = new Vector2(Rectangle.Width, Rectangle.Height) / new Vector2(BackgroundTexture.Width, BackgroundTexture.Height);
+                    DrawSegmentedBackground(BackgroundTexture, Segments, ButtonShadowColor, ButtonShadow.ToPoint());
                 }
 
-                // Top Left
-                float tlWidth = seg.Left * ratio.X;
-                float tlHeight = seg.Top * ratio.Y;
-
-                Rectangle srect = new Rectangle(0, 0, seg.Left, seg.Top);
-                Rectangle dest = new Rectangle(Rectangle.Left, Rectangle.Top, (int)Math.Round(tlWidth), (int)Math.Round(tlHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-                // Top
-                float tWidth = Rectangle.Width - (tlWidth * 2);
-
-                srect = new Rectangle(seg.Left, 0, BackgroundTexture.Width - seg.Right, seg.Top);
-                dest = new Rectangle(Rectangle.Left + (int)Math.Round(tlWidth), Rectangle.Top, (int)Math.Round(tWidth), (int)Math.Round(tlHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-                // Top right
-                float trWidth = seg.Left * ratio.X;
-                float trHeight = seg.Top * ratio.Y;
-
-                srect = new Rectangle(BackgroundTexture.Width - (seg.Right - seg.Left), 0, (seg.Right - seg.Left), seg.Top);
-                dest = new Rectangle(Rectangle.Right - (int)Math.Round(trWidth), Rectangle.Top, (int)Math.Round(trWidth), (int)Math.Round(trHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-                // Left
-                float lHeight = Rectangle.Height - (tlHeight * 2);
-                srect = new Rectangle(0, seg.Top, seg.Left, BackgroundTexture.Height - seg.Bottom);
-                dest = new Rectangle(Rectangle.Left, Rectangle.Top + (int)Math.Round(tlHeight), (int)Math.Round(tlWidth), (int)Math.Round(lHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-
-                // Middle
-                srect = new Rectangle(seg.Left,seg.Top, BackgroundTexture.Width-seg.Right,BackgroundTexture.Height - seg.Bottom);
-                dest = new Rectangle(Rectangle.Left + (int)Math.Round(tlWidth), Rectangle.Top + (int)Math.Round(tlHeight), (int)Math.Round(tWidth), (int)Math.Round(lHeight));
-                
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-                // Right
-                float rHeight = Rectangle.Height - (trHeight * 2);
-
-                srect = new Rectangle(BackgroundTexture.Width - (seg.Right - seg.Left), seg.Top, (seg.Right - seg.Left), BackgroundTexture.Height - seg.Bottom );
-                dest = new Rectangle(Rectangle.Right - (int)Math.Round(trWidth), Rectangle.Top + (int)Math.Round(trHeight), (int)Math.Round(trWidth), (int)Math.Round(rHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-
-                // Bottom Left
-                float blWidth = seg.Left * ratio.X;
-                float blHeight = (seg.Bottom - seg.Top) * ratio.Y;
-
-                srect = new Rectangle(0, BackgroundTexture.Height - (seg.Bottom - seg.Top), seg.Left, (seg.Bottom - seg.Top));
-                dest = new Rectangle(Rectangle.Left, Rectangle.Bottom - (int)Math.Round(blHeight), (int)Math.Round(blWidth), (int)Math.Round(blHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-                // Bottom 
-                float bWidth = Rectangle.Width - (trWidth * 2);
-
-                srect = new Rectangle(seg.Left, BackgroundTexture.Height - (seg.Bottom-seg.Top), BackgroundTexture.Width - seg.Right, seg.Bottom - seg.Top);
-                dest = new Rectangle(Rectangle.Left + (int)Math.Round(blWidth), Rectangle.Bottom - (int)Math.Round(blHeight), (int)Math.Round(bWidth), (int)Math.Round(blHeight));
-
-                _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
-
-                // Bottom Right
-                float brWidth = (seg.Right - seg.Left) * ratio.X;
-                float brHeight = (seg.Bottom - seg.Top) * ratio.Y;
-
-                srect = new Rectangle(BackgroundTexture.Width - (seg.Right - seg.Left), BackgroundTexture.Height - (seg.Bottom - seg.Top), seg.Right - seg.Left, (seg.Bottom - seg.Top));
-                dest = new Rectangle(Rectangle.Right - (int)Math.Round(brWidth), Rectangle.Bottom - (int)Math.Round(brHeight), (int)Math.Round(brWidth), (int)Math.Round(brHeight));
-
-               _spriteBatch.Draw(BackgroundTexture, dest, srect, colorBG);
+                DrawSegmentedBackground(BackgroundTexture, Segments, colorBG, Point.Zero);
             }
             else
             {
-                _spriteBatch.Draw(BackgroundTexture, Rectangle, colorBG);
+                if (ButtonShadow != Vector2.Zero)
+                {
+                    Rectangle shdowRect = Rectangle;
+                    shdowRect.X += (int)ButtonShadow.X;
+                    shdowRect.Y += (int)ButtonShadow.Y;
+
+                    DrawBackgroundElement(BackgroundTexture, shdowRect, null, ButtonShadowColor);
+                }
+
+                DrawBackgroundElement(BackgroundTexture, Rectangle, null, colorBG);
             }
 
             if (!string.IsNullOrEmpty(Text))
+            {
+                if (TextShadow != Vector2.Zero)
+                {
+                    _spriteBatch.DrawString(Font, Text, TextPosition + TextShadow, TextShadowColor);
+                }
+
                 _spriteBatch.DrawString(Font, Text, TextPosition, colorTx);
+            }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

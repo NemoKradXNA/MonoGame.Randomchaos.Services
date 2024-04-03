@@ -15,6 +15,14 @@ namespace MonoGame.Randomchaos.Services.Input.Models
     public class TouchCollectionManager : GameComponent, ITouchCollectionManager
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the handled. </summary>
+        ///
+        /// <value> True if handled, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool Handled { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the state. </summary>
         ///
         /// <value> The state. </value>
@@ -108,7 +116,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
         {
             State = TouchPanel.GetState();
 
-            if (TouchPanel.IsGestureAvailable)
+            if (TouchPanel.IsGestureAvailable && !Handled)
                 thisGesture = TouchPanel.ReadGesture();
 
             base.Update(gameTime);
@@ -124,6 +132,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public void PreUpdate(GameTime gameTime)
         {
+            Handled = false;
             LastState = State;
             Gesture = thisGesture;
             thisGesture = new GestureSample();

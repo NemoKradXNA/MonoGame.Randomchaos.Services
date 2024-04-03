@@ -33,6 +33,14 @@ namespace MonoGame.Randomchaos.UI
         protected Texture2D backSplash;
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the button click sfx. </summary>
+        ///
+        /// <value> The button click sfx. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public string ButtonClickSFX { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the title background. </summary>
         ///
         /// <value> The title background. </value>
@@ -176,6 +184,7 @@ namespace MonoGame.Randomchaos.UI
 
         public UIMessageBox(Game game, Point position, Point size) : base(game, position, size)
         {
+            AllowMousePassThrough = true;
             TitleShadowColor = Color.Black;
 
             ShowRetryBtn = ShowPositiveButton = ShowNegativeButton = true;
@@ -251,7 +260,10 @@ namespace MonoGame.Randomchaos.UI
 
         private void button_OnMouseClick(IUIBase sender, IMouseStateManager mouseState)
         {
-            audioManager.PlaySFX("Audio/SFX/Personal", .125f);
+            if (audioManager != null && !string.IsNullOrEmpty(ButtonClickSFX))
+            {
+                audioManager.PlaySFX(ButtonClickSFX, .125f);
+            }
 
             if (sender == btnPositive && OnPositiveClicked != null)
             {
@@ -281,7 +293,7 @@ namespace MonoGame.Randomchaos.UI
         {
             base.Update(gameTime);
 
-            AddTopMost();
+            //AddTopMost();
 
             btnPXOffset = (Size.X / 4) - 8;
             btnHeight = Size.Y / 8;
@@ -344,7 +356,10 @@ namespace MonoGame.Randomchaos.UI
                 }
                 lblMessage.Text = Message = final;
             }
+
             lblMessage.Update(gameTime);
+
+            inputManager.MouseManager.Handled = Visible;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -399,6 +414,41 @@ namespace MonoGame.Randomchaos.UI
                 btnRetry.Draw(gameTime);
 
             base.Draw(gameTime);
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Closes this object. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 03/04/2024. </remarks>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void Close()
+        {
+            Visible = Enabled = false;
+        }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Shows. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 03/04/2024. </remarks>
+        ///
+        /// <param name="title">    (Optional) The title. </param>
+        /// <param name="message">  (Optional) The message. </param>
+        ///-------------------------------------------------------------------------------------------------
+
+        public void Show(string title = null, string message = null)
+        {
+            if (title != null)
+            {
+                Title = title;
+            }
+
+            if (message != null)
+            {
+                Message = message;
+            }
+
+            Visible = Enabled = true;
         }
     }
 }

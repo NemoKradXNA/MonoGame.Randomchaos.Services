@@ -120,7 +120,7 @@ namespace MonoGame.Randomchaos.UI
                     else
                         tp.X += Size.X - (m.X * 2) - 8;
 
-                    return tp - TextPositionOffset;
+                    return tp - (TextPositionOffset * (IsOn ? -1: 1));
                 }
                 return Vector2.Zero;
             }
@@ -157,11 +157,13 @@ namespace MonoGame.Randomchaos.UI
             base.Update(gameTime);
 
 
-            if (IsMouseOver && IsTopMost)
+            if (IsMouseOver)// && IsTopMost)
             {
                 // Mouse over, highlight
                 bgColor = HighlightColor;
                 txtColor = HighlightColor;
+
+                inputManager.MouseManager.Handled = false;
 
                 if (inputManager.MouseManager.LeftClicked)
                 {
@@ -191,6 +193,9 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Draw(GameTime gameTime)
         {
+
+            base.Draw(gameTime);
+
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
 
@@ -205,23 +210,25 @@ namespace MonoGame.Randomchaos.UI
                 bgColor = OffColor;
             }
 
-            _spriteBatch.Draw(BackgroundTexture, Rectangle, bgColor);
-
-            if(SwitchBorder != null)
-                _spriteBatch.Draw(SwitchBorder, Rectangle, BorderColor);
-            else
-                _spriteBatch.Draw(SwitchBorder, Rectangle, BorderColor);
+            _spriteBatch.Draw(BackgroundTexture, Rectangle, Tint);
 
             if (IsOn)
-                _spriteBatch.Draw(SwitchOn, Rectangle, ButtonColor);
+                _spriteBatch.Draw(SwitchOn, Rectangle, bgColor);
             else
-                _spriteBatch.Draw(SwitchOff, Rectangle, ButtonColor);
+                _spriteBatch.Draw(SwitchOff, Rectangle, bgColor);
+
+            if (SwitchBorder != null)
+                _spriteBatch.Draw(SwitchBorder, Rectangle, BorderColor);
+            //else
+            //    _spriteBatch.Draw(SwitchBorder, Rectangle, BorderColor);
 
             if (!string.IsNullOrEmpty(Text))
+            {
                 _spriteBatch.DrawString(Font, Text, TextPosition, txtColor);
+            }
+            
             _spriteBatch.End();
 
-            base.Draw(gameTime);
         }
     }
 }

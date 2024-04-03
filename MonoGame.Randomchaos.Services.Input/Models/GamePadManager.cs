@@ -15,6 +15,14 @@ namespace MonoGame.Randomchaos.Services.Input.Models
     public class GamePadManager : GameComponent, IGamePadManager
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the handled. </summary>
+        ///
+        /// <value> True if handled, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool Handled { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the state. </summary>
         ///
         /// <value> The state. </value>
@@ -149,7 +157,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
                     retVal = State[index].Buttons.Start == ButtonState.Released && LastState[index].Buttons.Start == ButtonState.Pressed;
                     break;
             }
-            return retVal;
+            return retVal && !Handled;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -162,6 +170,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public void PreUpdate(GameTime gameTime)
         {
+            Handled = false;
             LastState[PlayerIndex.One] = State[PlayerIndex.One];
             LastState[PlayerIndex.Two] = State[PlayerIndex.Two];
             LastState[PlayerIndex.Three] = State[PlayerIndex.Three];

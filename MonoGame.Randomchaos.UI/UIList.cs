@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces.Interfaces;
 using MonoGame.Randomchaos.UI.BaseClasses;
+using MonoGame.Randomchaos.UI.Enums;
 using System.Collections.Generic;
 
 namespace MonoGame.Randomchaos.UI
@@ -82,10 +83,21 @@ namespace MonoGame.Randomchaos.UI
             {
                 int titleHeight = TitleFont.LineSpacing;
 
-                if (_scissorRectangle == Rectangle.Empty || (Rectangle.X != Position.X || Rectangle.Y != Position.Y || Rectangle.Width != Size.X || Rectangle.Height != Size.Y))
-                    _scissorRectangle = new Rectangle(Rectangle.X + 1, Rectangle.Y + 1, Rectangle.Width - 2, Rectangle.Height - 2);
+                if (_scissorRectangle == Rectangle.Empty || (ListRectangle.X != Position.X || ListRectangle.Y != Position.Y || ListRectangle.Width != Size.X || ListRectangle.Height != Size.Y))
+                    _scissorRectangle = new Rectangle(ListRectangle.X + 1, ListRectangle.Y + 1, ListRectangle.Width - 2, ListRectangle.Height - 2);
 
                 return _scissorRectangle;
+            }
+        }
+
+        protected Rectangle ListRectangle
+        {
+            get
+            {
+                Rectangle lstRect = Rectangle;
+                lstRect.Y += TitleFont.LineSpacing;
+
+                return lstRect;
             }
         }
 
@@ -114,7 +126,7 @@ namespace MonoGame.Randomchaos.UI
         {
             base.Initialize();
 
-
+            lblTitle.TextAlingment = TextAlingmentEnum.MiddleTop;
             lblTitle.Font = TitleFont;
             lblTitle.Tint = Tint;
             lblTitle.Initialize();
@@ -131,7 +143,7 @@ namespace MonoGame.Randomchaos.UI
         public override void Update(GameTime gameTime)
         {
             lblTitle.Enabled = Enabled;
-            lblTitle.Position = Position - new Point((int)(TitleFont.MeasureString(Title).X / -2) - 8, (int)(TitleFont.LineSpacing * .5f));
+            lblTitle.Position = Position + new Point(Size.X / 2, 0);
             lblTitle.Update(gameTime);
         }
 
@@ -151,14 +163,15 @@ namespace MonoGame.Randomchaos.UI
 
             // Draw List BG
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
-            _spriteBatch.Draw(ListBackgroundTexture, Rectangle, Tint);
+            DrawBackgroundElement(ListBackgroundTexture, ListRectangle, null, Tint);
             _spriteBatch.End();
 
             // Render culled content.
             Rectangle orgRect = _spriteBatch.GraphicsDevice.ScissorRectangle;
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, new RasterizerState() { ScissorTestEnable = true, });
             _spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
-            Vector2 rootPosition = new Vector2(Position.X + 12, scissorRectangle.Y + ListFont.LineSpacing * .5f);
+            Vector2 rootPosition = new Vector2(Position.X + 12, scissorRectangle.Y + 4);
+
             for (int e = Items.Count - 1; e >= 0; e--)
             {
                 IListItem thisItem = Items[e];

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.UI.BaseClasses;
+using MonoGame.Randomchaos.UI.Enums;
 using System;
 
 namespace MonoGame.Randomchaos.UI
@@ -17,12 +18,20 @@ namespace MonoGame.Randomchaos.UI
     public class UISlider : UIBase
     {
         /// <summary>   The image bar. </summary>
-        UIImage imgBar;
+        protected UIImage imgBar;
         /// <summary>   The button button. </summary>
-        UIButton btnButton;
+        protected UIButton btnButton;
 
         /// <summary>   The label label. </summary>
-        UILabel lblLabel;
+        protected UILabel lblLabel;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the thickness. </summary>
+        ///
+        /// <value> The thickness. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public int Thickness { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the font. </summary>
@@ -97,9 +106,11 @@ namespace MonoGame.Randomchaos.UI
                 buttonSize = new Point(32, 32);
             }
 
-            lblLabel = new UILabel(Game);
+            Thickness = thickness;
 
-            imgBar = new UIImage(Game, Position, new Point(Size.X, thickness));
+            lblLabel = new UILabel(Game) { TextAlingment = TextAlingmentEnum.LeftMiddle };
+
+            imgBar = new UIImage(Game, Position, new Point(Size.X, Thickness));
 
             btnButton = new UIButton(Game, Position, buttonSize.Value);
 
@@ -172,10 +183,11 @@ namespace MonoGame.Randomchaos.UI
             btnButton.Initialize();
 
             Point m = lblLabel.Font.MeasureString(lblLabel.Text).ToPoint();
-            lblLabel.Position = new Point(Position.X, Position.Y + (m.Y / 2));
+            lblLabel.Position = new Point(Position.X, Position.Y);// + (m.Y / 1));
 
-            imgBar.Size = new Point(Size.X - (lblLabel.Size.X + 16), 4);
-            imgBar.Position = new Point(lblLabel.Position.X + 16 + m.X / 2, lblLabel.Position.Y - 2);
+            imgBar.Size = new Point(Size.X - (lblLabel.Size.X + 16), Thickness);
+            //imgBar.Position = new Point(lblLabel.Position.X + 16 + m.X / 2, lblLabel.Position.Y - 2);
+            imgBar.Position = new Point(lblLabel.Position.X + 16 + m.X, lblLabel.Position.Y - Thickness/2);
 
             btnButton.Position = new Point(imgBar.Position.X, (imgBar.Position.Y + (imgBar.Size.Y / 2)) - (btnButton.Size.Y / 2));
         }
@@ -190,13 +202,19 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Update(GameTime gameTime)
         {
+            bool handled = inputManager.MouseManager.Handled;
+
             lblLabel.Enabled = imgBar.Enabled = btnButton.Enabled = Enabled;
 
             base.Update(gameTime);
 
+            inputManager.MouseManager.Handled = handled;
+
+            btnButton.Update(gameTime);
+
             lblLabel.Update(gameTime);
             imgBar.Update(gameTime);
-            btnButton.Update(gameTime);
+           
 
             if (dragging)
             {

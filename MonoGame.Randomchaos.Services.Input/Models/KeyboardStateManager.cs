@@ -21,6 +21,14 @@ namespace MonoGame.Randomchaos.Services.Input.Models
     public class KeyboardStateManager : GameComponent, IKeyboardStateManager
     {
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether the handled. </summary>
+        ///
+        /// <value> True if handled, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool Handled { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the state. </summary>
         ///
         /// <value> The state. </value>
@@ -88,7 +96,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public Keys[] KeysPressed()
         {
-            return State.GetPressedKeys();
+            return !Handled ?  State.GetPressedKeys() : new Keys[0];
         }
 
         /// <summary>   The maximum frames. </summary>
@@ -135,7 +143,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
                 }
             }
 
-            return retVal;
+            return !Handled ?  retVal : new List<Keys>();
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -150,7 +158,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public bool KeyDown(Keys key)
         {
-            return State.IsKeyDown(key);
+            return State.IsKeyDown(key) && !Handled;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -165,7 +173,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public bool KeyPress(Keys key)
         {
-            return (State.IsKeyUp(key) && LastState.IsKeyDown(key));
+            return State.IsKeyUp(key) && LastState.IsKeyDown(key) && !Handled;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -193,6 +201,7 @@ namespace MonoGame.Randomchaos.Services.Input.Models
 
         public void PreUpdate(GameTime gameTime)
         {
+            Handled = false;
             LastState = State;
         }
 

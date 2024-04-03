@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Randomchaos.UI.BaseClasses;
 using MonoGame.Randomchaos.UI.Delegates;
 using MonoGame.Randomchaos.UI.Enums;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,6 +36,14 @@ namespace MonoGame.Randomchaos.UI
         ///-------------------------------------------------------------------------------------------------
 
         public string Text { get; set; } = string.Empty;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the prompt. </summary>
+        ///
+        /// <value> The prompt. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public string Prompt { get; set; } = string.Empty;
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the text position offset. </summary>
@@ -92,9 +101,31 @@ namespace MonoGame.Randomchaos.UI
         public float CursorTiming { get; set; }
 
         /// <summary>   The cursor. </summary>
-        Texture2D cursor;
+        protected Texture2D cursor;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the cursor. </summary>
+        ///
+        /// <value> The color of the cursor. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color CursorColor { get; set; } = Color.DarkGray;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the text. </summary>
+        ///
+        /// <value> The color of the text. </value>
+        ///-------------------------------------------------------------------------------------------------
 
         public Color TextColor { get; set; } = Color.Black;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the prompt. </summary>
+        ///
+        /// <value> The color of the prompt. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color PromptColor { get; set; } = new Color(.25f, .25f, .25f, .25f);
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets the name. </summary>
@@ -113,6 +144,14 @@ namespace MonoGame.Randomchaos.UI
         public object? Tag { get; set; }
 
         ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the border segment. </summary>
+        ///
+        /// <value> The border segment. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Rectangle? BorderSegment { get; set; }
+
+        ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets the measure. </summary>
         ///
         /// <value> The measure. </value>
@@ -123,7 +162,10 @@ namespace MonoGame.Randomchaos.UI
             get
             {
                 if (string.IsNullOrEmpty(Text))
-                    return Vector2.Zero;
+                {
+                    return new Vector2(0, Font.LineSpacing);
+                }
+
                 return Font.MeasureString(Text);
             }
         }
@@ -140,6 +182,11 @@ namespace MonoGame.Randomchaos.UI
             {
                 Vector2 tp = Position.ToVector2();
                 Vector2 m = Font.MeasureString(Text);
+
+                if (string.IsNullOrEmpty(Text))
+                {
+                    m = Font.MeasureString(Prompt);
+                }
 
                 switch (TextAlingment)
                 {
@@ -181,6 +228,14 @@ namespace MonoGame.Randomchaos.UI
 
         /// <summary>   The border. </summary>
         protected Texture2D Border;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the color of the border. </summary>
+        ///
+        /// <value> The color of the border. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public Color BorderColor { get; set; } = Color.Silver;
 
         /// <summary>   True to enable, false to disable the cursor. </summary>
         private bool _cursorOn = true;
@@ -263,7 +318,7 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Update(GameTime gameTime)
         {
-            if (IsTopMost)
+            //if (IsTopMost)
             {
                 if (IsMouseOver && inputManager.MouseManager.LeftClicked)
                 {
@@ -367,7 +422,8 @@ namespace MonoGame.Randomchaos.UI
             }
 
 
-            _spriteBatch.Draw(Background, new Rectangle(Position.X, Position.Y, Size.X, Size.Y), tint);
+            //_spriteBatch.Draw(Background, Rectangle, tint);
+            DrawSegmentedBackground(Background, BorderSegment, tint, Point.Zero);
 
             _spriteBatch.End();
 
@@ -377,14 +433,27 @@ namespace MonoGame.Randomchaos.UI
             if (!string.IsNullOrEmpty(Text))
             {
                 if (ShadowOffset != Vector2.Zero)
+                {
                     _spriteBatch.DrawString(Font, Text, TextPosition + ShadowOffset, ShadowColor);
+                }
+
                 _spriteBatch.DrawString(Font, Text, TextPosition, TextColor);
+            }
+            else if (!string.IsNullOrEmpty(Prompt))
+            {
+                if (ShadowOffset != Vector2.Zero)
+                {
+                    _spriteBatch.DrawString(Font, Prompt, TextPosition + ShadowOffset, ShadowColor);
+                }
+
+                _spriteBatch.DrawString(Font, Prompt, TextPosition, GreyScaleColor(PromptColor));
             }
 
             if (IsSelected && _cursorOn)
             {
+                int h = (int)Measure.Y / 2;
                 int p = (int)Measure.X;
-                _spriteBatch.Draw(cursor, new Rectangle((int)TextPosition.X + p + 2, Position.Y + 4, 2, (int)(Size.Y * .75f)), tint);
+                _spriteBatch.Draw(cursor, new Rectangle((int)TextPosition.X + p + 2, Position.Y + h, 2, (int)(Size.Y * .55f)), CursorColor);
             }
 
 
@@ -394,12 +463,21 @@ namespace MonoGame.Randomchaos.UI
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
             // Draw border
+            Color bc = BorderColor;
             if (!Enabled)
             {
-                tint = GreyScaleColor(Color.White);
+                bc = GreyScaleColor(Color.White);
             }
 
-            _spriteBatch.Draw(Border, new Rectangle(Position.X, Position.Y, Size.X, Size.Y), tint);
+
+            if (BorderSegment != null)
+            {
+                DrawSegmentedBackground(Border, BorderSegment, BorderColor, Point.Zero);
+            }
+            else
+            {
+                _spriteBatch.Draw(Border, Rectangle, BorderColor);
+            }
 
             _spriteBatch.End();
 
