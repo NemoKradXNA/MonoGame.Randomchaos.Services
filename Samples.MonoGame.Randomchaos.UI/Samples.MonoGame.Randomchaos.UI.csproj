@@ -21,13 +21,8 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.1" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.6" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Input\MonoGame.Randomchaos.Services.Input.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Interfaces\MonoGame.Randomchaos.Services.Interfaces.csproj" />
-    <ProjectReference Include="..\MonoGame.Randomchaos.UI\MonoGame.Randomchaos.UI.csproj" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.2" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.7" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

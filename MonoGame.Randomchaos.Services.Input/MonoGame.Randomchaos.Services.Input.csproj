@@ -13,9 +13,6 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.0.0.8" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MonoGame.Randomchaos.Services.Interfaces\MonoGame.Randomchaos.Services.Interfaces.csproj" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.0.0.9" />
   </ItemGroup>
 </Project>

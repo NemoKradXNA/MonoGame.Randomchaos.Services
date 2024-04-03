@@ -18,6 +18,14 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
     public abstract class UIBase : DrawableGameComponent, IUIBase
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets a value indicating whether we allow mouse pass through. </summary>
+        ///
+        /// <value> True if allow mouse p ass through, false if not. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public bool AllowMousePassThrough { get; set; } = false;
+
         /// <summary>   The top most mouse over. </summary>
         protected static List<IUIBase> TopMostMouseOver = new List<IUIBase>();
 
@@ -177,7 +185,7 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
             if (IsMouseOver)
             {
-                inputManager.MouseManager.Handled = true;
+                inputManager.MouseManager.Handled = true && !AllowMousePassThrough;
                 //AddTopMost();
             }
             else
