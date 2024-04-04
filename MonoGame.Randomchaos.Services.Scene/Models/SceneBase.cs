@@ -329,7 +329,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 }
 
                 // update ui in reverse order
-                for (int ui = Components.UIComponents.Count; ui >= 0; ui--)
+                for (int ui = Components.UIComponents.Count-1; ui >= 0; ui--)
                 {
                     IGameComponent component = Components.UIComponents[ui];
 
