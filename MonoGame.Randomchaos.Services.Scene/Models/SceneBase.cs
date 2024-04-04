@@ -6,8 +6,6 @@ using MonoGame.Randomchaos.Services.Interfaces;
 using MonoGame.Randomchaos.Services.Interfaces.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 
 namespace MonoGame.Randomchaos.Services.Scene.Models
 {
@@ -236,7 +234,6 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
         public SceneBase(Game game, string name) : base(game)
         {
             Name = name;
-            game.Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -423,6 +420,7 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         public virtual void LoadScene()
         {
+            Game.Window.ClientSizeChanged += Window_ClientSizeChanged;
             // Load our things up!
             Game.Components.Add(this);
         }
@@ -450,6 +448,9 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
         public virtual void UnloadScene()
         {
+
+            Game.Window.ClientSizeChanged -= Window_ClientSizeChanged;
+
             // Unload our shit!
             UnloadContent();
 

@@ -17,10 +17,10 @@
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0.1" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0.1" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.2" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.11" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0.2" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0.2" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.3" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.14" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

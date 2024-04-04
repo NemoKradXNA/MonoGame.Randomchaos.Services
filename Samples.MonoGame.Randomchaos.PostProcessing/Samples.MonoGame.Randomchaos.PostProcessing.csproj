@@ -15,12 +15,12 @@
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Randomchaos.PostProcessing" Version="1.0.0.3" />
-    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.6" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.3" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.2" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="2.0.0.2" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.12" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.7" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.7" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.4" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.3" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="2.0.0.3" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.14" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.9" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
