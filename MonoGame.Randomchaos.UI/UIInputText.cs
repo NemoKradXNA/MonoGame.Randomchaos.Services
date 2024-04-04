@@ -422,7 +422,11 @@ namespace MonoGame.Randomchaos.UI
             }
 
 
-            //_spriteBatch.Draw(Background, Rectangle, tint);
+            if (BorderSegment == null)
+            {
+                BorderSegment = Rectangle.Empty;
+            }
+
             DrawSegmentedBackground(Background, BorderSegment, tint, Point.Zero);
 
             _spriteBatch.End();

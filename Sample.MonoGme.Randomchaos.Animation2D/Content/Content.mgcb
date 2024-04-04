@@ -10,15 +10,13 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\bin\Release\net6.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
+/reference:..\..\MonoGame.Randomchaos.ContentPipelineExtensions\bin\Release\net6.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
 
 #---------------------------------- Content ---------------------------------#
 
 #begin Animators/FighterSheet1Animator.json
-/importer:JsonFileImporter
-/processor:JsonProcessor
-/processorParam:GameAssemblyName=MonoGame.Randomchaos.Animation
-/processorParam:TypeReader=MonoGame.Randomchaos.Animation.Animation2D.ContentReaders.SpriteAnimatorReader
+/importer:
+/processor:
 /build:Animators/FighterSheet1Animator.json
 
 #begin Fonts/font.spritefont
