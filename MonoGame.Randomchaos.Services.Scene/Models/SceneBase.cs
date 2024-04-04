@@ -368,8 +368,9 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
                 foreach (IGameComponent component in Components.SceneComponents)
                 {
                     if (component is IDrawable && ((IDrawable)component).Visible)
+                    {
                         ((IDrawable)component).Draw(gameTime);
-
+                    }
                 }
             }
             catch (Exception ex)
@@ -379,31 +380,36 @@ namespace MonoGame.Randomchaos.Services.Scene.Models
 
             if (postProcess != null)
             {
-                postProcess.EndPostProcess(gameTime);
+                postProcess.EndPostProcess(gameTime, postProcessUI == null || !postProcessUI.Enabled);
             }
 
             // UI/Overlay
-            if (postProcessUI != null)
+            if (postProcessUI != null && postProcessUI.Enabled)
             {
                 postProcessUI.StartPostProcess(gameTime);
             }
 
-            try{
-            foreach (IGameComponent component in Components.UIComponents)
+            try
             {
+                foreach (IGameComponent component in Components.UIComponents)
+                {
                     if (component is IDrawable && ((IDrawable)component).Visible)
+                    {
                         ((IDrawable)component).Draw(gameTime);
-                
-            }
+                    }
+                }
             }
             catch (Exception ex)
             {
                 // need to log this. This could be due to runtime changes in the list.
             }
 
-            if (postProcessUI != null)
+            if (postProcessUI != null && postProcessUI.Enabled)
             {
-                postProcessUI.EndPostProcess(gameTime);
+                postProcessUI.RenderTargetClearColor = Color.Transparent;
+                postProcessUI.EndPostProcess(gameTime, false);
+
+                postProcessUI.DrawFinalRenderTexture(postProcess);
             }
         }
 

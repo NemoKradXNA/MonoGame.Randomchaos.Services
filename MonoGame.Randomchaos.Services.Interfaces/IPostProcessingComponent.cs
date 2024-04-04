@@ -73,6 +73,7 @@ namespace MonoGame.Randomchaos.Services.Interfaces
 
         Color RenderTargetClearColor { get; set; }
 
+
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Updates the given gameTime. </summary>
         ///
@@ -121,6 +122,9 @@ namespace MonoGame.Randomchaos.Services.Interfaces
         /// <param name="gameTime"> The game time. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        void EndPostProcess(GameTime gameTime);
+        void EndPostProcess(GameTime gameTime, bool drawFinal = false);
+
+        /// <summary>   Draw final render texture. </summary>
+        void DrawFinalRenderTexture(params IPostProcessingComponent[] postProcessors);
     }
 }
