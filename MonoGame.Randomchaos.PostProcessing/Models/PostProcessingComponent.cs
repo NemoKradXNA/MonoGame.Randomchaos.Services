@@ -150,11 +150,6 @@ namespace MonoGame.Randomchaos.PostProcessing.Models
                     }
                 }
             }
-
-            Enabled = maxEffect > 0;
-
-            if (Enabled)
-                Enabled = PostProcessingEffects.Any(e => e.Enabled);
         }
 
         ///-------------------------------------------------------------------------------------------------
@@ -209,29 +204,29 @@ namespace MonoGame.Randomchaos.PostProcessing.Models
         {
             if (Enabled)
             {
-                if (currentScene == null)
+                if (currentScene == null || depth == null)
                 {
                     Point screenSize = new Point(Game.GraphicsDevice.Viewport.Width / RenderTargetScreenScale.X, Game.GraphicsDevice.Viewport.Height / RenderTargetScreenScale.Y);
 
                     currentScene = new RenderTarget2D(Game.GraphicsDevice,
-                                            screenSize.X,
-                                            screenSize.Y,
-                                            false,
-                                            SurfaceFormat.Color,
-                                            RenderTargetDepthFormat,// DepthFormat.Depth24, 
-                                            RenderTargetMultiSampleCount,// 2, 
-                                            RenderTargetUsage.DiscardContents,
-                                            true);
+                                                    screenSize.X,
+                                                    screenSize.Y,
+                                                    false,
+                                                    SurfaceFormat.Color,
+                                                    RenderTargetDepthFormat,// DepthFormat.Depth24, 
+                                                    RenderTargetMultiSampleCount,// 2, 
+                                                    RenderTargetUsage.DiscardContents,
+                                                    true);
 
                     depth = new RenderTarget2D(Game.GraphicsDevice,
-                                           screenSize.X,
-                                            screenSize.Y,
-                                            false,
-                                            SurfaceFormat.Single,
-                                            RenderTargetDepthFormat,
-                                            RenderTargetMultiSampleCount,
-                                            RenderTargetUsage.DiscardContents,
-                                            true);
+                                                   screenSize.X,
+                                                    screenSize.Y,
+                                                    false,
+                                                    SurfaceFormat.Single,
+                                                    RenderTargetDepthFormat,
+                                                    RenderTargetMultiSampleCount,
+                                                    RenderTargetUsage.DiscardContents,
+                                                    true);
                 }
 
                 Game.GraphicsDevice.SetRenderTargets(currentScene, depth);
@@ -246,7 +241,7 @@ namespace MonoGame.Randomchaos.PostProcessing.Models
         /// <param name="gameTime"> The game time. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        public void EndPostProcess(GameTime gameTime)
+        public void EndPostProcess(GameTime gameTime, bool drawFinal = false)
         {
             if (Enabled)
             {
@@ -256,15 +251,39 @@ namespace MonoGame.Randomchaos.PostProcessing.Models
 
                 Draw(gameTime, currentScene, depth);
 
-                if (_spriteBatch == null)
+                if (drawFinal)
                 {
-                    _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+                    DrawFinalRenderTexture();
                 }
-
-                _spriteBatch.Begin(SpriteSortMode.Immediate);
-                _spriteBatch.Draw(FinalRenderTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.White);
-                _spriteBatch.End();
             }
+        }
+
+        public void DrawFinalRenderTexture(params IPostProcessingComponent[] postProcessors)
+        {
+            if (_spriteBatch == null)
+            {
+                _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            }
+
+            if (postProcessors != null && postProcessors.Length > 0)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+                foreach (IPostProcessingComponent postProcessor in postProcessors)
+                {
+                    if (postProcessor.Enabled)
+                    {
+                        _spriteBatch.Draw(postProcessor.FinalRenderTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.White);
+                    }
+                }
+            }
+            else
+            {
+                _spriteBatch.Begin(SpriteSortMode.Immediate);
+            }
+
+            _spriteBatch.Draw(FinalRenderTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.White);
+            _spriteBatch.End();
         }
     }
 }
