@@ -162,13 +162,13 @@ namespace MonoGame.Randomchaos.UI
             lblTitle.Draw(gameTime);
 
             // Draw List BG
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState);
             DrawBackgroundElement(ListBackgroundTexture, ListRectangle, null, Tint);
             _spriteBatch.End();
 
             // Render culled content.
             Rectangle orgRect = _spriteBatch.GraphicsDevice.ScissorRectangle;
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.DepthRead, new RasterizerState() { ScissorTestEnable = true, });
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState.DepthRead, new RasterizerState() { ScissorTestEnable = true, });
             _spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
             Vector2 rootPosition = new Vector2(Position.X + 12, scissorRectangle.Y + 4);
 

@@ -55,7 +55,7 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState);
 
             Color tint = Tint;
 

@@ -1,6 +1,4 @@
 ﻿
-
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Randomchaos.Interfaces;
@@ -18,6 +16,29 @@ namespace MonoGame.Randomchaos.UI.BaseClasses
 
     public abstract class UIBase : DrawableGameComponent, IUIBase
     {
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the sprite sort mode. </summary>
+        ///
+        /// <value> The sprite sort mode. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public SpriteSortMode SpriteSortMode { get; set; } = SpriteSortMode.Immediate;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the state of the blend. </summary>
+        ///
+        /// <value> The blend state. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public BlendState BlendState { get; set; } = BlendState.AlphaBlend;
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Gets or sets the state of the sampler. </summary>
+        ///
+        /// <value> The sampler state. </value>
+        ///-------------------------------------------------------------------------------------------------
+
+        public SamplerState SamplerState { get; set; } = SamplerState.PointClamp;
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Gets or sets a value indicating whether we allow mouse pass through. </summary>
         ///

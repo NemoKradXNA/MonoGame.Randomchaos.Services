@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyVersion>2.0.0.9</AssemblyVersion>
-	  <FileVersion>2.0.0.9</FileVersion>
-	  <Version>2.0.0.9</Version>
+    <AssemblyVersion>2.0.0.10</AssemblyVersion>
+	  <FileVersion>2.0.0.10</FileVersion>
+	  <Version>2.0.0.10</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds base UI classes for use with MonoGame.Randomchaos packages.</Description>
