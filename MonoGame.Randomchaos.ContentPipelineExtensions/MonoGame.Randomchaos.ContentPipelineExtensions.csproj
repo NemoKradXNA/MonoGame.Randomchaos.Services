@@ -30,7 +30,5 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MonoGame.Randomchaos.Animation" Version="1.0.0.1" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 </Project>
