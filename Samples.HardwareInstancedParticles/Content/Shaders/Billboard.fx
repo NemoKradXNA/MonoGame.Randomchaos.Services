@@ -177,7 +177,7 @@ vOut VertexShaderFunctionInstanced(vIn input, float4x4 instanceTransform : POSIT
     return output;
 }
 
-PixelShaderOutput PSBasicTexture(vOut input) : COLOR0
+PixelShaderOutput PSBasicTexture(vOut input) 
 {
     PixelShaderOutput output = (PixelShaderOutput) 0;
     

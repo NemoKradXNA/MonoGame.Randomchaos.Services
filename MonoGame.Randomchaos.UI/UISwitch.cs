@@ -196,7 +196,7 @@ namespace MonoGame.Randomchaos.UI
 
             base.Draw(gameTime);
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState);
 
 
             if (IsOn)

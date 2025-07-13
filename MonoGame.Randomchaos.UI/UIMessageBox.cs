@@ -372,7 +372,7 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState);
 
             _spriteBatch.Draw(backSplash, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.Black);
 

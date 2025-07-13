@@ -412,7 +412,7 @@ namespace MonoGame.Randomchaos.UI
 
         public override void Draw(GameTime gameTime)
         {
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState);
 
             Color tint = Tint;
 
@@ -431,7 +431,7 @@ namespace MonoGame.Randomchaos.UI
 
             _spriteBatch.End();
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,null, new RasterizerState() { ScissorTestEnable = true, });
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, null, new RasterizerState() { ScissorTestEnable = true, });
             _spriteBatch.GraphicsDevice.ScissorRectangle = new Rectangle(Position.X,Position.Y,Background.Width,Background.Height);
 
             if (!string.IsNullOrEmpty(Text))
@@ -465,7 +465,7 @@ namespace MonoGame.Randomchaos.UI
 
             _spriteBatch.End();
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState);
             // Draw border
             Color bc = BorderColor;
             if (!Enabled)
