@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0.0</TargetFramework>
-	  <AssemblyVersion>2.0.0.3</AssemblyVersion>
-	  <FileVersion>2.0.0.3</FileVersion>
-	  <Version>2.0.0.3</Version>
+    <TargetFramework>net8.0</TargetFramework>
+	  <AssemblyVersion>2.1.0</AssemblyVersion>
+	  <FileVersion>2.1.0</FileVersion>
+	  <Version>2.1.0</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds services that are used to generate noise.</Description>
 	  <PackageIconUrl>https://randomchaos.co.uk/RCNuGet.png</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.0.0.10" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.1.0" />
   </ItemGroup>
 </Project>

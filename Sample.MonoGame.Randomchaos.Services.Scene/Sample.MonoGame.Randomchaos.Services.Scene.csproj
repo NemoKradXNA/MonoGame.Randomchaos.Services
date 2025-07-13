@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
     <UseWindowsForms>true</UseWindowsForms>
@@ -15,12 +15,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.0.0.2" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.0.0.2" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.3" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.14" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.4" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
@@ -12,15 +12,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="MonoGame.Randomchaos.PostProcessing" Version="1.0.0.3" />
-    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="1.0.0.7" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.0.0.4" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.0.0.3" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="2.0.0.3" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.0.0.14" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.0.0.9" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.5-develop.2" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.5-develop.2" />
+    <PackageReference Include="MonoGame.Randomchaos.PostProcessing" Version="2.0.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="2.0.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.1.0" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

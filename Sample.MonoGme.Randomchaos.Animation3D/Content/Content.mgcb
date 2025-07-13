@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\bin\Debug\net6.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
+/reference:..\..\..\..\..\..\.nuget\packages\monogame.randomchaos.contentpipelineextensions\2.0.0\lib\net8.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
 
 #---------------------------------- Content ---------------------------------#
 

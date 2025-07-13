@@ -343,12 +343,13 @@ namespace HardwareInstancedParticles
         /// <param name="args">     Event information to send to registered event handlers. </param>
         ///-------------------------------------------------------------------------------------------------
 
-        protected override void OnExiting(object sender, EventArgs args)
+        protected override void OnExiting(object sender, ExitingEventArgs args)
         {
             runThread = play = false;
             emitter.Visible = false;
             base.OnExiting(sender, args);
         }
+
 
         ///-------------------------------------------------------------------------------------------------
         /// <summary>   Draws the given game time. </summary>
