@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	<AssemblyVersion>2.0.0.1</AssemblyVersion>
-	<FileVersion>2.0.0.1</FileVersion>
-	<Version>2.0.0.1</Version>
+	<AssemblyVersion>3.8.0.1</AssemblyVersion>
+	<FileVersion>3.8.0.1</FileVersion>
+	<Version>3.8.0.1</Version>
 	<Authors>Charles Humphrey</Authors>
 	<PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	<Description>This package holds the code to host a Kestrel Web service from your MonoGame.</Description>
@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.12.1" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.1" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.24" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4">
+    <PackageReference Include="MonoGame.Framework.Native" Version="3.8.*">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

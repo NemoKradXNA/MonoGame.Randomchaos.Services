@@ -14,13 +14,13 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.5-develop.2" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.5-develop.2" />
-    <PackageReference Include="MonoGame.Randomchaos.PostProcessing" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.PostProcessing" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Noise" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="3.8.0.1" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
