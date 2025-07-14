@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\..\..\..\..\.nuget\packages\monogame.randomchaos.animation\3.8.0.1\lib\net8.0\MonoGame.Randomchaos.Animation.dll
 /reference:..\..\..\..\..\..\.nuget\packages\monogame.randomchaos.contentpipelineextensions\3.8.0.1\lib\net8.0\MonoGame.Randomchaos.ContentPipelineExtensions.dll
 
 #---------------------------------- Content ---------------------------------#
