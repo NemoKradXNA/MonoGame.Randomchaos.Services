@@ -5,7 +5,7 @@
 /intermediateDir:obj/$(Platform)
 /platform:Windows
 /config:
-/profile:Reach
+/profile:HiDef
 /compress:False
 
 #-------------------------------- References --------------------------------#
@@ -25,6 +25,12 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/Billboard.fx
+
+#begin Shaders/Test.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/Test.fx
 
 #begin Textures/Chicken.jpg
 /importer:TextureImporter
@@ -60,7 +66,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Particles/smoke0.png
+/build:Textures/Particles/smoke0.png;Textures/Particles/smoke0
 
 #begin Textures/waves.png
 /importer:TextureImporter
