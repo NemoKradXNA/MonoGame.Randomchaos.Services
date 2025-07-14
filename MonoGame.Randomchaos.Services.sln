@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MonoGame.Randomchaos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MonoGame.Randomchaos.Services.Scene", "Sample.MonoGame.Randomchaos.Services.Scene\Sample.MonoGame.Randomchaos.Services.Scene.csproj", "{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.HardwareInstancedParticles", "Samples.HardwareInstancedParticles\Samples.HardwareInstancedParticles.csproj", "{771C3071-8389-4843-86C9-10F33A8C0817}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Randomchaos.EFCore", "MonoGame.Randomchaos.EFCore\MonoGame.Randomchaos.EFCore.csproj", "{9F5DE262-E100-4F4F-A1BC-293183EF42A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.MonoGame.Randomchaos.EFCore", "Samples.MonoGame.Randomchaos.EFCore\Samples.MonoGame.Randomchaos.EFCore.csproj", "{9D54C293-4639-4706-AF75-9277DD542B7D}"
@@ -80,6 +78,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D487C4A9-96B7-48EF-8B41-3F4187562310}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.MonoGame.Randomchaos.UI", "Samples.MonoGame.Randomchaos.UI\Samples.MonoGame.Randomchaos.UI.csproj", "{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.HardwareInstancedParticles", "Samples.HardwareInstancedParticles\Samples.HardwareInstancedParticles.csproj", "{B18AC29D-259B-4851-8BBE-08E96BEA0F09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,10 +135,6 @@ Global
 		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{771C3071-8389-4843-86C9-10F33A8C0817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{771C3071-8389-4843-86C9-10F33A8C0817}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{771C3071-8389-4843-86C9-10F33A8C0817}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{771C3071-8389-4843-86C9-10F33A8C0817}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F5DE262-E100-4F4F-A1BC-293183EF42A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F5DE262-E100-4F4F-A1BC-293183EF42A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F5DE262-E100-4F4F-A1BC-293183EF42A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -227,6 +223,10 @@ Global
 		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B686DA7D-E3A0-4B39-8B5D-86E569B0C025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B18AC29D-259B-4851-8BBE-08E96BEA0F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B18AC29D-259B-4851-8BBE-08E96BEA0F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B18AC29D-259B-4851-8BBE-08E96BEA0F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B18AC29D-259B-4851-8BBE-08E96BEA0F09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,7 +242,6 @@ Global
 		{A0952C20-CC9B-458B-8970-D95C68D2A4E8} = {D487C4A9-96B7-48EF-8B41-3F4187562310}
 		{27FA718B-9EE5-4772-A82A-EB0B5CE190D1} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{81610F7F-72ED-4E7F-89FE-C5BFB57B94C5} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
-		{771C3071-8389-4843-86C9-10F33A8C0817} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{9D54C293-4639-4706-AF75-9277DD542B7D} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{408D6C57-6D1E-4D70-BB6D-05E77C1B5D1F} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}
 		{798B4ECE-DD79-4541-A845-31DFB1F661CE} = {3B90FD13-7B2B-41A7-A38B-EA854A03EB07}

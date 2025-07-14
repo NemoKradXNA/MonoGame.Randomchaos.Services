@@ -159,7 +159,8 @@ namespace HardwareInstancedParticles.Models
         public override void Initialize()
         {
             InitializeInstanceVertexBuffer();
-            Effect = Game.Content.Load<Effect>("Shaders/Billboard");
+            //Effect = Game.Content.Load<Effect>("Shaders/Billboard");
+            Effect = Game.Content.Load<Effect>("Shaders/Test");
 
             if (ViewDistance < 0)
                 ViewDistance = Camera.FarClipPlane;
