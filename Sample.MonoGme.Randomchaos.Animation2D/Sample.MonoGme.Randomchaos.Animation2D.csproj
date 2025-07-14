@@ -21,12 +21,12 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
-    <PackageReference Include="MonoGame.Randomchaos.Animation" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.ContentPipelineExtensions" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Animation" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.ContentPipelineExtensions" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="3.8.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

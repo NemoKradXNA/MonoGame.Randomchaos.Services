@@ -39,14 +39,14 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
-    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.P2P" Version="2.0.0" />
-    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="2.1.0" />
-    <PackageReference Include="MonoGame.Randomchaos.UI" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Primitives3D" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Audio" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Camera" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Coroutine" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Input" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.P2P" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Scene" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.UI" Version="3.8.0.1" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

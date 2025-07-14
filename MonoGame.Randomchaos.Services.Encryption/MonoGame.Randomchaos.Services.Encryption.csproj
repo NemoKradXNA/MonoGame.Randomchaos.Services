@@ -1,18 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	  <AssemblyVersion>2.1.0</AssemblyVersion>
-	  <FileVersion>2.1.0</FileVersion>
-	  <Version>2.1.0</Version>
+	  <AssemblyVersion>3.8.0.1</AssemblyVersion>
+	  <FileVersion>3.8.0.1</FileVersion>
+	  <Version>3.8.0.1</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
-	  <Description>This package holds services that are used to manage encryption.</Description>
+	  <Description>This package holds services that are used to manage encryption. MonoGame >= 3.8.4</Description>
 	  <PackageIconUrl>https://randomchaos.co.uk/RCNuGet.png</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4">
+    <PackageReference Include="MonoGame.Framework.Native" Version="3.8.*">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="2.1.0" />
+    <PackageReference Include="MonoGame.Randomchaos.Services.Interfaces" Version="3.8.0.1" />
   </ItemGroup>
 </Project>
