@@ -33,5 +33,27 @@ namespace MonoGame.Randomchaos.Extensions
             }
             return radians;
         }
+
+        ///-------------------------------------------------------------------------------------------------
+        /// <summary>   Inverse linearly interpolate. </summary>
+        ///
+        /// <remarks>   Charles Humphrey, 26/07/2025. </remarks>
+        ///
+        /// <param name="a">        A float to process. </param>
+        /// <param name="b">        A float to process. </param>
+        /// <param name="value">    The value. </param>
+        ///
+        /// <returns>   A float. </returns>
+        ///-------------------------------------------------------------------------------------------------
+
+        public static float InverseLerp(this float value, float a, float b)
+        {
+            if (a == b)
+            {
+                return 0f; // Avoid division by zero
+            }
+
+            return (value - a) / (b - a);
+        }
     }
 }
