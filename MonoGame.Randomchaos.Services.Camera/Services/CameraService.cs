@@ -214,7 +214,7 @@ namespace MonoGame.Randomchaos.Services.Camera
 
             projection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, Viewport.MinDepth, Viewport.MaxDepth);
 
-            _Frustum = new BoundingFrustum(Matrix.CreateTranslation(Transform.Position) * View * Projection);
+            _Frustum = new BoundingFrustum(View * Projection);
 
             view = Matrix.Invert(Transform.World);
         }
