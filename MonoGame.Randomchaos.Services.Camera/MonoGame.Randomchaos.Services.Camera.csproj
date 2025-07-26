@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	  <AssemblyVersion>3.8.0.1</AssemblyVersion>
-	  <FileVersion>3.8.0.1</FileVersion>
-	  <Version>3.8.0.1</Version>
+	  <AssemblyVersion>3.8.0.2</AssemblyVersion>
+	  <FileVersion>3.8.0.2</FileVersion>
+	  <Version>3.8.0.2</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds generic camera classes for use with MonoGame. MonoGame &gt;= 3.8.4</Description>
