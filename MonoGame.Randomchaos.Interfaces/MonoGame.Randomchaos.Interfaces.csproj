@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	  <AssemblyVersion>3.8.0.2</AssemblyVersion>
-	  <FileVersion>3.8.0.2</FileVersion>
-	  <Version>3.8.0.2</Version>
+	  <AssemblyVersion>3.8.0.4</AssemblyVersion>
+	  <FileVersion>3.8.0.4</FileVersion>
+	  <Version>3.8.0.4</Version>
 	  <Authors>Charles Humphrey</Authors>
 	  <PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	  <Description>This package holds generic interface and base classes for use with MonoGame.Randomchaos packages. MonoGame &gt;= 3.8.4</Description>
@@ -13,6 +13,6 @@
     <PackageReference Include="MonoGame.Framework.Native" Version="3.8.*">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Randomchaos.Extensions" Version="3.8.0.1" />
+    <PackageReference Include="MonoGame.Randomchaos.Extensions" Version="3.8.0.3" />
   </ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	<AssemblyVersion>3.8.0.2</AssemblyVersion>
-	<FileVersion>3.8.0.2</FileVersion>
-	<Version>3.8.0.2</Version>
+	<AssemblyVersion>3.8.0.3</AssemblyVersion>
+	<FileVersion>3.8.0.3</FileVersion>
+	<Version>3.8.0.3</Version>
 	<Authors>Charles Humphrey</Authors>
 	<PackageProjectUrl>https://github.com/NemoKradXNA/MonoGame.Randomchaos.Services</PackageProjectUrl>
 	<Description>This package holds the code extension methods for a number of types. MonoGame >= 3.8.4  </Description>
